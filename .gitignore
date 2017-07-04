@@ -1,0 +1,11 @@
+#temp
+__content
+
+# dependencies
+node_modules
+
+# build
+dist
+
+# logs
+npm-debug.log

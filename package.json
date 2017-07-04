@@ -1,0 +1,43 @@
+{
+  "name": "@nuxtjs/content",
+  "version": "0.1.6",
+  "description": "Content Module for Nuxt.js.",
+  "main": "module/index.js",
+  "contributors": [
+    {
+      "name": "Alid Castano (@alidcastano)"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuxt-community/content-module"
+  },
+  "keywords": [
+    "Nuxt.js",
+    "Vue.js",
+    "Content",
+    "Blog",
+    "Posts",
+    "Collections",
+    "Markdown",
+    "Static"
+  ],
+  "license": "MIT ",
+  "scripts": {
+    "publish": "npm --no-git-tag-version version patch && npm publish"
+  },
+  "peerDependencies": {
+    "vue-loader": "^12.2.1"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.1",
+    "front-matter": "^2.1.2",
+    "loader-utils": "^1.1.0",
+    "markdown-it": "^8.3.1",
+    "param-case": "^2.1.1",
+    "path-to-regexp": "^1.7.0"
+  },
+  "devDependencies": {
+    "vue-loader": "^12.2.1"
+  }
+}
