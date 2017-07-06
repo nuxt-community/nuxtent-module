@@ -5,6 +5,7 @@
   "author": "Alid Castano <alidcastano@gmail.com>",
   "private": true,
   "dependencies": {
+    "@nuxtjs/content": "file:..",
     "nuxt": "latest"
   },
   "scripts": {
