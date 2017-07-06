@@ -2,7 +2,7 @@
   "name": "@nuxtjs/content",
   "version": "0.1.6",
   "description": "Content Module for Nuxt.js.",
-  "main": "module/index.js",
+  "main": "lib/index.js",
   "contributors": [
     {
       "name": "Alid Castano (@alidcastano)"
