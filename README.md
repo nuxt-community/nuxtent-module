@@ -110,16 +110,6 @@ The `$content` helper is injected into the `context.app` property passed to the 
 
 Here's an example that uses both methods:
 
-```md
-<!-- content/HelloWorld.Vue -->
----
-title: Hello World
----
-
-This is cool!
-
-```
-
 ```js
 // pages/post.vue
 
