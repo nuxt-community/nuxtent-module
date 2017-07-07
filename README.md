@@ -8,7 +8,7 @@ Best of all, `nuxt-content` is a lightweight abstraction that does as little wor
 ## Installation
 
 ```
-npm install nuxt-content
+npm install @nuxtjs/content
 
 ```
 
