@@ -134,6 +134,7 @@ export default {
   render (h) {
     h (
       <div>
+        <h3> Article: </h3>
         <section class="post">
           <h1> {{ currPost.title }} </h1>
           <div v-html="currPost.content" />
