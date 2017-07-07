@@ -104,11 +104,21 @@ permalink: "1st"
 
 The `$content` helper is injected into the `context.app` property passed to the asyncData method that is available inside each Nuxt page.
 
-`$content` takes as its first argument the name of the registered directory whose files you are requesting. The method fetches all the data from the content files inside that directory and returns to methods `get` or `getAll` for accessing the requested content.
+`$content` takes as its first argument the name of the registered directory whose files you are requesting. The method fetches all the data from the markdown files inside that directory and returns two methods, `getAll` and `get`, for accessing the requested content.
 
-`get` takes in the route's path and returns the content of that specific route. `getAll` returns all the content data from the registered directory.
+`getAll` returns all the content data retrieves all the content from the registered directory. `get` takes in the route's path and returns the content of that specific route.
 
 Here's a basic example:
+
+```md
+<!-- content/HelloWorld.Vue -->
+---
+title: Hello World
+---
+
+This is cool!
+
+```
 
 ```js
 // pages/post.vue
@@ -117,9 +127,25 @@ export default {
   asyncData ({ app, route }) {
     const posts = app.$content('/posts')
     return {
-      post: posts.get(route.path)
+      currPost: posts.get(route.path)
       posts: posts.getAll()
     }
+  },
+  render (h) {
+    h (
+      <div>
+        <section class="post">
+          <h1> {{ currPost.title }} </h1>
+          <div v-html="currPost.content" />
+        </section>
+        <h3> See more: </h3>
+        <ul>
+          <li v-for="post in posts">
+            <a href="post.permalink"> {{ post.title }}</a>
+          </li>
+        </ul>
+      </div>
+    )
   }
 }
 
