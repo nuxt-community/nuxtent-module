@@ -39,10 +39,10 @@ All content options can be configured either inside a `nuxt.content.js` file or 
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
 - `dirs`, Array that specifies options for all content under a directory. A 2D array is also allowed to configure multiple content types. These nested configurations will override any global directory options mentioned above.
 
-Here's an example:
+Here's an example `nuxt.content.js` file:
 
 ```js
-content: {
+module.exports = {
  // Global Options
  srcDir: "content" // default
  // Directory Options
