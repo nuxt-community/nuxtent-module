@@ -20,11 +20,11 @@ modules: [
  ]
 ```
 
-## Usage
+## Getting Started
 
 There are two main steps to using `nuxt-content`: 1) configuring how you want your content data compiled and 2) dynamically using the content data inside Nuxt pages.
 
-### Content Data Configuration
+### Content Configuration
 
 #### Directory Options
 
@@ -97,3 +97,33 @@ permalink: "1st"
 # Hello World!
 
 ```
+
+### Content Usage
+
+`Nuxt-content` merges and compiles all your content's data - the filename, front-matter, and markdown content. You can dynamically request this data inside Nuxt pages using the `$content` helper.
+
+The `$content` helper is injected into the `context.app` property passed to the asyncData method that is available inside each Nuxt page.
+
+`$content` takes as its first argument the name of the registered directory whose files you are requesting. The method fetches all the data from the content files inside that directory and returns to methods `get` or `getAll` for accessing the requested content.
+
+`get` takes in the route's path and returns the content of that specific route. `getAll` returns all the content data from the registered directory.
+
+Here's a basic example:
+
+```js
+// pages/post.vue
+
+export default {
+  asyncData ({ app, route }) {
+    const posts = app.$content('/posts')
+    return {
+      post: posts.get(route.path)
+      posts: posts.getAll()
+    }
+  }
+}
+
+```
+### License
+
+MIT
