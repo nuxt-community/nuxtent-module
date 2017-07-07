@@ -68,5 +68,5 @@ content: {
 
 A couple considerations to keep in mind from the options above:
 
-- For the `routeName` you have to convert a route's directory path to it's name. As a general rule, just ignore all initial underscores and file extensions, and separate the remaining words by a hypen.
-- Since the route's will be changed to the content's `permalink`, be extra mindful of how you configure permalinks to avoid conflict. For example, `:year/:slug` and `:section/:slug` both conflict since you can only have one root level dynamic page. To avoid this, hard code sections whenever possible: `someSection/:slug` and `:year/slug`.
+- When specifying the `routeName`, you have to mentally serialize the route name based on the route's directory path. As a general rule, just ignore all initial underscores and file extensions, and separate the remaining words by a hypen.
+- Since all content route paths will be changed to comply to the content's `permalink`, be extra mindful of how you configure permalinks to avoid conflict. For example, since you can only have one dynamic page per level, both `:year/:slug` and `:section/:slug` conflict. To avoid this, hard code sections whenever possible. The permalinks `someSection/:slug` and `:year/slug` would be preferable. 
