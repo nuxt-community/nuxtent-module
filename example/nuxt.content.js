@@ -7,16 +7,14 @@ module.exports = {
       isPost: false
     }],
     ["posts", {
-      layout: "posts",
-      route: "post",
+      routeName: "post",
       permalink: ":year/:slug",
       data: {
         category: "Posts"
       }
     }],
     ["projects", {
-      layout: "projects",
-      route: "projects-name",
+      routeName: "projects-name",
       permalink: "projects/:slug",
       isPost: false
     }]
