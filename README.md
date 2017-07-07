@@ -1,9 +1,9 @@
 # Nuxt-Content
 
-Nuxt-Content facilitates the usage of markdown files in content heavy sites.
-It does this by first, compiling all the data from markdown files based on configured rules and second, providing helper methods for dynamically accessing this data.
+`nuxt-content` facilitates the usage of markdown files in content heavy sites.
+It does this first, by compiling all the data from markdown files based on configured rules and second, by providing helper methods for dynamically accessing this data inside Nuxt pages.
 
-Best of all, it's a lightweight abstraction that does as little work as possible, since Nuxt is already great. :)
+Best of all, since Nuxt is already great, `nuxt-content` is a lightweight abstraction that does as little work as possible. :)
 
 ## Installation
 
