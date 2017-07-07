@@ -24,7 +24,7 @@ modules: [
 
 There are two main steps to using `nuxt-content`: 1) configuring how you want your content data compiled and 2) dynamically using the content data inside Nuxt pages.
 
-### Configuration
+### Content Data Configuration
 
 #### Directory Options
 
@@ -34,7 +34,7 @@ All content options can be configured either inside a `nuxt.content.js` file or 
 
 - `srcDir`, String that specifies the directory where the content is located. By default, all content is placed in the `/content` directory.
 - `routeName`, String that specifies the name of the dynamic page route that serves as the content's page. This is necessary so that the route path can be changed to match the content's permalink configuration.
-- `permalink`, String that specifies url path configuration options. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`.
+- `permalink`, String that specifies dynamic url path configuration options. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`.
 - `isPost`, Boolean that specifies whether the content requires a date. The default is true.
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
 - `dirs`, Array that specifies options for all content under a directory. A 2D array is also allowed to configure multiple content types. These nested configurations will override any global directory options mentioned above.
@@ -69,4 +69,31 @@ content: {
 A couple considerations to keep in mind from the options above:
 
 - When specifying the `routeName`, you have to mentally serialize the route name based on the route's directory path. As a general rule, just ignore all initial underscores and file extensions, and separate the remaining words by a hypen.
-- Since all content route paths will be changed to comply to the content's `permalink`, be extra mindful of how you configure permalinks to avoid conflict. For example, since you can only have one dynamic page per level, both `:year/:slug` and `:section/:slug` conflict. To avoid this, hard code sections whenever possible. The permalinks `someSection/:slug` and `:year/slug` would be preferable. 
+- Since all content route paths will be changed to comply to the content's `permalink`, be extra mindful of how you configure permalinks to avoid conflict. For example, since you can only have one dynamic page per level, both `:year/:slug` and `:section/:slug` conflict. To avoid this, hard code sections whenever possible. The permalinks `someSection/:slug` and `:year/slug` would be preferable.
+
+
+#### Page Options
+
+By default, page specific data is extracted from the file name, but some options can be overridden via the front-matter of the respective file.
+
+Front Matter Options:
+  -  `slug`, String that overrides the content's url identification name.
+  - `permalink`, String that overrides the content's entire dynamic url path.
+
+For example, if you wanted to override the page's slug:
+
+```js
+// `nuxt.config.js`
+content: {
+  route: '/blog',
+  permalink: 'blog/:year/:slug'
+}
+
+// content/2014-05-10-MyFirstPost.md -> localhost:3000/blog/1st
+---
+permalink: "1st"
+---
+
+# Hello World!
+
+```
