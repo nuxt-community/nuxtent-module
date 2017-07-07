@@ -104,11 +104,11 @@ permalink: "1st"
 
 The `$content` helper is injected into the `context.app` property passed to the asyncData method that is available inside each Nuxt page.
 
-`$content` takes as its first argument the name of the registered directory whose files you are requesting. The method fetches all the data from the markdown files inside that directory and returns two methods, `getAll` and `get`, for accessing the requested content.
+`$content` takes as its first argument the name of the registered directory whose files you are requesting. The method fetches all the data from the markdown files inside that directory and returns two methods, `get` and `getAll`, for accessing the requested content.
 
-`getAll` returns all the content data retrieves all the content from the registered directory. `get` takes in the route's path and returns the content of that specific route.
+ `get` takes in the route's path and returns the content of that specific route. `getAll` returns all the content data retrieved from the registered directory.
 
-Here's a basic example:
+Here's an example that uses both methods:
 
 ```md
 <!-- content/HelloWorld.Vue -->
