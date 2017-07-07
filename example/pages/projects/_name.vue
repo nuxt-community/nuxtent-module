@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <h1> Project: {{ project.name }} </h1>  
+    <h1> Project: {{ project.name }} </h1>
     <div v-html="project.content" />
   </section>
 </template>
@@ -8,8 +8,10 @@
 <script>
 
 export default {
-  asyncData: ({ app, route }) => ({
-    project: app.$content('/projects').get(route.path)
-  })
+  asyncData: ({ app, route }) => {
+    return {
+      project: app.$content('/projects').get(route.path)
+    }
+  }
 }
 </script>

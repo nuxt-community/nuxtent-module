@@ -8,7 +8,7 @@ module.exports = {
     }],
     ["posts", {
       layout: "posts",
-      route: "/",
+      route: "post",
       permalink: ":year/:slug",
       data: {
         category: "Posts"
@@ -16,8 +16,8 @@ module.exports = {
     }],
     ["projects", {
       layout: "projects",
-      route: "projects",
-      permalink: ":section/:slug",
+      route: "projects-name",
+      permalink: "projects/:slug",
       isPost: false
     }]
   ]
