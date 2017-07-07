@@ -1,6 +1,6 @@
 {
   "name": "@nuxtjs/content",
-  "version": "0.1.7",
+  "version": "0.1.19",
   "description": "Content Module for Nuxt.js.",
   "main": "lib/index.js",
   "contributors": [
@@ -24,7 +24,7 @@
   ],
   "license": "MIT ",
   "scripts": {
-    "publish": "npm --no-git-tag-version version patch && npm publish"
+    "upgrade": "npm --no-git-tag-version version patch && npm publish"
   },
   "peerDependencies": {
     "vue-loader": "^12.2.1"

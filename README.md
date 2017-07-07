@@ -66,7 +66,7 @@ module.exports = {
 
 ```
 
-A couple considerations to keep in mind from the options above:
+##### Considerations:
 
 - When specifying the `routeName`, you have to mentally serialize the route name based on the route's directory path. As a general rule, just ignore all initial underscores and file extensions, and separate the remaining words by a hypen.
 - Since all content route paths will be changed to comply to the content's `permalink`, be extra mindful of how you configure permalinks to avoid conflict. For example, since you can only have one dynamic page per level, both `:year/:slug` and `:section/:slug` conflict. To avoid this, hard code sections whenever possible. The permalinks `someSection/:slug` and `:year/slug` would be preferable.
@@ -97,6 +97,10 @@ permalink: "1st"
 # Hello World!
 
 ```
+
+##### Considerations:
+
+- The markdown file's configuration options, metadata and `content`, are all passed together. So to avoid conflict, keep in mind that the configuration properties are reserved, unless you purposefully are intending to override them via the front-matter.
 
 ### Content Usage
 
@@ -141,6 +145,11 @@ export default {
 }
 
 ```
+
+##### Considerations:
+
+- The markdown file's content is passed as HTML via the `content` property. To access the content inside the component, render it via the `v-html` directive.
+
 ### License
 
 MIT
