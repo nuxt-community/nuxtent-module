@@ -3,6 +3,7 @@ __content
 
 # dependencies
 node_modules
+package-lock.json
 
 # build
 dist
