@@ -30,7 +30,7 @@ There are two main steps to using `nuxt-content`: 1) configuring how you want yo
 
 All content options can be configured either inside a `nuxt.content.js` file or under the `content` property in `nuxt.config.js`.
 
-*Note: All paths are relative to Nuxt Source Directory.*
+*Note: All paths are relative to Nuxt root directory.*
 
 - `srcDir`, String that specifies the directory where the content is located. By default, all content is placed in the `/content` directory.
 - `routeName`, String that specifies the name of the dynamic page route that serves as the content's page. This is necessary so that the route path can be changed to match the content's permalink configuration.
