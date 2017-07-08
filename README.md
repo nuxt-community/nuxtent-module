@@ -5,6 +5,17 @@ It does this first, by compiling all the data from markdown files based on confi
 
 Best of all, `nuxt-content` is a lightweight abstraction that does as little work as possible. Nuxt is already great, so we only need to add a little bit of sugar on top to handle the content. :)
 
+## Quick Start
+
+If you're starting a new site, you can use the [content-template](https://github.com/nuxt-community/content-template).
+
+``` bash
+$ vue init nuxt-community/content-template my-site
+$ cd my-site
+# install dependencies
+$ npm install # Or yarn install
+```
+
 ## Installation
 
 ```
