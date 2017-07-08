@@ -1,6 +1,6 @@
 {
   "name": "@nuxtjs/content",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Content Module for Nuxt.js.",
   "main": "lib/index.js",
   "contributors": [
@@ -24,13 +24,13 @@
   ],
   "license": "MIT ",
   "scripts": {
+    "bundle": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "upgrade": "npm --no-git-tag-version version patch && npm publish"
   },
   "peerDependencies": {
     "vue-loader": "^12.2.1"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.1",
     "front-matter": "^2.1.2",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
@@ -38,6 +38,15 @@
     "path-to-regexp": "^1.7.0"
   },
   "devDependencies": {
+    "cross-env": "^4.0.0",
+    "rollup": "^0.43.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-filesize": "^1.2.1",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
     "vue-loader": "^12.2.1"
   }
 }
