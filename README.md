@@ -55,7 +55,7 @@ Here's an example `nuxt.content.js` file:
 ```js
 module.exports = {
  // Global Options
- srcDir: "content" // default
+ srcDir: "content", // default
  // Directory Options
  dirs: [
   // content/blog/2013-01-10-HelloWorld.md -> localhost:3000/2013/hello-world
