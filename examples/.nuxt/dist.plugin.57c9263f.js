@@ -2,7 +2,7 @@ const { join } = require('path')
 const axios = require('axios')
 
 export default ({ app }) => {
-  const moduleOpts = <%= JSON.stringify(options) %>
+  const moduleOpts = {"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"apiPrefix":"/content-api","baseURL":"http://localhost:3000","isStatic":true}
 
   function fetchContent (apiQuery) {
     const contentMapProm = axios.get(apiQuery).then(res => jsonToMap(res.data))
@@ -27,7 +27,7 @@ export default ({ app }) => {
 
 
 function apiQuery (contentDir, options) {
-  const queryBase = options.isStatic ? `${options.baseURL}/_nuxt` : options.baseURL
+  const queryBase = options.isStatic ? `http://localhost:3000/_nuxt` : options.baseURL
   return queryBase + options.apiPrefix + contentDir
 }
 

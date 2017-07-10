@@ -22,6 +22,8 @@ if (process.browser) {
 }
 
 // Import SSR plugins
+let plugin0 = require('/Users/acastano/Sites/nuxt/nuxt-content/examples/.nuxt/dist.plugin.57c9263f.js')
+plugin0 = plugin0.default || plugin0
 
 
 // Component: <nuxt-child>
@@ -108,6 +110,10 @@ async function createApp (ssrContext) {
   delete ctx.error
 
   // Inject external plugins
+  
+  if (typeof plugin0 === 'function') {
+    await plugin0(ctx)
+  }
   
 
   return { app, router }

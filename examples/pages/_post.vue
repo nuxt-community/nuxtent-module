@@ -6,9 +6,10 @@
 
 <script>
 export default {
-  asyncData: ({ app, route }) => {
+  async asyncData ({ app, route }) {
+    console.log(await app.$content('/posts').get(route.path))
     return {
-      // post: app.$content('/posts').get(route.path)
+      // post: await app.$content('/posts').get(route.path)
     }
   }
 }

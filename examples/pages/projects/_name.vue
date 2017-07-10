@@ -1,16 +1,16 @@
 <template>
   <section class="container">
-    <!-- <h1> Project: {{ project.name }} </h1>
-    <div v-html="project.content" /> -->
+    <h1> Project: {{ project.name }} </h1>
+    <div v-html="project.content" />
   </section>
 </template>
 
 <script>
 
 export default {
-  asyncData: ({ app, route }) => {
+  async asyncData ({ app, route }) {
     return {
-      // project: app.$content('/projects').get(route.path)
+      project: await app.$content('/projects').get(route.path)
     }
   }
 }
