@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1> {{ post.title }} </h1>
+  <!-- <h1> {{ post.title }} </h1> -->
 </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   asyncData: ({ app, route }) => {
     return {
-      post: app.$content('/posts').get(route.path)
+      // post: app.$content('/posts').get(route.path)
     }
   }
 }
