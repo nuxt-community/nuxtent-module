@@ -2,30 +2,23 @@ const Vue = require('vue')
 const { join } = require('path')
 const axios = require('axios')
 
-if (process.isServer) {
-  console.log('here')
-}
-
 export default ({ app }) => {
-  const moduleOpts = {"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"apiPrefix":"/content-api","baseURL":"http://localhost:3000","isStatic":true}
+  const moduleOpts = {"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"apiPrefix":"/content-api","baseURL":"http://localhost:3000","isStatic":false}
 
-  function fetchContent (apiQuery) {
-    const contentMapProm = axios.get(apiQuery).then(res => jsonToMap(res.data))
+  const fetchContent = (url) => ({
+    async get (permalink) { // single page
+      if (typeof permalink !== 'string') throw Error(`Permalink must be a string.`)
+      const { data } = await axios.get(url + permalink)
+      console.log(data)
+      return data 
+    },
 
-    return {
-      async get (path) { // return data for a single page based on matching permalink
-        if (typeof path !== 'string') throw Error(`Permalink must be a string.`)
-        const contentMap = await contentMapProm
-        console.log(contentMap)
-        return contentMap.get(path)
-      },
-
-      async getAll () { // return [key, value] pair for requested content
-        const contentMap = await contentMapProm
-        return [...contentMap]
-      }
+    async getAll () { // all pages
+      const { data } = await axios.get(url)
+      return data
     }
-  }
+  })
+
 
   app.$content = contentDir => fetchContent(apiQuery(contentDir, moduleOpts))
 }
