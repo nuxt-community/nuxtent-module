@@ -1,4 +1,5 @@
 module.exports = {
+  srcDir: '/content',
   data: {
     siteName: "Nuxt-Content"
   },

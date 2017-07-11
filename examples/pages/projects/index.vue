@@ -2,9 +2,9 @@
   <section class="container">
     <h1> Projects </h1>
     <ul>
-      <li v-for="project in projects">
+      <!-- <li v-for="project in projects">
         {{ project.permalink }}
-      </li>
+      </li> -->
     </ul>
   </section>
 </template>
@@ -13,7 +13,7 @@
 export default {
   asyncData ({ app }) {
     return {
-      projects: app.$content('/projects').getAll()
+      // projects: app.$content('/projects').getAll()
     }
   }
 }
