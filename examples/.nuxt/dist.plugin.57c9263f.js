@@ -3,7 +3,7 @@ const { join } = require('path')
 const axios = require('axios')
 
 export default ({ app }) => {
-  const moduleOpts = {"baseURL":"http://localhost:3000","srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"/content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"isStatic":true,"apiPrefix":"/_nuxt//content"}
+  const moduleOpts = {"baseURL":"http://localhost:3000","srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"/content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"isStatic":false,"apiPrefix":"/content-api"}
 
   const fetchContent = (url) => ({
     async get (permalink) { // single page
@@ -22,7 +22,7 @@ export default ({ app }) => {
 }
 
 
-function apiURL (contentDir, options) {
+function apiQuery (contentDir, options) {
   return options.isStatic
     ? `http://localhost:3000/_nuxt/` + options.srcDir + contentDir
     : options.baseURL + options.apiPrefix + contentDir
