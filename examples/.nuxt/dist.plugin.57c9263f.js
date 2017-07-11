@@ -1,5 +1,10 @@
+const Vue = require('vue')
 const { join } = require('path')
 const axios = require('axios')
+
+if (process.isServer) {
+  console.log('here')
+}
 
 export default ({ app }) => {
   const moduleOpts = {"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"content","routeName":"","dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"apiPrefix":"/content-api","baseURL":"http://localhost:3000","isStatic":true}
