@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 export default ({ app, isServer }) => {
-  const opts = {"isDev":false,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"/content","routeName":null,"dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"baseUrl":"http://localhost:3000","browserPrefix":"/_nuxt","apiPrefix":"/content-api"}
+  const opts = {"isDev":true,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","srcDir":"/content","routeName":null,"dirs":[["/",{"isPost":false}],["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","isPost":false}]],"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"baseUrl":"http://localhost:3000","browserPrefix":"/_nuxt","apiPrefix":"/content-api"}
 
   app.$content = contentDir => fetchContent(contentDir)
 
