@@ -22,8 +22,10 @@ if (process.browser) {
 }
 
 // Import SSR plugins
-let plugin0 = require('/Users/acastano/Sites/nuxt/nuxt-content/examples/.nuxt/dist.plugin.57c9263f.js')
+let plugin0 = require('/Users/acastano/Sites/nuxt/nuxt-content/examples/.nuxt/axios.plugin.51bc4af6.js')
 plugin0 = plugin0.default || plugin0
+let plugin1 = require('/Users/acastano/Sites/nuxt/nuxt-content/examples/.nuxt/dist.plugin.57c9263f.js')
+plugin1 = plugin1.default || plugin1
 
 
 // Component: <nuxt-child>
@@ -113,6 +115,10 @@ async function createApp (ssrContext) {
   
   if (typeof plugin0 === 'function') {
     await plugin0(ctx)
+  }
+  
+  if (typeof plugin1 === 'function') {
+    await plugin1(ctx)
   }
   
 

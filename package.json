@@ -33,6 +33,7 @@
     "@nuxtjs/axios": "^2.1.0"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^2.1.0",
     "axios": "^0.16.2",
     "chalk": "^2.0.1",
     "express": "^4.15.3",
