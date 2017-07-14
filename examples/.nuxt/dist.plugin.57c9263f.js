@@ -20,18 +20,14 @@ export default ({ app, isServer }) => {
   }
 
   const fetchContent = (contentDir) => ({
-    async get (permalink) { // single page
+    async get (permalink) {
       if (typeof permalink !== 'string') throw Error(`Permalink must be a string.`)
-      const path = reqPath(contentDir, permalink)
-      console.log('axios path ' + path)
-      const res = await app.$axios.get(path)
-
-      // console.log(res)
+      const res = await app.$axios.get(reqPath(contentDir, permalink))
       return res.data
     },
-
-    async getAll () { // all pages
-      // const res = await app.$axios.get(reqPath(contentDir))
+    async getAll () {
+      console.log(await app.$axios.get(reqPath(contentDir)))
+      const res = await app.$axios.get(reqPath(contentDir))
       return res.data
     }
   })

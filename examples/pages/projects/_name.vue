@@ -1,8 +1,7 @@
 <template>
   <section class="container">
-    {{ project }}
-    <!-- <h1> Project: {{ project.name }} </h1>
-    <div v-html="project.content" /> -->
+    <h1> Project: {{ project.name }} </h1>
+    <div v-html="project.content" />
   </section>
 </template>
 
