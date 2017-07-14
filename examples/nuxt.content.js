@@ -4,9 +4,6 @@ module.exports = {
     siteName: "Nuxt-Content"
   },
   dirs: [
-    ["/", {
-      isPost: false
-    }],
     ["posts", {
       routeName: "post",
       permalink: ":year/:slug",
