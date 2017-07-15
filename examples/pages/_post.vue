@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  async asyncData ({ app, route, isServer }) {
+  async asyncData ({ app, route, payload }) {
     return {
-      post: await app.$content('/posts').get(route.path)
+      post:await app.$content('/posts').get(route.path) || payload
     }
   }
 }

@@ -9,7 +9,7 @@ import { applyAsyncData, sanitizeComponent, getMatchedComponents, getContext, mi
 const debug = require('debug')('nuxt:render')
 debug.color = 4 // force blue color
 
-const isDev = true
+const isDev = false
 
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
@@ -47,7 +47,7 @@ export default async (context) => {
   // Error function
   context.error = _app.$options._nuxt.error.bind(_app)
 
-  const s = isDev && Date.now()
+  
   let ctx = getContext(context, app)
   let Components = []
   let promises = getMatchedComponents(router.match(context.url)).map((Component) => {
@@ -145,8 +145,6 @@ export default async (context) => {
   if (!Components.length) {
     context.nuxt.error = context.error({ statusCode: 404, message: 'This page could not be found.' })
   }
-  
-    if (asyncDatas.length) debug('Data fetching ' + context.url + ': ' + (Date.now() - s) + 'ms')
   
   // datas are the first row of each
   context.nuxt.data = asyncDatas.map((r) => (r[0] || {}))

@@ -11,9 +11,9 @@
 
 <script>
 export default {
-  async asyncData ({ app }) {
+  async asyncData ({ app, payload }) {
     return {
-      projects: await app.$content('/projects').getAll()
+      projects: await app.$content('/projects').getAll() || payload 
     }
   }
 }
