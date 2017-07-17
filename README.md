@@ -14,13 +14,7 @@ So, along with that, Nuxtent also supports:
 3. The usage of content files in both static sites and dynamic applications.
 4. The usage of `async components` inside markdown files.
 
-There you go: four reasons to give `Nuxtent` a try, and maybe even a `star`, or a shout-out. :)
-
-<a href="https://twitter.com/intent/tweet"
-  data-text="custom share text"
-  data-url="https://github.com/nuxt-community/content-module"
-  target="&quot;blank">
-Tweet</a>
+There you go: four reasons to give `Nuxtent` a try, and maybe even `star` and [share](href="https://twitter.com/intent/tweet) it. :)
 
 ## Quick Start
 
