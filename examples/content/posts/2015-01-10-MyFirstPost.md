@@ -4,4 +4,6 @@ title: My First Post
 slug: 1st
 ---
 
-Wow!
+# Wow!
+
+This is pretty cool!!

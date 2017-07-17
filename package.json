@@ -1,5 +1,5 @@
 {
-  "name": "@nuxtjs/content",
+  "name": "nuxtent",
   "version": "0.2.5",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
@@ -26,7 +26,7 @@
   "scripts": {
     "build": "NODE_ENV=production rollup -c rollup.config.js",
     "watch": "npm run build -- -w",
-    "upgrade": "npm run build && npm --no-git-tag-version version patch && npm publish"
+    "bump": "npm run build && npm --no-git-tag-version version patch && npm publish"
   },
   "peerDependencies": {
     "vue-loader": "^12.2.1",
