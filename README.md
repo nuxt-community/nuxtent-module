@@ -19,9 +19,8 @@ There you go: four reasons to give `Nuxtent` a try, and maybe even a `star`, or 
 <a href="https://twitter.com/intent/tweet"
   data-text="custom share text"
   data-url="https://github.com/nuxt-community/content-module"
-  target="&#95;blank">
+  target="&quot;blank">
 Tweet</a>
-
 
 ## Quick Start
 
