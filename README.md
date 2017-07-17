@@ -1,9 +1,25 @@
-# Nuxt-Content
+# Nuxtent
 
-`nuxt-content` facilitates the usage of markdown files in content heavy sites.
-It does this first, by compiling all the data from markdown files based on configured rules and second, by providing helper methods for dynamically accessing this data inside Nuxt pages.
+The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
-Best of all, `nuxt-content` is a lightweight abstraction that does as little work as possible. Nuxt is already great, so we only need to add a little bit of sugar on top to handle the content. :)
+It does in two main ways:
+
+1. [By compiling all the data from `markdown` or `yaml` files based on configured rules.](#content-configuration)
+2. [By providing helper methods for dynamically accessing this data inside Nuxt pages.](#fetching-content)
+
+But, we didn't just want to make Nuxtent as good as a static site generator–we wanted to make it better.
+
+So, along with that, Nuxtent also supports:
+
+3. The usage of content files in both static sites and dynamic applications.
+4. The usage of `async components` inside markdown files.
+
+There you go: four reasons to give `Nuxtent` a try, and maybe even a `star`, or a shout-out. :)
+
+<a class="twitter-share-button"
+  href="https://twitter.com/intent/tweet">
+Tweet</a>
+
 
 ## Quick Start
 
@@ -113,7 +129,7 @@ permalink: "1st"
 
 - The markdown file's configuration options, metadata and `content`, are all passed together. So to avoid conflict, keep in mind that the configuration properties are reserved, unless you purposefully are intending to override them via the front-matter.
 
-### Content Usage
+### Fetching Content
 
 `Nuxt-content` merges and compiles all your content's data - the filename, front-matter, and markdown content. You can dynamically request this data inside Nuxt pages using the `$content` helper.
 

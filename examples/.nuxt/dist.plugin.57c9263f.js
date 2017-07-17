@@ -35,7 +35,7 @@ Vue.component('nuxt-body', {
 })
 
 export default ({ app, isClient }) => {
-  const options = {"isDev":true,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","buildDir":"/content","srcDir":"/content","componentsDir":"/components","routeName":null,"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"dirs":[["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","componentDir":"components","isPost":false}]],"baseURL":"http://localhost:3000","apiPrefix":"/content-api","browserPrefix":"/_nuxt/content"}
+  const options = {"isDev":false,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","buildDir":"/content","srcDir":"/content","componentsDir":"/components","routeName":null,"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"dirs":[["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","componentDir":"components","isPost":false}]],"baseURL":"http://localhost:3000","apiPrefix":"/content-api","browserPrefix":"/_nuxt/content"}
 
   async function fetchContent (path, permalink = '/') {
     if (options.isDev) {
