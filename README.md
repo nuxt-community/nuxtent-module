@@ -16,9 +16,10 @@ So, along with that, Nuxtent also supports:
 
 There you go: four reasons to give `Nuxtent` a try, and maybe even a `star`, or a shout-out. :)
 
-<a class="twitter-share-button"
-  href="https://twitter.com/intent/tweet&url=https://github.com/nuxt-community/content-module"
-  target="\_blank">
+<a href="https://twitter.com/intent/tweet"
+  data-text="custom share text"
+  data-url="https://github.com/nuxt-community/content-module"
+  target="&#95;blank">
 Tweet</a>
 
 
