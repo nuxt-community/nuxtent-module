@@ -1,15 +1,12 @@
 import Vue from 'vue'
 
-const { join } = require('path')
+const { join, resolve } = require('path')
 
 const mdComps = {}
 
-function importAllMdComps () {
-  const r =  require.context('../content', true, /\.comp\.md$/)
+function importAllMdComps (r) {
   r.keys().forEach(key => mdComps[key] = r(key))
 }
-
-importAllMdComps()
 
 Vue.component('nuxt-body', {
   props: {
@@ -25,6 +22,7 @@ Vue.component('nuxt-body', {
         </div>
       )
     } else {
+      console.log(this.body)
       return (
         <div>
           <section domProps-innerHTML={ body } />
@@ -35,7 +33,9 @@ Vue.component('nuxt-body', {
 })
 
 export default ({ app, isClient }) => {
-  const options = {"isDev":false,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","buildDir":"/content","srcDir":"/content","componentsDir":"/components","routeName":null,"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"dirs":[["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","componentDir":"components","isPost":false}]],"baseURL":"http://localhost:3000","apiPrefix":"/content-api","browserPrefix":"/_nuxt/content"}
+  const options = {"isDev":true,"srcPath":"/Users/acastano/Sites/nuxt/nuxt-content/examples","buildDir":"/content","srcDir":"/content","componentsDir":"/components","routeName":null,"permalink":":slug","isPost":true,"data":{"siteName":"Nuxt-Content"},"dirs":[["posts",{"routeName":"post","permalink":":year/:slug","data":{"category":"Posts"}}],["projects",{"routeName":"projects-name","permalink":"projects/:slug","componentDir":"components","isPost":false}]],"baseURL":"http://localhost:3000","apiPrefix":"/content-api","browserPrefix":"/_nuxt/content"}
+
+  importAllMdComps(require.context("..//content", true, /\.comp\.md$/))
 
   async function fetchContent (path, permalink = '/') {
     if (options.isDev) {

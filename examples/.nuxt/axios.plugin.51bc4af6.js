@@ -123,7 +123,7 @@ export default (ctx) => {
 
   // Create new axios instance
   const baseURL = process.browser
-    ? (process.env.API_URL_BROWSER || 'http://localhost:3000/_nuxt/content')
+    ? (process.env.API_URL_BROWSER || 'http://localhost:3000/content-api')
     : (process.env.API_URL || 'http://localhost:3000/content-api')
 
   const axios = Axios.create({
