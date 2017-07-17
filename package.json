@@ -33,8 +33,6 @@
     "@nuxtjs/axios": "^2.1.0"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^2.1.0",
-    "axios": "^0.16.2",
     "chalk": "^2.0.1",
     "express": "^4.15.3",
     "front-matter": "^2.1.2",
@@ -45,7 +43,8 @@
     "moment": "^2.18.1",
     "param-case": "^2.1.1",
     "path-to-regexp": "^1.7.0",
-    "rollup-plugin-ejs": "^1.1.1"
+    "rollup-plugin-ejs": "^1.1.1",
+    "uppercamelcase": "^3.0.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",

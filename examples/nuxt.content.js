@@ -14,6 +14,7 @@ module.exports = {
     ["projects", {
       routeName: "projects-name",
       permalink: "projects/:slug",
+      componentDir: "components",
       isPost: false
     }]
   ]

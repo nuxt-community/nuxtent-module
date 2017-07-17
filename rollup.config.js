@@ -36,7 +36,10 @@ const bundle = (name, options) => ({
 export default [
   bundle('module', {
     plugins: [
-      copy({ 'lib/plugin.js': 'dist/plugin.js' }),
+      copy({
+        'lib/plugin.js': 'dist/plugin.js',
+        'lib/loader.js': 'dist/loader.js'
+      }),
       ...corePlugins()
     ],
     external: [

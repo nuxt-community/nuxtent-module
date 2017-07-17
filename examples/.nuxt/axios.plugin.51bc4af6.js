@@ -50,18 +50,24 @@ const axiosPlugin = {
 
 Vue.use(axiosPlugin)
 
-// Set requests token
-function setToken (token, type, scopes = 'common') {
+// Sets a common header
+function setHeader (name, value, scopes = 'common') {
   if(!Array.isArray(scopes)) {
     scopes = [scopes]
   }
   scopes.forEach(scope => {
-    if (!token) {
-      delete this.defaults.headers[scope].Authorization;
+    if (!value) {
+      delete this.defaults.headers[scope][name];
       return
     }
-    this.defaults.headers[scope].Authorization = (type ? type + ' ' : '') + token
+    this.defaults.headers[scope][name] = value
   })
+}
+
+// Set requests token
+function setToken (token, type, scopes = 'common') {
+    const value = !token ? null : (type ? type + ' ' : '') + token
+    this.setHeader('Authorization', value, scopes)
 }
 
 // Nuxt friendly error handler
@@ -94,12 +100,30 @@ function errorHandler(error) {
   }
 }
 
+function debug(level, messages) {
+  if (!(console[level] instanceof Function)) {
+    level = 'info'
+    messages = arguments
+  } else {
+    level = arguments[0]
+    messages = Array.prototype.slice.call(arguments, 1)
+  }
+
+  if (!messages.length) {
+    console[level].call(null, '[@nuxtjs/axios] <empty debug message>')
+  } else {
+    for (var i = 0; i < messages.length; i++) {
+      console[level].call(null, messages[i])
+    }
+  }
+}
+
 export default (ctx) => {
   const { app, store, req } = ctx
 
   // Create new axios instance
   const baseURL = process.browser
-    ? (process.env.API_URL_BROWSER || 'http://localhost:3000/_nuxt/content')
+    ? (process.env.API_URL_BROWSER || 'http://localhost:3000/content-api')
     : (process.env.API_URL || 'http://localhost:3000/content-api')
 
   const axios = Axios.create({
@@ -118,6 +142,8 @@ export default (ctx) => {
   });
   
 
+  
+
   // Error handler
   axios.interceptors.response.use(undefined, errorHandler.bind(ctx));
 
@@ -130,4 +156,5 @@ export default (ctx) => {
 
   // token helper for authentication
   axios.setToken = setToken.bind(axios)
+  axios.setHeader = setHeader.bind(axios)
 }

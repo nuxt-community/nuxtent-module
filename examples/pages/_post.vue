@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1> {{ post.title }} </h1>
-  <div class="post-content" v-html="post.body" />
+  <nuxt-body :body="post.body" />
 </div>
 </template>
 
