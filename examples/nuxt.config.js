@@ -8,6 +8,6 @@ module.exports = {
     ],
   },
   modules: [
-    '@nuxtjs/content'
+    'nuxtent'
   ]
 }

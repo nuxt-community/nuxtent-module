@@ -1,5 +1,5 @@
 <template>
-  <div> <h1> {{ name }}</h1></div>
+  <div> <h1> {{ name || 'Hello World' }}</h1></div>
 </template>
 
 
