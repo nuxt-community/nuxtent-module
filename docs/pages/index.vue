@@ -18,7 +18,7 @@ export default {
   data: () => ({
     menu: [
       { title: 'Introduction', link: '/introduction' },
-      { title: 'Installation', link: '/installation' },
+      { title: 'Module Installation and Options', link: '/installation' },
       { title: 'Configuration Your Data', link: '/configuration' },
       { title: 'Fetching the Content', link: '/fetching-content' },
       { title: 'Using Markdown Components', link: '/markdown-components' }

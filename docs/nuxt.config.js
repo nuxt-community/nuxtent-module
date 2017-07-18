@@ -1,3 +1,5 @@
+var Prism = require('prismjs')
+
 module.exports = {
   head: {
     title: 'Nuxtent',
@@ -11,7 +13,14 @@ module.exports = {
     ]
   },
   modules: [
-    ['nuxtent']
+    ['nuxtent', {
+      highlight: (code, lang) => {
+        return Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
+      }
+    }]
   ],
-  loading: { color: '#3B8070' }
+  css: [
+    'prismjs/themes/prism-coy.css'
+  ],
+  loading: { color: '#35495e' }
 }
