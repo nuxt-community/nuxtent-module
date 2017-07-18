@@ -1,8 +1,8 @@
 module.exports = {
   dirs: [
     ['/', {
-      routeName: 'guide',
-      permalink: 'guide/:slug',
+      routeName: 'index-lesson',
+      permalink: ':slug',
       isPost: false
     }]
   ]

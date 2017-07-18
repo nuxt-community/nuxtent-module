@@ -6,8 +6,8 @@
   "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
-    "@nuxtjs/content": "file:..",
-    "nuxt": "latest"
+    "nuxt": "latest",
+    "nuxtent": "file:.."
   },
   "scripts": {
     "dev": "nuxt",
