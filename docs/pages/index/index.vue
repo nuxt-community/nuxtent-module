@@ -37,9 +37,10 @@ div.lead-container
   top: 4rem
   left: -14rem
   width: 100%
-  border: 4px solid #f9f9f9
+  background-color: #f9f9f9
+  border: 2px solid #35495e
   padding: .5rem 2rem
-  border-radius: 8px
+  border-radius: 5px
   margin-bottom: 5rem
   h3
     display: block
@@ -47,19 +48,22 @@ div.lead-container
     position: relative
     top: -2rem
     left: -1rem
-    background-color: #f9f9f9
-    color: #35495e
+    background-color: #35495e
+    color: #f9f9f9
     width: 22%
     padding: .25rem
     text-align: center
     letter-spacing: .025rem
+    border-radius: 5px
+    font-weight: 300
   h1
     margin-top: -2rem
     font-size: 2rem
-  a,
-  .nuxt-link
+  a
     text-decoration: none
     color: #374a62
+    h1
+      font-weight: 500
     &hover
       text-decoration: underline
 </style>

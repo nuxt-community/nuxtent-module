@@ -3,7 +3,7 @@ div.site-container
   nuxt.site-main
   div.site-footer
     p Built with Nuxtent by
-      | <a href="https://github.com/alidcastano">@alidcastano</a>.
+      |  <a href="https://github.com/alidcastano">@alidcastano</a>.
       | See on <a href="https://github.com/nuxt-community/content-module">Github</a>.
       //- | <a class="github-button" href="https://github.com/nuxt-community/content-module" data-show-count="true" aria-label="Star nuxt-community/content-module on GitHub" />
   <script async defer src="https://buttons.github.io/buttons.js"></script>
