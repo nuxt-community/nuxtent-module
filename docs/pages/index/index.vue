@@ -37,7 +37,7 @@ div.lead-container
   top: 4rem
   left: -14rem
   width: 100%
-  background-color: #f9f9f9
+  background-color: #fff
   border: 2px solid #35495e
   padding: .5rem 2rem
   border-radius: 5px

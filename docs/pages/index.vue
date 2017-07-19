@@ -56,12 +56,13 @@ function toggleAnchors(path) {
   width: 95%
   height: 5rem
   margin: 0 auto
-  border-bottom: .60rem solid #f9f9f9
+  border-bottom: .60rem solid #fff
 
 .sidebar-header-container,
 .guide-container
   display: inline-block
   vertical-align: top
+  margin-bottom: 5rem
 
 .sidebar-header-container
   width: 30%
@@ -72,7 +73,7 @@ function toggleAnchors(path) {
   .guide-main
     margin-top: -4rem
     margin-left: -1rem
-    background-color: #f9f9f9
+    background-color: #fff
     color: #374a62
     border: 3px solid #35495e
     padding: 0 2rem 2rem 2rem
