@@ -1,5 +1,5 @@
 <template lang="pug">
-section.content-container
+section.guide-main.content-container
   h1.post-title {{ lesson.title }}
   nuxt-body.guide-content(:body="lesson.body")
 </template>

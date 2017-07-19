@@ -1,5 +1,5 @@
 <template lang="pug">
-div.site-container
+div.main-container
   div.white-line-container
   div.sidebar-header-container
     a.site-title(href="/") NUXTENT
@@ -7,14 +7,15 @@ div.site-container
       h3 GUIDE
       ul.nav-links(v-for="item in menu")
         li.nav-link-container
-          nuxt-link.nav-link(:to="item.link")
-            | {{ item.title }}
-          ul.nav-nested-links(v-if="item.anchors" v-for="anchor in item.anchors")
+          nuxt-link.nav-link(:to="item.link") {{ item.title }}
+          ul.nav-nested-links(
+              v-if="item.anchors && item.showAnchors"
+              v-for="anchor in item.anchors"
+            )
             li.sub-nav-link-container
-              nuxt-link.nav-nested-link(:to="item.link + anchor.link")
-                | {{ anchor.title }}
+              nuxt-link.nav-nested-link(:to="item.link + anchor.link") {{ anchor.title }}
   div.guide-container
-    nuxt-child.guide-content
+    nuxt-child
 </template>
 
 
@@ -23,21 +24,36 @@ import siteMenu from '../nuxt.menu.js'
 
 export default {
   data: () => ({
-    menu: siteMenu
+    updateAnchors: false
+  }),
+  computed: {
+    menu () {
+      return toggleAnchors(this.$route.path)
+    }
+  },
+  watch: {
+    '$route' () {
+       this.updateAnchors = !this.updateAnchors
+    }
+  }
+}
+
+function toggleAnchors(path) {
+  const menu = siteMenu.map(item => {
+    if (item.link === path) item.showAnchors = true
+    else item.showAnchors = false
+    return item
   })
+  return menu
 }
 </script>
 
 <style lang="sass">
-
-.site-container
-  min-height: 100vh
-  background-color: #eff2f6
-  margin: -1rem
-  padding: 1rem
+.main-container
+  padding-top: .5rem
 
 .white-line-container
-  width: 99%
+  width: 95%
   height: 5rem
   margin: 0 auto
   border-bottom: .60rem solid #f9f9f9
@@ -51,13 +67,14 @@ export default {
   width: 30%
   margin-top: -7.25rem
 .guide-container
-  width: 60%
-  margin-top: -4rem
-  background-color: #eff2f6
-  color: #374a62
-  border: 3px solid #35495e
-  padding: 0 1rem 2rem 1rem
+  width: 58%
   font-size: 1.125rem
+  .guide-main
+    margin-top: -4rem
+    background-color: #f9f9f9
+    color: #374a62
+    border: 3px solid #35495e
+    padding: 0 2rem 2rem 2rem
 
 .site-title
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif /* 1 */
