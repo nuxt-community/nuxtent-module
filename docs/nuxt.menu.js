@@ -11,18 +11,18 @@ module.exports = [
     title: 'Content Configuration',
     link: '/configuration',
     anchors: [
-      { title: 'Page Options',
-        link: '#page-options'
+      { title: 'Content Options',
+        link: '#content-options'
       },
       {
-        title: 'Build Options',
-        link: '#build-options'
+        title: 'Parser Options',
+        link: '#parser-options'
       }
     ]
   },
   {
     title: 'Writing Your Content',
-    link: '/writing-content',
+    link: '/writing',
     anchors: [
       { title: 'Front Matter',
         link: '#front-matter'
@@ -34,7 +34,7 @@ module.exports = [
     ]
   },
   {
-    title: 'Fetching Your Content',
-    link: '/fetching-content'
+    title: 'Using Your Content',
+    link: '/usage'
   }
 ]

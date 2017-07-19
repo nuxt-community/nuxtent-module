@@ -9,7 +9,7 @@ div.lead-container
   div.featured-lesson
     h3 Featured Lesson:
     a(href="/writing-content#async-components")
-      h1 Use Vue Components in Your Markdown Files!
+      h1.lesson-title Use Vue Components in Your Markdown Files!
 </template>
 
 
@@ -56,7 +56,7 @@ div.lead-container
     letter-spacing: .025rem
     border-radius: 5px
     font-weight: 300
-  h1
+  .lesson-title
     margin-top: -2rem
     font-size: 2rem
   a

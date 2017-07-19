@@ -67,10 +67,11 @@ function toggleAnchors(path) {
   width: 30%
   margin-top: -7.25rem
 .guide-container
-  width: 58%
+  width: 64%
   font-size: 1.125rem
   .guide-main
     margin-top: -4rem
+    margin-left: -1rem
     background-color: #f9f9f9
     color: #374a62
     border: 3px solid #35495e
