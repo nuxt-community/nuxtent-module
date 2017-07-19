@@ -8,7 +8,7 @@ div.lead-container
     nuxt-link.lead-link(to="/introduction") Get Started
   div.featured-lesson
     h3 Featured Lesson:
-    a(href="/writing-content#async-components")
+    a(href="/writing#async-components")
       h1.lesson-title Use Vue Components in Your Markdown Files!
 </template>
 
