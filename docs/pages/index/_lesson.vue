@@ -1,8 +1,7 @@
 <template lang="pug">
 section.content-container
-  Test
   h1.post-title {{ lesson.title }}
-  nuxt-body(:body="lesson.body")
+  nuxt-body.guide-content(:body="lesson.body")
 </template>
 
 <script>
@@ -23,24 +22,32 @@ export default {
   margin-bottom: 1rem
 
 // --------------------
-// Code
+// General Content Styles
 // --------------------
 
 $code-background-color: #f9f9f9
 
-// Inline snippets
-code
-  padding: .25em .5em
-  font-size: 90%
-  background-color: $code-background-color
-  border-radius: 3px
+.guide-content
+  p,
+  li
+    line-height: 1.4rem
+  li
+    margin-bottom: .5rem
+  a
+    color: #818D9D
+  // Inline snippets
+  code
+    padding: .25em .5em
+    font-size: 90%
+    background-color: $code-background-color
+    border-radius: 3px
 
-// Block-level snippets
-pre
-  margin: 1rem
-  padding: 1rem
-  background-color: $code-background-color
-  overflow-x: scroll
-  pre code
-  font-size: 85%
+  // Block-level snippets
+  pre
+    margin: 1rem
+    padding: 1rem
+    background-color: $code-background-color
+    overflow-x: scroll
+    pre code
+    font-size: 85%
 </style>

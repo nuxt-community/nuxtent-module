@@ -1,6 +1,8 @@
 ---
-title: Installation
+title: Introduction
 ---
+
+There are two main steps to using `nuxt-content`: 1) configuring how you want your content data compiled and 2) dynamically using the content data inside Nuxt pages.
 
 Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
