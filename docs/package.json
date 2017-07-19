@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
+    "markdown-it-anchor": "^4.0.0",
     "nuxt": "latest",
     "nuxtent": "file:..",
     "prismjs": "^1.6.0"

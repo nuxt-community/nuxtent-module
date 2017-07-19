@@ -2,15 +2,12 @@
 title: Writing Your Content
 ---
 
-#### Page Data
+# Page Data
 
 `Nuxtent` processes all content files as data.
 
 
 Any markdown file that contains a YAML front matter block will be processed by Jekyll as a special file. The front matter must be the first thing in the file and must take the form of valid YAML set between triple-dashed lines. Here is a basic example:
-
-
-
 
 By default, page specific data is extracted from the file name, but some options can be overridden via the front-matter of the respective file.
 
@@ -43,4 +40,4 @@ permalink: "1st"
 - The markdown file's configuration options, metadata and `content`, are all passed together. So to avoid conflict, keep in mind that the configuration properties are reserved, unless you purposefully are intending to override them via the front-matter.
 
 
-<h1 name="async-components">  Async Components </h1>
+# Async Components

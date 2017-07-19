@@ -36,9 +36,5 @@ module.exports = [
   {
     title: 'Fetching Your Content',
     link: '/fetching-content'
-  },
-  {
-    title: 'Using Markdown Components',
-    link: '/markdown-components'
   }
 ]
