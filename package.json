@@ -1,6 +1,6 @@
 {
   "name": "nuxtent",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
   "contributors": [
@@ -39,6 +39,7 @@
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
     "moment": "^2.18.1",
+    "nuxtent-loader": "^0.2.11",
     "param-case": "^2.1.1",
     "path-to-regexp": "^1.7.0"
   },

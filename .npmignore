@@ -1,4 +1,6 @@
 .babelrc
 rollup.config.js
+node_modules/
 examples/
+docs/
 lib/
