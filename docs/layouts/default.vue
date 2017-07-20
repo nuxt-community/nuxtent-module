@@ -10,6 +10,9 @@ div.site-container
 </template>
 
 <style lang="sass">
+$tablet-width: 640px
+$desktop-width: 980px
+
 .site-container
   background-color: #eff2f6
   position: relative
@@ -34,6 +37,10 @@ div.site-container
     text-align: center
     margin: 0
     padding: 0
+    display: block
+    font-size: .8rem
+    @media (min-width: $tablet-width)
+      font-size: 1rem
   a
     color: #f9f9f9
 </style>

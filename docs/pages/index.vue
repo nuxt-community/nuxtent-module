@@ -89,7 +89,7 @@ $desktop-width: 980px
     vertical-align: top
 
 .guide-container
-  max-width: 50rem
+  max-width: 100%
   margin: 0 auto
   margin-top: -4rem
   margin-bottom: 5rem
@@ -98,6 +98,7 @@ $desktop-width: 980px
     padding-left: 3rem
     padding-right: 3rem
   @media (min-width: $desktop-width)
+    width: 50rem
     width: 64%
     font-size: 1.125rem
     margin-left: -1rem
@@ -133,12 +134,14 @@ $desktop-width: 980px
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif /* 1 */
   display: block
   font-weight: 600
-  font-size: 2.75rem
+  font-size: 2.35rem
   color: #35495e
-  margin-top: 1.75rem
+  margin-top: 2rem
   padding: 1rem 0 .5rem 1.5rem
   text-decoration: none
   letter-spacing: 1px
+  @media (min-width: $tablet-width)
+    font-size: 2.75rem
   @media (min-width: $desktop-width)
     font-size: 3.5rem
     margin: 1.5rem 0 1.5rem 2.5rem

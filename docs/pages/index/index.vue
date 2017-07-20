@@ -14,6 +14,7 @@ div.lead-container
 
 
 <style lang="sass">
+$tablet-width: 640px
 $desktop-width: 980px
 
 .lead-pitch
@@ -52,7 +53,7 @@ $desktop-width: 980px
   h3
     display: block
     font-size: 90%
-    width: 25%
+    width: 30%
     position: relative
     top: -2rem
     left: -1rem
@@ -63,6 +64,8 @@ $desktop-width: 980px
     letter-spacing: .025rem
     border-radius: 5px
     font-weight: 300
+    @media (min-width: $tablet-width)
+      width: 25%
     @media (min-width: $desktop-width)
       width: 22%
       font-size: 85%
@@ -72,8 +75,10 @@ $desktop-width: 980px
     @media (min-width: $desktop-width)
       font-size: 2rem
   a
-    text-decoration: none
     color: #374a62
+    text-decoration: none
+    &:hover
+      text-decoration: underline
     h1
       font-weight: 500
     &hover

@@ -19,6 +19,7 @@ export default {
   font-size: 2.5rem
   margin-bottom: 1rem
 .guide-content
+  max-width: 100%
   // section titles
   h1
     font-size: 2rem
