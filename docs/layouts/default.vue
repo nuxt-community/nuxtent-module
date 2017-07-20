@@ -18,8 +18,7 @@ $desktop-width: 980px
   position: relative
   display : table
   border-collapse: collapse
-  max-width: 100%
-  width: 100%
+  width: 100vw
   height: 100vh
   margin: -.5rem -.25rem 0 -.5rem
   padding-top: 2rem

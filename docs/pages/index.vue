@@ -71,7 +71,6 @@ $desktop-width: 980px
 
 .main-container
   padding-top: 1rem
-  max-width: 100vw !important
 
 .white-line-container
   width: 95%
