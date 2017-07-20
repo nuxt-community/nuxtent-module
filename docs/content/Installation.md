@@ -27,4 +27,4 @@ module.exports = {
 }
 ```
 
-*Note: `vue-loader` and `@nuxtjs/axios` are peer dependencies and you will need to have them installed, as well.*
+*Note: @nuxtjs/axios` is a peer dependencies so you will need to have it installed, as well.*
