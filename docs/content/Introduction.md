@@ -2,7 +2,7 @@
 title: Introduction
 ---
 
-Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
+The goal Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
 It does in two main ways:
 
@@ -17,8 +17,6 @@ So, along with that, Nuxtent also supports:
 4. The usage of async components inside markdown files.
 
 There you go: four reasons to give Nuxtent a try, and maybe even star and share it. 😏
-
-
 
 ### Getting Started
 
