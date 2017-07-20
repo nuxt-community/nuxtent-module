@@ -71,7 +71,7 @@ $desktop-width: 980px
 
 .main-container
   padding-top: 1rem
-  width: 100%
+  max-width: 100vw !important
 
 .white-line-container
   width: 95%
@@ -98,14 +98,11 @@ $desktop-width: 980px
     padding-left: 3rem
     padding-right: 3rem
   @media (min-width: $desktop-width)
-    width: 50rem
-    width: 64%
+    width: 62%
     font-size: 1.125rem
-    margin-left: -1rem
     padding: 0
   .guide-main
     display: block
-    margin: 0 auto
     background-color: #fff
     color: #374a62
     border: 3px solid #35495e

@@ -1,5 +1,5 @@
 <template lang="pug">
-section.guide-main.content-container
+section.guide-main
   h1.post-title {{ lesson.title }}
   nuxtent-body.guide-content(:body="lesson.body")
 </template>
@@ -15,11 +15,11 @@ export default {
 </script>
 
 <style lang="sass">
+.guide-main
+  max-width: 48rem
 .post-title
   font-size: 2.5rem
   margin-bottom: 1rem
-.guide-content
-  max-width: 100%
   // section titles
   h1
     font-size: 2rem
