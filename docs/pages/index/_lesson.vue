@@ -15,12 +15,11 @@ export default {
 </script>
 
 <style lang="sass">
-.content-container
-  min-height: 80vh
 .post-title
   font-size: 2.5rem
   margin-bottom: 1rem
 .guide-content
+  // section titles
   h1
     font-size: 2rem
     margin-bottom: 1rem

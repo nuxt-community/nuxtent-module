@@ -35,6 +35,15 @@ module.exports = [
   },
   {
     title: 'Using Your Content',
-    link: '/usage'
+    link: '/usage',
+    anchors: [
+      { title: 'Fetching Content',
+        link: '#fetching-content'
+      },
+      {
+        title: 'Rendering Content',
+        link: '#rendering-content'
+      }
+    ]
   }
 ]

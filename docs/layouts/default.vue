@@ -16,7 +16,8 @@ div.site-container
   display : table
   border-collapse: collapse
   height: 100vh
-  margin: -.5rem
+  width: 100vw
+  margin: -.5rem -.25rem 0 -.5rem
   padding-top: 2rem
 
 .site-footer
