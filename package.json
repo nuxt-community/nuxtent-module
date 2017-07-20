@@ -1,6 +1,6 @@
 {
   "name": "nuxtent",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
   "contributors": [
@@ -35,15 +35,11 @@
     "chalk": "^2.0.1",
     "express": "^4.15.3",
     "front-matter": "^2.1.2",
-    "glob": "^7.1.2",
     "js-yaml": "^3.9.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
-    "moment": "^2.18.1",
     "param-case": "^2.1.1",
-    "path-to-regexp": "^1.7.0",
-    "rollup-plugin-ejs": "^1.1.1",
-    "uppercamelcase": "^3.0.0"
+    "path-to-regexp": "^1.7.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
@@ -60,7 +56,6 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify-es": "0.0.1",
-    "rollup-watch": "^4.0.0",
-    "vue-loader": "^12.2.1"
+    "rollup-watch": "^4.0.0"
   }
 }
