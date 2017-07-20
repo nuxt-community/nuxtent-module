@@ -1,6 +1,6 @@
 {
   "name": "nuxtent",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
   "contributors": [
@@ -38,6 +38,7 @@
     "js-yaml": "^3.9.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
+    "moment": "^2.18.1",
     "param-case": "^2.1.1",
     "path-to-regexp": "^1.7.0"
   },
