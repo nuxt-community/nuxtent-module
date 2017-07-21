@@ -21,7 +21,7 @@ There you go: four reasons to give `Nuxtent` a try, and maybe even star and [sha
 If you're starting a new site, you can use the [content-template](https://github.com/nuxt-community/content-template).
 
 ``` bash
-$ vue init nuxt-community/content-template my-site
+$ vue init nuxt-community/nuxtent-starter my-site
 $ cd my-site
 # install dependencies
 $ npm install # Or yarn install
