@@ -7,7 +7,7 @@ title: Installation
 If you're starting a new site, you can use the `nuxtent` starter template.
 
 ```bash
-$ vue init nuxt-community/content-template my-site
+$ vue init nuxt-community/nuxtent-starter my-site
 $ cd my-site
 # install dependencies
 $ npm install # Or yarn install

@@ -66,7 +66,7 @@ Is converted to:
 
 ```
 
-And when the file is converted into a component, will be imported as:
+And imported as:
 
 ```
 {

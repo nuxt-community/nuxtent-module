@@ -8,7 +8,7 @@
     "@nuxtjs/axios": "^2.2.1",
     "markdown-it-anchor": "^4.0.0",
     "nuxt": "latest",
-    "nuxtent": "^0.2.9",
+    "nuxtent": "file:..",
     "prismjs": "^1.6.0"
   },
   "scripts": {
