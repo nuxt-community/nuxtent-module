@@ -53,24 +53,29 @@ Usage Syntax: `@[pathToComponent](componentProps)`
 
 As you can tell, the syntax is similar to `links`, except it is prefixed by an `at sign`. This which helps `Nuxtent` detect a component so that it can dynamically import it.
 
+*Note: all imports are relative to `~components` directory*
+
 For example, this markdown component:
 
 ```
-@[project](name="Hello World")
+@[example/project](name="Hello World")
 ```
 
 Is converted to:
 
 ```
-<Project name="Hello World") />
+<ExampleProject name="Hello World") />
 
 ```
 
-And imported as:
+And imported and registered as:
 
 ```
-{
-  Project: () => '~components/project.vue'
+import ExampleProject from '~components/project.vue'
+export default {
+  components: {
+    ExampleProject
+  }
 }
 ```
 
