@@ -1,9 +1,8 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "@nuxtjs/content module example",
+  "description": "nuxtent multiple content types example",
   "author": "Alid Castano <alidcastano@gmail.com>",
-  "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
     "nuxt": "^1.0.0-alpha.4",
