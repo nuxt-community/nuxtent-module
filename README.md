@@ -18,7 +18,7 @@ There you go: four reasons to give `Nuxtent` a try, and maybe even star and [sha
 
 ## Quick Start
 
-If you're starting a new site, you can use the [content-template](https://github.com/nuxt-community/content-template).
+If you're starting a new site, you can use the [nuxtent-starter](https://github.com/nuxt-community/content-template) template.
 
 ``` bash
 $ vue init nuxt-community/nuxtent-starter my-site
