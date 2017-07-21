@@ -4,7 +4,7 @@ title: Writing Your Content
 
 # Front Matter and Body
 
-Nuxtent processes markdown files in two main parts: the data contained in the file's `front-matter` and all the other data contained after it. The front-matter data will be destructed, while the body of the file will be appropriately available under the `body` property.
+Nuxtent processes markdown files in two main parts: the data contained in the file's `front-matter` and all the other data contained after it. The front-matter data will be destructured, while the body of the file will be appropriately available under the `body` property.
 
 The front matter must follow three rules:
 
