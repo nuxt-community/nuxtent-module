@@ -42,7 +42,7 @@ Some examples:
 - `pages/_blog/_post` -> `blog-post`
 - `pages/projects/_name` -> `projects-name`
 
-## Multiple Content Types
+### Multiple Content Types
 
 You can specifiy multiple content types by passing an array of registered directories and their respective options:
 
@@ -70,6 +70,22 @@ module.exports = {
 #### Permalink Configuration Warning
 
 You can only have one dynamic page per route level, so you have to be extra mindful of how you configure multiple directories in order to avoid conflict. For example: having both `:year/:slug` and `:section/:slug` would cause conflict and as only one page route would get matched. To avoid this, as a general rule hard code sections whenever possible. The example above, for example can be easily replaced with `someSection/:slug` and `:year/slug`, instead.
+
+# API Options
+
+For custom environments, you must configure the `baseURL`, so that the content's `serverMiddleware` API and `axios` requests helpers can be setup appropriately.
+
+- `baseURL`, a Function, that get's passed the development environment as the first argument and expects the site's base url.
+  - When you run `npm run dev`, `isProduction` will be false. When you run `npm run build` or `npm run generate`, `isProduction` will be true.
+
+```js
+module.exports = {
+ api: {
+   baseURL: (isProd) => 'http://production-url.com' : 'http://localhost:3000'
+ }
+}
+
+```
 
 # Parser Options
 
