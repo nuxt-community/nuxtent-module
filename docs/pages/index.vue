@@ -6,32 +6,38 @@ div.main-container
     div.nav-container
       button.mobile-menu-button.menu-label(@click="toggleDisplay") GUIDE
       div.menu-container(:style="menuStyle")
-        ul.nav-links(v-for="item in menu")
+        ul.nav-links(v-for="lesson in menu")
           li.nav-link-container
-            nuxt-link.nav-link(:to="item.link") {{ item.title }}
+            nuxt-link.nav-link(:to="lesson.permalink") {{ lesson.title }}
             ul.nav-nested-links(
-                v-if="item.anchors && item.showAnchors"
-                v-for="anchor in item.anchors"
+                v-if="lesson.anchors && lesson.showAnchors"
+                v-for="anchor in lesson.anchors"
               )
               li.sub-nav-link-container
-                nuxt-link.nav-nested-link(:to="item.link + anchor.link") {{ anchor.title }}
+                nuxt-link.nav-nested-link(:to="lesson.permalink + anchor[0]")
+                  | {{ anchor[1] }}
   div.guide-container(:style="guideStyle")
     nuxt-child
 </template>
 
 
 <script>
-import siteMenu from '../nuxt.menu.js'
-
 export default {
-  data: () => ({
-    showMenu: false,
-    showGuide: true,
-    updateAnchors: false
-  }),
+  asyncData: async ({ app, route, payload}) => {
+    return {
+      showMenu: false,
+      showGuide: true,
+      updateAnchors: false,
+      guide: await app.$content('/').getAll() || payload
+    }
+  },
   computed: {
     menu () {
-      return toggleAnchors(this.$route.path)
+      return this.guide.map(lesson => {
+        if (lesson.permalink === this.$route.path) lesson.showAnchors = true
+        else lesson.showAnchors = false
+        return lesson
+      })
     },
     menuStyle () {
       return { 'display': this.showMenu ? 'block' : 'none' }
@@ -52,15 +58,6 @@ export default {
       this.showGuide = !this.showGuide
     }
   }
-}
-
-function toggleAnchors(path) {
-  const menu = siteMenu.map(item => {
-    if (item.link === path) item.showAnchors = true
-    else item.showAnchors = false
-    return item
-  })
-  return menu
 }
 </script>
 

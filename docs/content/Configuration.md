@@ -102,7 +102,7 @@ Here's an example setup:
 // nuxtent.config.js
 const Prism = require('prismjs')
 module.exports = {
-  parser: {
+  parsers: {
     md: {
       highlight: (code, lang) => {
         return Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
@@ -116,7 +116,7 @@ module.exports = {
   ...
   css: [
     'prismjs/themes/prism-coy.css'
-  ]  
+  ]
 }
 ```
 

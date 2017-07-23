@@ -1,5 +1,5 @@
 const Prism = require('prismjs')
-const markdownAnchor = require('markdown-it-anchor')
+const externalLinks = require('markdown-it-link-attributes')
 
 module.exports = {
   content: {
@@ -8,15 +8,15 @@ module.exports = {
     isPost: false
   },
 
-  parser: {
+  parsers: {
     md: {
       highlight: (code, lang) => {
         return Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
       },
       use: [
-        [markdownAnchor, {
-          level: 1,
-          permalinkClass: 'nuxt-header-anchor'
+        [externalLinks, {
+          target: '_blank',
+          rel: 'noopener'
         }]
       ]
     }

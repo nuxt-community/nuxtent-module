@@ -2,7 +2,7 @@
 title: Using Your Compiled Content
 ---
 
-## Fetching Content
+# Fetching Content
 
 ### The `$Content` Method
 
@@ -18,7 +18,7 @@ Nuxtent injects the `$content` helper into Nuxt's `content.app` instance that al
 
 If you'd like to generate the content for a static site, you must use the [`payload`](https://nuxtjs.org/api/configuration-generate) as backup.
 
-## Rendering Content
+# Rendering Content
 
 ### The `<nuxtent-body>` Component
 
