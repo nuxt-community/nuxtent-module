@@ -15,7 +15,7 @@ The front matter must follow three rules:
 
 Here is a basic example:
 
-```bash
+```md
 ---
 title: Nuxtent
 ---
@@ -26,7 +26,7 @@ title: Nuxtent
 
 Will result in the following data:
 
-```
+```json
 {
   title: 'Nuxtent',
   body: '<p>...is awesome!</p>'
@@ -58,20 +58,19 @@ As you can tell, the syntax is similar to `links`, except it is prefixed by an `
 
 For example, this markdown component:
 
-```
+```md
 @[example/project](name="Hello World")
 ```
 
 Is converted to:
 
-```
+```html
 <ExampleProject name="Hello World") />
-
 ```
 
 And imported and registered as:
 
-```
+```js
 import ExampleProject from '~components/project.vue'
 export default {
   components: {
