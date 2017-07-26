@@ -1,7 +1,10 @@
 <template lang="pug">
 section.guide-main
   h1.post-title {{ lesson.title }}
-  nuxtent-body.guide-content(:body="lesson.body")
+  //- TODO replace this when JSX rendering of HTML is fixed
+  //- nuxtent-body.guide-content(:body="lesson.body")
+  nuxtent-body.guide-content(v-if="isObject(lesson.body)" :body="lesson.body")
+  div.guide-content(v-else v-html="lesson.body")
 </template>
 
 <script>
@@ -9,6 +12,11 @@ export default {
   async asyncData ({ app, params, payload }) {
     return {
       lesson: await app.$content('/').get(params.slug) || payload
+    }
+  },
+  methods: {
+    isObject (body) {
+      return typeof body === 'object'
     }
   }
 }
