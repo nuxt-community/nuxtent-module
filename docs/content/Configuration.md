@@ -13,7 +13,7 @@ All content options are configured under the `content` property.
 
 Here are the possible options:
 
-- `permalink`, String that specifies dynamic url path parameters. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`
+- `permalink`, String that specifies dynamic url path parameters. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`.
 - `isPost`, Boolean that specifies whether the content requires a date. The default is true.
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
 - `routes`, Array that configures the route where you inteded to request content at. Each option is an Object that takes in the route's `name` and [API request `method`](/guide/usage#fetching-content). This is required, so that the page's route path can be changed to match the content's permalink configuration and so that, if necessary, the content can be generated for static builds. (*Note: See below for information on how to specify route names.*).
@@ -22,8 +22,9 @@ Here's an example `nuxt.content.js` file:
 
 ```js
 module.exports = {
+// content/HelloWorld.md --> posts/hello-world
  content: {
-   permalink: ':slug',   // content/HelloWorld.md -> /hello-world
+   permalink: ':slug',
    isPost: false,
    routes: [
      {
@@ -37,10 +38,19 @@ module.exports = {
    ]
  }
 }
-
 ```
 
 *Note: If you are using Nuxtent for a static site, there is a temporary limitations with using `getAll`. See [here](https://github.com/nuxt-community/nuxtent/issues/22) for more details*
+
+#### Content url path considerations
+
+It is important to notice that the complete content path will be prefixed by the Nuxt page's parent route.
+
+For example:
+* In `pages/_posts`, the content path would not be prefixed since it is a top level dynamic route.
+* In `pages/guide/_slug`, the content path would be prefixed by '/guide' since it is a nested dynamic route.
+
+Thus, when [fetching content](/usage#fetching-content), you must use Nuxt's `route.path` or `route.params` appropriately to grab the content's permalink.
 
 #### Nuxt Route Naming Conventions
 
@@ -58,24 +68,34 @@ You can specifiy multiple content types by passing an array of registered direct
 ```js
 module.exports = {
   content: [
+    // content/posts/2013-01-10-1st.md --> 2013/1st
     ["posts", {
-      permalink: ':year/:slug', // content/posts/2013-01-10-1st.md -> /2013/1st
+      permalink: ':year/:slug',
       data: {
         author: "Alid Castano"
-      }
+      },
+      routes: [
+        {
+          name: ':slug',
+          method: 'get'
+        }
+      ]
     }],
+    // content/projects/Nuxtent.md --> projects/nuxtent
     ["projects", {
-      permalink: "projects/:slug", // content/projects/Nuxtent.md - /projects/nuxtent
-      isPost: false
+      permalink: ":slug",
+      isPost: false,
+      routes: [
+        {
+          name: 'projects-slug',
+          method: 'get'
+        }
+      ]
     }]
   ]
 }
 
 ```
-
-#### Permalink Configuration Warning
-
-You can only have one dynamic page per route level, so you have to be extra mindful of how you configure multiple directories in order to avoid conflict. For example: having both `:year/:slug` and `:section/:slug` would cause conflict and as only one page route would get matched. To avoid this, as a general rule hard code sections whenever possible. The example above, for example can be easily replaced with `someSection/:slug` and `:year/slug`, instead.
 
 # API Options
 
