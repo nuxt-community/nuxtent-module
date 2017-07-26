@@ -1,13 +1,23 @@
 module.exports = {
   content: [
     ['posts', {
-      routeName: "post",
-      permalink: ":year/:slug"
+      permalink: ":year/:slug",
+      routes: [
+        {
+          name: "post",
+          method: "get"
+        }
+      ]
     }],
     ['projects', {
-      routeName: "projects-name",
       permalink: "projects/:slug",
-      isPost: false
+      isPost: false,
+      routes: [
+        {
+          name: "projects-name",
+          method: "get"
+        }
+      ]
     }]
   ]
 }

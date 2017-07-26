@@ -27,11 +27,8 @@ export default {
     showMenu: false,
     showGuide: true,
     updateAnchors: false,
-    guide: (await app.$content('/').getAll() || payload).sort((p1, p2) => {
-      if (p1.order < p2.order) return -1
-      if (p1.order > p2.order) return 1
-      else return 0
-    })
+    guide: (await app.$content('/').getAll() || payload)
+      .sort((p1, p2) => p1.order - p2.order)
   }),
 
   computed: {
