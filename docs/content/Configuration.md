@@ -15,8 +15,10 @@ Here are the possible options:
 
 - `permalink`, String that specifies dynamic url path parameters. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`.
 - `isPost`, Boolean that specifies whether the content requires a date. The default is true.
+- `anchorLevel`, Number that specifies the heading level that you wish to be converted to link anchors for navigation within the content's body. Defaults to 1, so any `H1` in a `md` file will be converted.
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
 - `routes`, Array that configures the route where you inteded to request content at. Each option is an Object that takes in the route's `name` and [API request `method`](/guide/usage#fetching-content). This is required, so that the page's route path can be changed to match the content's permalink configuration and so that, if necessary, the content can be generated for static builds. (*Note: See below for information on how to specify route names.*).
+  - Since the page's route path is override to match the content's permalink, the page that the route `name` refers to can only be a nested one level deep.
 
 Here's an example `nuxt.content.js` file:
 

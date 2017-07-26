@@ -19,6 +19,12 @@ Nuxtent injects the `$content` helper into Nuxt's `content.app` instance that al
 
 If you'd like to generate the content for a static site, you must use the [`payload`](https://nuxtjs.org/api/configuration-generate) as backup.
 
+# Navigating Content
+
+Each page is passed its `permalink` and `anchors` as data, which you can use to automatically create navigation to all content pages.
+
+The `anchors` property is an 2D array, where for each item the first index, `anchor[0]` is the link attribute and the second index, `anchor[1]`, is the heading's text.
+
 # Rendering Content
 
 ### The `<nuxtent-body>` Component

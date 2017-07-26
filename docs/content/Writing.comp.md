@@ -43,6 +43,7 @@ Here is a list of reserved attributes:
 - `date`, contains the file's date if it is a post, otherwise it defaults to the date the file was last updated.
 - `permalink`, contains the file's resulting permalink.
 - `body`, contains the content below the `front-matter`.
+- `anchors`, contains the page's heading that were converted to link anchors for page navigation.
 
 # Async Components
 
