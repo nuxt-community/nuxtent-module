@@ -1,5 +1,6 @@
 ---
 title: Using Your Compiled Content
+order: 5
 ---
 
 # Fetching Content
@@ -24,6 +25,7 @@ If you'd like to generate the content for a static site, you must use the [`payl
 
 Nuxtent globally registers the `<nuxtent-body>` component so that you can easily register the body of the content file, regardless of whether it was compiled as a `vue component` or `html`.
 
+*Note: These is currently a bug rendering HTML using JSX, which is how `nuxtent-body` does it. See [here](https://github.com/nuxt-community/nuxtent/issues/15) for workarounds*
 
 ## Usage Example
 

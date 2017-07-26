@@ -1,5 +1,6 @@
 ---
 title: Configuring Your Content
+order: 3
 ---
 
 Nuxtent converts all your content files `json` so that they can be used flexibly within Nuxt pages.
@@ -12,26 +13,34 @@ All content options are configured under the `content` property.
 
 Here are the possible options:
 
-- `routeName`, String that specifies the name of the dynamic page route that you intend to use as the content's page. This is required, so that the page's route path can be changed to match the content's permalink configuration. (*Note: See below for information on Nuxt's route naming convention.*).
 - `permalink`, String that specifies dynamic url path parameters. The possible options are `:slug`, `:section`, `:year`, `:month`, `:day`
 - `isPost`, Boolean that specifies whether the content requires a date. The default is true.
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
-
-
-*Note: All paths are relative to Nuxt root directory.*
+- `routes`, Array that configures the route where you inteded to request content at. Each option is an Object that takes in the route's `name` and [API request `method`](/guide/usage#fetching-content). This is required, so that the page's route path can be changed to match the content's permalink configuration and so that, if necessary, the content can be generated for static builds. (*Note: See below for information on how to specify route names.*).
 
 Here's an example `nuxt.content.js` file:
 
 ```js
 module.exports = {
  content: {
-   routeName: 'index-slug', // pages/index/_slug.vue
    permalink: ':slug',   // content/HelloWorld.md -> /hello-world
-   isPost: false
+   isPost: false,
+   routes: [
+     {
+       name: 'posts-slug', // pages/posts/_slug
+       method: 'get'
+     },
+     {
+       name: 'archive', // pages/archive
+       method: 'getAll'
+     }
+   ]
  }
 }
 
 ```
+
+*Note: If you are using Nuxtent for a static site, there is a temporary limitations with using `getAll`. See [here](https://github.com/nuxt-community/nuxtent/issues/22) for more details*
 
 #### Nuxt Route Naming Conventions
 
@@ -48,21 +57,18 @@ You can specifiy multiple content types by passing an array of registered direct
 
 ```js
 module.exports = {
-  content: {
+  content: [
     ["posts", {
-      routeName: "post", // pages/_post.vue
       permalink: ':year/:slug', // content/posts/2013-01-10-1st.md -> /2013/1st
       data: {
         author: "Alid Castano"
       }
     }],
     ["projects", {
-      routeName: "projects-slug", // pages/projects/_slug.vue
       permalink: "projects/:slug", // content/projects/Nuxtent.md - /projects/nuxtent
       isPost: false
     }]
-   ]
-  }
+  ]
 }
 
 ```

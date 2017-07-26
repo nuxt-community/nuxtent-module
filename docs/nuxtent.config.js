@@ -3,9 +3,18 @@ const externalLinks = require('markdown-it-link-attributes')
 
 module.exports = {
   content: {
-    routeName: 'index-lesson',
     permalink: ':slug',
-    isPost: false
+    isPost: false,
+    routes: [
+      {
+        name: 'guide-slug',
+        method: 'get'
+      },
+      {
+        name: 'guide',
+        method: 'getAll'
+      }
+    ]
   },
 
   parsers: {
@@ -23,6 +32,8 @@ module.exports = {
   },
 
   api: {
-    baseURL: (isProd) => isProd ? 'https://nuxtent.now.sh' : 'http://localhost:3000'
+    baseURL: (isProd) => isProd && !(process.env.NODE_ENV === 'development')
+      ? 'https://nuxtent.now.sh'
+      : 'http://localhost:3000'
   }
 }

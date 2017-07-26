@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "nuxtent docs ",
   "author": "",
-  "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-link-attributes": "^1.0.0",
     "nuxt": "latest",
-    "nuxtent": "file:..",
+    "nuxtent": "^0.2.33",
     "prismjs": "^1.6.0"
   },
   "scripts": {
@@ -31,7 +30,6 @@
     "eslint-plugin-standard": "^2.0.1",
     "node-sass": "^4.5.3",
     "pug": "^2.0.0-rc.2",
-    "push-dir": "^0.4.1",
     "sass-loader": "^6.0.6"
   }
 }

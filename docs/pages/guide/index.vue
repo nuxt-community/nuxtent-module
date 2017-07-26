@@ -5,13 +5,12 @@ div.lead-container
     p.lead-slogan
       | With Nuxtent installed, creating a content heavy site with Nuxt is as easy
       | as using Jekyll, Hexo, or any other static site generator–except better.
-    nuxt-link.lead-link(to="/introduction") Get Started
+    nuxt-link.lead-link(to="/guide/introduction") Get Started
   div.featured-lesson
     h3 Featured Lesson:
-    a(href="/writing#async-components")
+    a(href="/guide/writing#async-components")
       h1.lesson-title Use Vue Components in Your Markdown Files!
 </template>
-
 
 <style lang="sass">
 $tablet-width: 640px

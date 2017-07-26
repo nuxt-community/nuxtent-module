@@ -1,5 +1,6 @@
 ---
 title: Writing Your Content
+order: 4
 ---
 
 # Front Matter and Body
