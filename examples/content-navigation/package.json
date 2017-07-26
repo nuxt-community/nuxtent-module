@@ -7,13 +7,13 @@
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
     "nuxt": "^1.0.0-alpha.4",
-    "nuxtent": "file:../.."
+    "nuxtent": "^0.2.34"
   },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
+    "generate": "IS_STATIC=true nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
