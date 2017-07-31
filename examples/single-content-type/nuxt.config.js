@@ -1,8 +1,6 @@
-const nuxtent = require('../..')
-
 module.exports = {
   modules: [
-    nuxtent
+    'nuxtent'
   ],
   nuxtent: {
     content: {

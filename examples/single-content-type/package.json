@@ -5,7 +5,8 @@
   "author": "Alid Castano <alidcastano@gmail.com>",
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
-    "nuxt": "^1.0.0-alpha.4"
+    "nuxt": "^1.0.0-alpha.4",
+    "nuxtent": "file:///Users/acastano/Sites/nuxt/nuxtent"
   },
   "scripts": {
     "dev": "nuxt",
