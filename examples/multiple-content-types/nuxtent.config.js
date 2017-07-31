@@ -4,11 +4,11 @@ module.exports = {
       permalink: ":year/:slug",
       routes: [
         {
-          name: "post",
+          path: "/_post",
           method: "get"
         },
         {
-          name: "archives",
+          path: "/archives",
           method: "getAll"
         }
       ]
@@ -18,11 +18,11 @@ module.exports = {
       isPost: false,
       routes: [
         {
-          name: "projects-name",
+          path: "/projects/_slug",
           method: "get"
         },
         {
-          name: "projects",
+          path: "/projects",
           method: "getAll"
         }
       ]

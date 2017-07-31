@@ -4,14 +4,14 @@ module.exports = {
   ],
   nuxtent: {
     content: {
-      permalink: '/:year/:slug',
+      permalink: ':year/:slug',
       routes: [
         {
-          name: 'post',
+          path: '_post',
           method: 'get'
         },
         {
-          name: 'archives',
+          path: 'archives',
           method: 'getAll'
         }
       ]
