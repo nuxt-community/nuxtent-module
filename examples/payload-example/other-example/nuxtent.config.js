@@ -4,11 +4,11 @@ module.exports = {
     isPost: false,
     routes: [
       {
-        name: "guide-slug",
+        path: "/guide/_slug",
         method: "get"
       },
       {
-        name: "guide",
+        path: "/guide",
         method: "getAll"
       }
     ]
