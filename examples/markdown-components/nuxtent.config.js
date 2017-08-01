@@ -1,10 +1,10 @@
 module.exports = {
   content: {
-    permalink: ":slug",
+    permalink: "/:slug",
     isPost: false,
     routes: [
       {
-        name: "slug",
+        path: "_slug",
         method: "get"
       }
     ]

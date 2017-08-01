@@ -1,15 +1,16 @@
 ---
-name: My first Project!
+title: My first Project!
 ---
 
 ### Here's my demo:
 
 @[project]()
 
-
 ### Here's the code:
 
 Template:
+
+So it works on client side renderning but not on refresh...
 
 ```html
 <div>
