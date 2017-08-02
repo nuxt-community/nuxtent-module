@@ -10,7 +10,6 @@
 <script>
 export default {
   async asyncData ({ app, params, payload }) {
-    console.log(params.slug)
     return {
       lesson: await app.$content('/').get(params.slug) || payload
     }
