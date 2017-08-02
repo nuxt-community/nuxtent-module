@@ -6,16 +6,16 @@ const host = 'localhost'
 const port = 3000
 const url = (route) => `http://${host}:${port}/${route}`
 
-const basicConfig =require(resolve(__dirname, 'fixtures/nuxt.config.js'))({
+const basicConfig = require(resolve(__dirname, 'fixtures/nuxt.config.js'))({
   content: {
     permalink: '/:year/:slug',
     routes: [
       {
-        name: 'post',
+        path: '/_post',
         method: 'get'
       },
       {
-        name: 'archives',
+        path: '/archives',
         method: 'getAll'
       }
     ]
@@ -33,6 +33,7 @@ test.before('Init Nuxt and Nuxtent', async () => {
   }, basicConfig)
 
   nuxt = new Nuxt(config)
+  // await new Builder(nuxt).build()
   await nuxt.listen(port, host)
 })
 
