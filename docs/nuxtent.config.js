@@ -7,11 +7,11 @@ module.exports = {
     isPost: false,
     routes: [
       {
-        name: 'guide-slug',
+        path: 'guide/_slug',
         method: 'get'
       },
       {
-        name: 'guide',
+        path: 'guide',
         method: 'getAll'
       }
     ]
@@ -32,7 +32,7 @@ module.exports = {
   },
 
   api: {
-    baseURL: (isProd) => isProd && !(process.env.NODE_ENV === 'development')
+    baseURL: process.env.NODE_ENV === 'production'
       ? 'https://nuxtent.now.sh'
       : 'http://localhost:3000'
   }

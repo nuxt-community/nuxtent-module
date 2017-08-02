@@ -15,7 +15,7 @@ module.exports = {
   ],
   css: [
     'prismjs/themes/prism-coy.css',
-    { src: '~assets/sass/base.sass', lang: 'sass' }
+    { src: '~/assets/sass/base.sass', lang: 'sass' }
   ],
   loading: { color: '#35495e' }
 }

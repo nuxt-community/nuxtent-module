@@ -17,8 +17,9 @@ Here are the possible options:
 - `isPost`, Boolean that specifies whether the content requires a date. The default is true.
 - `anchorLevel`, Number that specifies the heading level that you wish to be converted to link anchors for navigation within the content's body. Defaults to 1, so any `H1` in a `md` file will be converted.
 - `data`, Object that specifies that additional data that you would like injected into your content's component.
-- `routes`, Array that configures the route where you inteded to request content at. Each option is an Object that takes in the route's `name` and [API request `method`](/guide/usage#fetching-content). This is required, so that the page's route path can be changed to match the content's permalink configuration and so that, if necessary, the content can be generated for static builds. (*Note: See below for information on how to specify route names.*).
-  - Since the page's route path is override to match the content's permalink, the page that the route `name` refers to can only be a nested one level deep.
+- `routes`, Array that configures the route where you inteded to request content at. Each option is an Object that takes in the route's `path` and `method`. This is required, so that the page's route path can be changed to match the content's permalink configuration and so that, if necessary, the appropriate content data can be generated for static builds.
+  - `route.path`, String that specifies page directory where content is being requested.
+  - `route.method`, String that specifies the [API request `method`](/guide/usage#fetching-content) used.
 
 Here's an example `nuxt.content.js` file:
 
@@ -30,11 +31,11 @@ module.exports = {
    isPost: false,
    routes: [
      {
-       name: 'posts-slug', // pages/posts/_slug
+       path: '/posts/_slug',
        method: 'get'
      },
      {
-       name: 'archive', // pages/archive
+       path: '/archive',
        method: 'getAll'
      }
    ]
@@ -54,14 +55,6 @@ For example:
 
 Thus, when [fetching content](/usage#fetching-content), you must use Nuxt's `route.path` or `route.params` appropriately to grab the content's permalink.
 
-#### Nuxt Route Naming Conventions
-
-When specifying the routeName, you have to mentally serialize the name based on the route's directory path. As a general rule, just ignore all initial `underscores` and file `extensions`, and separate any remaining words by a `hypen`.
-
-Some examples:
-- `pages/_article` -> `article`
-- `pages/_blog/_post` -> `blog-post`
-- `pages/projects/_name` -> `projects-name`
 
 ### Multiple Content Types
 
@@ -70,26 +63,21 @@ You can specifiy multiple content types by passing an array of registered direct
 ```js
 module.exports = {
   content: [
-    // content/posts/2013-01-10-1st.md --> 2013/1st
     ["posts", {
       permalink: ':year/:slug',
-      data: {
-        author: "Alid Castano"
-      },
       routes: [
         {
-          name: ':slug',
+          path: '/_slug',
           method: 'get'
         }
       ]
     }],
-    // content/projects/Nuxtent.md --> projects/nuxtent
     ["projects", {
       permalink: ":slug",
       isPost: false,
       routes: [
         {
-          name: 'projects-slug',
+          path: '/projects/_slug',
           method: 'get'
         }
       ]
@@ -103,13 +91,16 @@ module.exports = {
 
 For custom environments, you must configure the `baseURL`, so that the content's `serverMiddleware` API and `axios` requests helpers can be setup appropriately.
 
-- `baseURL`, a Function, that get's passed the development environment as the first argument and expects the site's base url.
-  - When you run `npm run dev`, `isProduction` will be false. When you run `npm run build` or `npm run generate`, `isProduction` will be true.
+- `baseURL`, String that specifies that the site's base url.
+
+*Note: You can use environment variables to dynamically set the base url.*
 
 ```js
 module.exports = {
  api: {
-   baseURL: (isProd) => 'http://production-url.com' : 'http://localhost:3000'
+   baseURL: process.env.NODE_ENV === 'production'
+    ? 'http://production-url.com'
+    : 'http://localhost:3000'
  }
 }
 
