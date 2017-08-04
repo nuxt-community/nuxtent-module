@@ -1,6 +1,6 @@
 {
-  "name": "@linclark/nuxtent",
-  "version": "0.2.57",
+  "name": "nuxtent",
+  "version": "0.2.59",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
   "contributors": [
