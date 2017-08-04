@@ -1,0 +1,26 @@
+#! /usr/bin/env node
+
+const { join } = require('path')
+
+const defaultCommand = 'generate'
+const commands = new Set([
+  defaultCommand
+])
+
+var cmd = process.argv[2]
+
+if (commands.has(cmd)) {
+  process.argv.splice(2, 1)
+} else {
+  cmd = defaultCommand
+}
+
+const bin = join(__dirname, 'nuxtent-' + cmd)
+
+process.on('unhandledRejection', function (err) {
+  /* eslint-disable no-console */
+  console.error(err)
+  console.error('[nuxt] Unhandled promise rejection: ' + err)
+})
+
+require(bin)

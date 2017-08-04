@@ -1,16 +1,14 @@
 {
-  "name": "nuxtent",
+  "name": "@linclark/nuxtent",
   "version": "0.2.57",
   "description": "Content Module for Nuxt.js.",
   "main": "dist/module.js",
   "contributors": [
-    {
-      "name": "Alid Castano (@alidcastano)"
-    }
+    "Alid Castano (@alidcastano)"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nuxt-community/nuxtent-module"
+    "url": "git+https://github.com/nuxt-community/nuxtent-module.git"
   },
   "keywords": [
     "Nuxt.js",
@@ -23,6 +21,9 @@
     "Static"
   ],
   "license": "MIT ",
+  "bin": {
+    "nuxtent": "bin/nuxtent"
+  },
   "scripts": {
     "test": "cross-env NODE_ENV=test ava --verbose --serial tests/",
     "build": "NODE_ENV=production rollup -c rollup.config.js",
@@ -66,5 +67,16 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify-es": "0.0.1",
     "rollup-watch": "^4.0.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/nuxt-community/nuxtent-module/issues"
+  },
+  "homepage": "https://github.com/nuxt-community/nuxtent-module#readme",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "author": "Alid Castano"
 }
