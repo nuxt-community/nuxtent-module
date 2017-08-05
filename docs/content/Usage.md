@@ -9,15 +9,28 @@ order: 5
 
 Nuxtent injects the `$content` helper into Nuxt's `content.app` instance that allow you to dynamically request your content data inside pages.
 
-* `$content`,  Function, that takes as its first argument the name of the registered directory whose content you are requesting. The function fetches all the data from the markdown files inside that directory and returns two methods, `get` and `getAll`, for accessing the requested content.
+* `$content`,  Function, that takes as its first argument the name of the registered directory whose content you are requesting. The function fetches all the data from the markdown files inside that directory and returns the request modifiers and methods below for accessing the desired content.
+  * `query`, Object that accepts query options to add to the content's request and returns the `$content` object. Here are the options:
+    * `exclude`: String or Array of page properties that are not needed and should be excluded from request.
   * `get`, Function, takes in the content's permalink and returns a promise that contains the content of that specific route.
-  * `getAll` Function, takes no arguments and returns a promise that contains all the content data retrieved from the registered directory.
+  * `getOnly`, Function that takes in the start index and end index as arguments and returns a promise of all the pages within that the range. All content file ordering is reserved, so if it the content is dated, it's sorted from latest to oldest.
+  * `getAll` Function, that returns promise of all the content data retrieved from the registered directory.
 
 *Note: You must use Nuxt's `asyncData` or `fetch` methods in order to request content, which are only available inside pages*
 
-### Payload
+Here's an usage of the `app.$content` helper inside a Nuxt page:
 
-If you'd like to generate the content for a static site, you must use the [`payload`](https://nuxtjs.org/api/configuration-generate) as backup.
+```js
+export default {
+  async asyncData ({ app }) {
+    return {
+      contentPreview: await app.$content('/')
+      .query({ exclude: ['attributes', 'body'] })
+      .getAll()
+    }
+  }
+}
+```
 
 # Navigating Content
 
@@ -31,7 +44,7 @@ The `anchors` property is an 2D array, where for each item the first index, `anc
 
 Nuxtent globally registers the `<nuxtent-body>` component so that you can easily register the body of the content file, regardless of whether it was compiled as a `vue component` or `html`.
 
-*Note: These is currently a bug rendering HTML using JSX, which is how `nuxtent-body` does it. See [here](https://github.com/nuxt-community/nuxtent/issues/15) for workarounds*
+*Note: There is currently a bug rendering HTML using JSX, which is how `nuxtent-body` does it. See [here](https://github.com/nuxt-community/nuxtent/issues/15) for workarounds.*
 
 ## Usage Example
 

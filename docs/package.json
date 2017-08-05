@@ -7,15 +7,15 @@
     "@nuxtjs/axios": "^2.2.1",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-link-attributes": "^1.0.0",
-    "nuxt": "1.0.0-alpha.3",
-    "nuxtent": "^0.2.57",
+    "nuxt": "^1.0.0-alpha.3",
+    "nuxtent": "^0.2.59",
     "prismjs": "^1.6.0"
   },
   "scripts": {
     "dev": "nuxt",
     "build": "NODE_ENV='production' nuxt build",
     "start": "NODE_ENV='production' nuxt start",
-    "generate": "nuxt generate",
+    "generate": "IS_STATIC=true nuxtent generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "precommit": "npm run lint"

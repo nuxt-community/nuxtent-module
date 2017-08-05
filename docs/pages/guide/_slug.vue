@@ -9,9 +9,9 @@ section.guide-main
 
 <script>
 export default {
-  async asyncData ({ app, params, payload }) {
+  async asyncData ({ app, params }) {
     return {
-      lesson: await app.$content('/').get(params.slug) || payload
+      lesson: await app.$content('/').get(params.slug)
     }
   },
   methods: {

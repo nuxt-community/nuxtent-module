@@ -23,11 +23,11 @@ div.main-container
 
 <script>
 export default {
-  asyncData: async ({ app, payload, route }) => ({
+  asyncData: async ({ app, route }) => ({
     showMenu: false,
     showGuide: true,
     updateAnchors: false,
-    guide: (await app.$content('/').getAll() || payload)
+    guide: (await app.$content('/').getAll())
       .sort((p1, p2) => p1.order - p2.order)
   }),
 

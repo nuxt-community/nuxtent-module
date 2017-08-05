@@ -3,17 +3,12 @@ const externalLinks = require('markdown-it-link-attributes')
 
 module.exports = {
   content: {
+    page: 'guide/_slug',
     permalink: ':slug',
     isPost: false,
-    routes: [
-      {
-        path: 'guide/_slug',
-        method: 'get'
-      },
-      {
-        path: 'guide',
-        method: 'getAll'
-      }
+    generate: [
+      'get',
+      'getAll'
     ]
   },
 
