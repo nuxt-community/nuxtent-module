@@ -2,6 +2,9 @@
 <a href="https://david-dm.org/nuxt-community/nuxtent-module">
     <img alt="" src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square">
 </a>
+<a href="https://greenkeeper.io/">
+    <img alt="" src="https://badges.greenkeeper.io/nuxt-community/nuxtent-module.svg">
+</a>
 <a href="https://standardjs.com">
     <img alt="" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square">
 </a>
