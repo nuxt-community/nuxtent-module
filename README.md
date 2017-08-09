@@ -12,7 +12,7 @@ But, we didn't just want to make Nuxtent as good as a static site generator–we
 So, along with that, Nuxtent also supports:
 
 3. The usage of content files in both static sites and dynamic applications.
-4. The usage of `async components` inside markdown files.
+4. The usage of `Vue components` inside markdown files.
 
 There you go: four reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
 
@@ -42,10 +42,33 @@ modules: [
  ]
 ```
 
+## Simple yet flexible API
+
+Nuxtent's main focus was to integrate into Nuxt. Otherwise, you're just building another Jekyll.
+
+So we've made the API for requesting the content simple yet flexible. All you have to do, after configuring the content, is fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
+
+Here's an exampple:
+
+```js
+export default {
+  asyncData: async ({ app, route }) => ({
+    posts: app.$content('posts').get(route.path)
+  })
+}
+```
+
 ## Documentation
 
-Documentation available at: https://nuxtent.now.sh/
+Documentation available at: https://nuxtent.now.sh/ (built with Nuxtent).
 
+## Sites built with Nuxtent
+
+### Personal Sites
+- [alidcastano.com](https://alidcastano.com/)[source](https://github.com/alidcastano/alidcastano)
+
+### Documentation Sites
+- [ency.now.sh](https://ency.now.sh/)[source](https://github.com/encyjs/docs)
 
 ### License
 
