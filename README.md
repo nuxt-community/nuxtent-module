@@ -18,13 +18,23 @@ There you go: four reasons to give `Nuxtent` a try, and maybe even star and [sha
 
 ## Simple yet flexible API
 
-Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same mental overhead...).
+Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same mental overhead.).
 
-So we've made the API for requesting the content simple yet flexible. All you have to do, after configuring the content, is fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
+As a result, the API simple yet flexible. All you have to do is 1) configure the content and 2) fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
 
-Here's an exampple:
+
+Here's a basic example:
 
 ```js
+// nuxtent.config.js
+module.exports = {
+  content: {
+    page: '/_post'
+    permalink: ':year/:slug'
+  }
+}
+
+// pages/_posts.vue
 export default {
   asyncData: async ({ app, route }) => ({
     posts: app.$content('posts').get(route.path)
