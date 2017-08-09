@@ -16,6 +16,22 @@ So, along with that, Nuxtent also supports:
 
 There you go: four reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
 
+## Simple yet flexible API
+
+Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same mental overhead...).
+
+So we've made the API for requesting the content simple yet flexible. All you have to do, after configuring the content, is fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
+
+Here's an exampple:
+
+```js
+export default {
+  asyncData: async ({ app, route }) => ({
+    posts: app.$content('posts').get(route.path)
+  })
+}
+```
+
 ## Quick Start
 
 If you're starting a new site, you can use the [nuxtent-starter](https://github.com/nuxt-community/content-template) template.
@@ -40,22 +56,6 @@ Then, under `nuxt.config.js` install the module:
 modules: [
    'nuxtent'
  ]
-```
-
-## Simple yet flexible API
-
-Nuxtent's main focus was to integrate into Nuxt. Otherwise, you're just building another Jekyll.
-
-So we've made the API for requesting the content simple yet flexible. All you have to do, after configuring the content, is fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
-
-Here's an exampple:
-
-```js
-export default {
-  asyncData: async ({ app, route }) => ({
-    posts: app.$content('posts').get(route.path)
-  })
-}
 ```
 
 ## Documentation
