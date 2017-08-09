@@ -18,7 +18,7 @@ There you go: four reasons to give `Nuxtent` a try, and maybe even star and [sha
 
 ## Simple yet flexible API
 
-Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same mental overhead.).
+Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same amount of mental overhead).
 
 As a result, the API simple yet flexible. All you have to do is 1) configure the content and 2) fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
 
