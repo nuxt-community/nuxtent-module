@@ -1,16 +1,7 @@
 module.exports = {
   content: {
+    page: '/guide/_slug',
     permalink: ":slug",
-    isPost: false,
-    routes: [
-      {
-        name: "guide-slug",
-        method: "get"
-      },
-      {
-        name: "guide",
-        method: "getAll"
-      }
-    ]
+    isPost: false
   }
 }

@@ -4,16 +4,10 @@ module.exports = {
   ],
   nuxtent: {
     content: {
+      page: '/_post'
       permalink: ':year/:slug',
-      routes: [
-        {
-          path: '_post',
-          method: 'get'
-        },
-        {
-          path: 'archives',
-          method: 'getAll'
-        }
+      generate: [ // assets to generate static build
+        'get', 'getAll'
       ]
     }
   }

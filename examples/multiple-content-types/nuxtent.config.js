@@ -1,31 +1,15 @@
 module.exports = {
   content: [
     ['posts', {
+      page: '/_post',
       permalink: ":year/:slug",
-      routes: [
-        {
-          path: "/_post",
-          method: "get"
-        },
-        {
-          path: "/archives",
-          method: "getAll"
-        }
-      ]
+      generate: ['get', 'getAll']
     }],
     ['projects', {
+      page: '/projects/slug',
       permalink: "/:slug",
       isPost: false,
-      routes: [
-        {
-          path: "/projects/_slug",
-          method: "get"
-        },
-        {
-          path: "/projects",
-          method: "getAll"
-        }
-      ]
+      generate: ['get', 'getAll']
     }]
   ]
 }
