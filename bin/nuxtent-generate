@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 process.env.DEBUG = process.env.DEBUG || 'nuxt:*'
+process.env.STATIC = true
 
 const fs = require('fs')
 const parseArgs = require('minimist')
