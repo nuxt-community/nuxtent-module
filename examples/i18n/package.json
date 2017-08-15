@@ -1,0 +1,14 @@
+{
+  "name": "nuxt-i18n",
+  "dependencies": {
+    "@nuxtjs/axios": "^3.1.4",
+    "nuxt": "latest",
+    "nuxtent": "file:///Users/acastano/Sites/nuxt/nuxtent"
+  },
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  }
+}
