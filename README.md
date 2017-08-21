@@ -15,7 +15,7 @@ So, along with that, Nuxtent also supports:
 4. The usage of `Vue components` inside markdown files.
 5. Automatic content navigation, between pages via `path` and within pages via `anchors`.
 
-There you go: four reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
+There you go: five reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
 
 ## Simple yet flexible API
 
