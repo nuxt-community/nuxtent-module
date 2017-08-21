@@ -19,7 +19,6 @@ module.exports = {
     routes: function () {
       return axios.get('http://localhost:3000/content-api')
       .then((res) => {
-        console.log(res.data)
         return res.data.map((page) => page.path )
       })
     }
