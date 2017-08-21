@@ -13,6 +13,7 @@ So, along with that, Nuxtent also supports:
 
 3. The usage of content files in both static sites and dynamic applications.
 4. The usage of `Vue components` inside markdown files.
+5. Automatic content navigation, between pages via `path` and within pages via `anchors`.
 
 There you go: four reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
 
@@ -74,11 +75,14 @@ Documentation available at: https://nuxtent.now.sh/ (built with Nuxtent).
 
 ## Sites built with Nuxtent
 
+*Have a site using Nuxtent? Fork the repo and add it to the list below!*
+
 ### Personal Sites
 - [alidcastano.com](https://alidcastano.com/) [source](https://github.com/alidcastano/alidcastano)
 
 ### Documentation Sites
 - [ency.now.sh](https://ency.now.sh/) [source](https://github.com/encyjs/docs)
+
 
 ### License
 
