@@ -7,9 +7,9 @@
 
 <script>
 export default {
-  async asyncData ({ app, route, payload }) {
+  async asyncData ({ app, route }) {
     return {
-      project: payload || await app.$content('/projects').get(route.params.slug)
+      project: await app.$content('/projects').get(route.params.slug)
     }
   }
 }

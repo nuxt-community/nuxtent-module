@@ -5,6 +5,8 @@
   "author": "Alid Castano <alidcastano@gmail.com>",
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
+    "@nuxtjs/sitemap": "0.0.3",
+    "axios": "^0.16.2",
     "nuxt": "^1.0.0-rc3",
     "nuxtent": "latest"
   },

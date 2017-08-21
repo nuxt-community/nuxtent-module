@@ -17,9 +17,11 @@
 
 <script>
 export default {
-  async asyncData ({ app, payload }) {
+  async asyncData ({ app }) {
     return {
-      lessons: await app.$content('/').getAll() || payload
+      lessons: await app.$content('/')
+      .query({ exlcude: ['attributes', 'body'] })
+      .getAll()
     }
   }
 }
