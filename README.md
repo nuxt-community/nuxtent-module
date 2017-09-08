@@ -30,8 +30,8 @@ Here's a basic example:
 // nuxtent.config.js
 module.exports = {
   content: {
-    page: '/_post'
-    permalink: ':year/:slug'
+    page: '/_post',
+    permalink: ':year/:slug'
   }
 }
 
