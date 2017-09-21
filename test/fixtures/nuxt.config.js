@@ -1,6 +1,10 @@
-const nuxtent = require('../..')
+import nuxtent from '../../lib/module'
 
-module.exports = (nuxtentConfig) => ({
+export default (nuxtentConfig) => ({
+  dev: false,
+  render: {
+    resourceHints: false
+  },
   modules: [
     nuxtent
   ],

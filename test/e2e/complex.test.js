@@ -1,68 +1,64 @@
-const { Nuxt, Builder } = require('nuxt')
-const test = require('ava')
-const { resolve } = require('path')
+import { resolve } from 'path'
 
-const host = 'localhost'
-const port = 3000
-const url = (route) => `http://${host}:${port}/${route}`
+import test from 'ava'
 
-const basicConfig = require(resolve(__dirname, 'fixtures/nuxt.config.js'))({
-  content: [
-    ['posts', {
-      permalink: ":year/:slug",
-      routes: [
-        {
-          path: "/_post",
-          method: "get"
-        },
-        {
-          path: "/archives",
-          method: "getAll"
-        }
-      ]
-    }],
-    ['projects', {
-      permalink: "/:slug",
-      isPost: false,
-      routes: [
-        {
-          path: "/projects/_slug",
-          method: "get"
-        },
-        {
-          path: "/projects",
-          method: "getAll"
-        }
-      ]
-    }]
-  ]
-})
-
-let nuxt = null
-let server = null
+import { get, commonBefore, commonAfter } from "../fixtures/nuxt";
 
 test.before('Init Nuxt and Nuxtent', async () => {
-  const config = Object.assign({}, {
-    rootDir: resolve(__dirname, 'fixtures'),
-    srcDir: resolve(__dirname, 'fixtures/multiple-content-types'),
-    dev: false
-  }, basicConfig)
-  nuxt = new Nuxt(config)
-  // await new Builder(nuxt).build()
-  await nuxt.listen(port, host)
+  await commonBefore(
+    {
+      content: [
+        [
+          'posts',
+          {
+            page: '/posts/_slug',
+            permalink: '/:year/:slug',
+          }
+        ],
+        [
+          'projects',
+          {
+            page: '/projects/_slug',
+            permalink: "/projects/:slug",
+            isPost: false
+          }
+        ]
+      ]
+    },
+    {
+      srcDir: resolve(__dirname, '../fixtures/multiple-content-types')
+    }
+  )()
+})
+
+test('index', async t => {
+  const html = await get('/')
+  t.true(html.includes('<section class="home-container"><h1>Nuxtent</h1><a href="/2015/first-post">See my first post</a><a href="/archives">See all my posts</a><a href="/projects/ency">See my first project</a><a href="/projects">See all my projects</a></section>'))
 })
 
 test('posts content - get', async t => {
-  const { html } = await nuxt.renderRoute('2016/first-post')
+  const html = await get('/2016/first-post')
   t.true(html.includes('<h1>My First Post</h1><div><p>This is my first post!</p>'))
 })
 
-// test('content - getAll', async t => {
-//   const { html } = await nuxt.renderRoute('archives')
-//   t.true(html.includes('<li><a href="/2016/first-post">My First Post</a></li><li><a href="/2017/second-post">My Second Post</a></li>'
-//   ))
-// })
+test('posts content - getAll', async t => {
+  const html = await get('/archives')
+  t.true(html.includes('<section class="container"><h1>Posts</h1><ul><li><a href="/2016/first-post">My First Post</a></li></ul></section>'))
+})
 
-test.after('Closing server', t => {
-  nuxt.close()
+test('projects content - get', async t => {
+  const html = await get('/projects/ency')
+  t.true(html.includes(
+`<section class="container"><h1>Project: Ency.js</h1><div><p>Pretty cool plugin!</p>
+</div></section>`
+  ))
+})
+
+test('projects content - getAll', async t => {
+  const html = await get('/projects/')
+  t.true(html.includes('<section class="container"><h1>Projects</h1><ul><li><a href="/projects/projects/nuxtent">Nuxt Content</a></li><li><a href="/projects/projects/ency">Ency.js</a></li></ul></section>'))
+})
+
+test.after('Closing server and nuxt.js', async () => {
+  await commonAfter()
 })
