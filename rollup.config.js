@@ -47,7 +47,7 @@ export default [
     plugins: [
       json(),
       copy({
-        'lib/plugin.js': 'dist/plugin.js',
+        'lib/plugins': 'dist/plugins',
         'lib/loader.js': 'dist/loader.js'
       }),
       ...corePlugins()
