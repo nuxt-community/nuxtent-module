@@ -9,7 +9,7 @@ import copy from 'rollup-plugin-copy'
 
 const version = process.env.VERSION || require('./package.json').version
 
-const corePlugins = () => [
+const corePlugins = [
   resolve(),
   commonjs({
     include: 'node_modules/**'
@@ -50,9 +50,12 @@ export default [
         'lib/plugins': 'dist/plugins',
         'lib/loader.js': 'dist/loader.js'
       }),
-      ...corePlugins()
+      ...corePlugins
     ],
     external: [
+      'fs',
+      'path',
+      'querystring',
       'express',
       'axios'
     ],
