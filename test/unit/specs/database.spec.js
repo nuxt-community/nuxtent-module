@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* global describe, it, expect, beforeEach, sinon */
 
 import createDatabase from '../../../lib/content/database'
