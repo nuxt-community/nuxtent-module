@@ -3,8 +3,5 @@ const contentOptions = {
 }
 
 module.exports = {
-  content: [
-    ['en', contentOptions],
-    ['fe', contentOptions]
-  ]
+  content: [['en', contentOptions], ['fe', contentOptions]]
 }

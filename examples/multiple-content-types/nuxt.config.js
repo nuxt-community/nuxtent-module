@@ -1,5 +1,3 @@
 module.exports = {
-  modules: [
-    'nuxtent'
-  ]
+  modules: ['nuxtent']
 }

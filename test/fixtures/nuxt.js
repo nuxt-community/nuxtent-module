@@ -14,21 +14,19 @@ let nuxt
 
 const commonBefore = (nuxtentConfig, config = {}) => async () => {
   const mergedConfig = {
-    ...baseConfig(
-      {
-        ...nuxtentConfig,
-        api: {
-          baseURL: `http://localhost:${process.env.PORT}`
-        },
+    ...baseConfig({
+      ...nuxtentConfig,
+      api: {
+        baseURL: `http://localhost:${process.env.PORT}`
       }
-    ),
+    }),
     ...config
   }
 
   // Build a fresh nuxt
-  nuxt = new Nuxt(mergedConfig);
-  await new Builder(nuxt).build();
-  await nuxt.listen(process.env.PORT);
+  nuxt = new Nuxt(mergedConfig)
+  await new Builder(nuxt).build()
+  await nuxt.listen(process.env.PORT)
 }
 
 const commonAfter = async () => {
