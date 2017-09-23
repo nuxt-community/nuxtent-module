@@ -14,7 +14,7 @@
     "ava"
   ],
   "extends": [
-  	"eslint-config-standard",
+    "eslint-config-standard",
     "eslint-config-i-am-meticulous",
     "plugin:ava/recommended",
     "eslint-config-prettier"
