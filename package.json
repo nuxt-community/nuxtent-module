@@ -22,9 +22,6 @@
     "Static"
   ],
   "license": "MIT ",
-  "bin": {
-    "nuxtent": "bin/nuxtent"
-  },
   "scripts": {
     "#<git hooks>": "handled by husky",
     "precommit": "lint-staged",
