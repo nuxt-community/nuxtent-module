@@ -1,6 +1,6 @@
 {
   "name": "nuxtent",
-  "version": "0.2.77",
+  "version": "0.2.79",
   "description": "Content Module for Nuxt.js.",
   "main": "index.js",
   "contributors": [
