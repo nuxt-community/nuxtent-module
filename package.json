@@ -121,7 +121,7 @@
     "doc": "docs",
     "example": "examples",
     "lib": "lib",
-    "test": "tests"
+    "test": "test"
   },
   "author": "Alid Castano"
 }
