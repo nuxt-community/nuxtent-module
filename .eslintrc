@@ -18,5 +18,11 @@
     "eslint-config-i-am-meticulous",
     "plugin:ava/recommended",
     "eslint-config-prettier"
-  ]
+  ],
+  "rules": {
+    "curly": [
+      "error",
+      "all"
+    ]
+  }
 }
