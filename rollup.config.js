@@ -1,23 +1,26 @@
 import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
-import builtins from 'rollup-plugin-node-builtins'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import uglify from 'rollup-plugin-uglify-es'
 import filesize from 'rollup-plugin-filesize'
 import copy from 'rollup-plugin-copy'
 
-const version = process.env.VERSION || require('./package.json').version
+import pkg from './package.json'
 
-const corePlugins = () => [
-  resolve(),
+const version = process.env.VERSION || pkg.version
+const external = Object.keys(pkg.dependencies || {})
+
+const corePlugins = [
+  resolve({
+    preferBuiltins: false
+  }),
   commonjs({
     include: 'node_modules/**'
   }),
   babel({
     plugins: ['external-helpers']
   }),
-  builtins(),
   uglify(),
   filesize()
 ]
@@ -47,14 +50,18 @@ export default [
     plugins: [
       json(),
       copy({
-        'lib/plugin.js': 'dist/plugin.js',
+        'lib/plugins': 'dist/plugins',
         'lib/loader.js': 'dist/loader.js'
       }),
-      ...corePlugins()
+      ...corePlugins
     ],
     external: [
+      'path',
+      'fs',
+      'querystring',
       'express',
-      'axios'
+      'axios',
+      ...external
     ],
     globals: {
       express: 'express'
