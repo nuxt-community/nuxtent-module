@@ -13,7 +13,6 @@ module.exports = function (config) {
     rollupPreprocessor: {
       plugins: [
         require('rollup-plugin-node-resolve')(),
-        require('rollup-plugin-node-builtins')(),
         require('rollup-plugin-babel')(),
         require('rollup-plugin-commonjs')()
       ],
