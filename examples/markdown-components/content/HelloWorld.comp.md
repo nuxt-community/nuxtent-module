@@ -1,5 +1,5 @@
 ---
-title: Hello World!
+title: Markdown Component Demo!
 ---
 
 ### Here's my demo:
@@ -10,24 +10,15 @@ title: Hello World!
 
 Template:
 
-So it works on client side renderning but not on refresh...
-
-```html
-<div>
-  <h1> {{ name }}</h1>
-  <button @click="someMethod"> Click here! </h1>
-</div>
 ```
+<template>
+  <div> <h1> {{ name || 'Hello World!!' }}</h1></div>
+</template>
 
-Script:
 
-```js
+<script>
 export default {
-  props: ['name'],
-  methods: {
-    someMethod () {
-      return this.name
-    }
-  }
+  props: ['name']
 }
+</script>
 ```

@@ -6,13 +6,13 @@
   "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^2.2.1",
-    "nuxt": "^1.0.0-alpha.3",
-    "nuxtent": "file:///Users/acastano/Sites/nuxt/nuxtent"
+    "nuxt": "1.0.0-rc11",
+    "nuxtent": "latest"
   },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxtent generate"
   }
 }

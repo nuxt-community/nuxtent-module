@@ -1,0 +1,4 @@
+node_modules/
+lib/plugins/nuxtentBodyComponent.template.js
+dist/
+nuxt/

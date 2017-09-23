@@ -1,12 +1,10 @@
 import nuxtent from '../../lib/module'
 
-export default (nuxtentConfig) => ({
+export default nuxtentConfig => ({
   dev: false,
   render: {
     resourceHints: false
   },
-  modules: [
-    nuxtent
-  ],
+  modules: [nuxtent],
   nuxtent: nuxtentConfig
 })

@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "plugins": [
+    "babel",
+    "ava"
+  ],
+  "extends": [
+    "eslint-config-standard",
+    "eslint-config-i-am-meticulous",
+    "plugin:ava/recommended",
+    "eslint-config-prettier"
+  ],
+  "rules": {
+    "curly": [
+      "error",
+      "all"
+    ]
+  }
+}

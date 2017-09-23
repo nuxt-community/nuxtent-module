@@ -3,7 +3,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^3.1.4",
     "nuxt": "latest",
-    "nuxtent": "file:///Users/acastano/Sites/nuxt/nuxtent"
+    "nuxtent": "latest"
   },
   "scripts": {
     "dev": "nuxt",
