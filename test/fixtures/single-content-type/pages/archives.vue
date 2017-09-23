@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1> All Posts </h1>
+  <h1>All Posts</h1>
   <ul>
     <li v-for="post in posts">
       <nuxt-link :to="post.permalink">{{ post.title }}</nuxt-link>
@@ -11,9 +11,9 @@
 
 <script>
 export default {
-  async asyncData ({ app, payload }) {
+  async asyncData ({ app }) {
     return {
-      posts: payload || await app.$content('/').getAll()
+      posts: await app.$content('/').getAll()
     }
   }
 }
