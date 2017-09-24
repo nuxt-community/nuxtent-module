@@ -34,7 +34,7 @@
     "unit": "cross-env NODE_ENV=development karma start test/unit/karma.conf.js",
     "e2e": "cross-env NODE_ENV=test ava --verbose --serial test/e2e",
     "test": "npm run unit --single-run && npm run e2e",
-    "build": "NODE_ENV=production rollup -c rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "watch": "npm run build -- -w",
     "bump": "npm run build && npm --no-git-tag-version version patch && npm publish"
   },
