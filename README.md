@@ -16,10 +16,10 @@
 </a>
 <br>
 <a href="https://npmjs.com/package/nuxtent">
-    <img alt="" src="https://img.shields.io/npm/v/nuxt-netlify-cms.svg?style=flat-square">
+    <img alt="" src="https://img.shields.io/npm/v/nuxtent.svg?style=flat-square">
 </a>
 <a href="https://npmjs.com/package/nuxtent">
-    <img alt="" src="https://img.shields.io/npm/dt/nuxt-netlify-cms.svg?style=flat-square">
+    <img alt="" src="https://img.shields.io/npm/dt/nuxtent.svg?style=flat-square">
 </a>
 </p>
 
