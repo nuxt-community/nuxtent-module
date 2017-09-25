@@ -95,6 +95,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify-es": "0.0.1",
     "rollup-watch": "^4.3.1",
+    "serve-static": "^1.12.6",
     "sinon": "^3.3.0",
     "sinon-chai": "^2.13.0"
   },
