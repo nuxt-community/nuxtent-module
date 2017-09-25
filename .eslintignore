@@ -1,4 +1,4 @@
 node_modules/
-lib/plugins/nuxtentBodyComponent.template.js
+lib/plugins/*.template.js
 dist/
 nuxt/
