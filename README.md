@@ -114,6 +114,8 @@ Documentation available at: https://nuxtent.now.sh/ (built with Nuxtent).
 - [ency.now.sh](https://ency.now.sh/) [source](https://github.com/encyjs/docs)
 
 
-### License
+## License
 
-MIT
+[MIT License](./LICENSE)
+
+Copyright (c) 2017 Nuxt Community

@@ -21,7 +21,7 @@
     "Markdown",
     "Static"
   ],
-  "license": "MIT ",
+  "license": "MIT",
   "scripts": {
     "#<git hooks>": "handled by husky",
     "precommit": "lint-staged",
