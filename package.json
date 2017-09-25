@@ -61,6 +61,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.1.2",
+    "codecov": "^2.3.0",
     "cross-env": "^5.0.5",
     "eslint": "^4.7.2",
     "eslint-config-i-am-meticulous": "^7.0.1",
