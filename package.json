@@ -41,12 +41,12 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
+    "date-fns": "^1.28.5",
     "front-matter": "^2.2.0",
     "js-yaml": "^3.10.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.4.0",
     "markdown-it-anchor": "^4.0.0",
-    "moment": "^2.18.1",
     "param-case": "^2.1.1",
     "path-to-regexp": "^2.0.0",
     "uppercamelcase": "^3.0.0"
