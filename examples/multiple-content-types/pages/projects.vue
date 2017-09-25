@@ -3,7 +3,7 @@
     <h1> Projects </h1>
      <ul>
        <li v-for="project in projects">
-        <nuxt-link :to="'/projects' + project.permalink">{{  project.name }}</nuxt-link>
+        <nuxt-link :to="'/projects' + project.permalink">{{ project.name }}</nuxt-link>
       </li>
     </ul>
     <nuxt-child />
