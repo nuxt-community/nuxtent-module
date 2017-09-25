@@ -1,6 +1,34 @@
-# Nuxtent
+<p align="center">
+<a href="https://david-dm.org/nuxt-community/nuxtent-module">
+    <img alt="" src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square">
+</a>
+<a href="https://standardjs.com">
+    <img alt="" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square">
+</a>
+<a href="https://circleci.com/gh/nuxt-community/nuxtent-module">
+    <img alt="" src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module.svg?style=flat-square">
+</a>
+<a href="https://codecov.io/gh/nuxt-community/nuxtent-module">
+    <img alt="" src="https://img.shields.io/codecov/c/github/nuxt-community/nuxtent-module.svg?style=flat-square">
+</a>
+<br>
+<a href="https://npmjs.com/package/nuxtent">
+    <img alt="" src="https://img.shields.io/npm/v/nuxt-netlify-cms.svg?style=flat-square">
+</a>
+<a href="https://npmjs.com/package/nuxtent">
+    <img alt="" src="https://img.shields.io/npm/dt/nuxt-netlify-cms.svg?style=flat-square">
+</a>
+</p>
 
-[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
+<h1 align="center">Nuxtent</h1>
+
+<p align="center">Seamlessly use content files in your Nuxt.js sites.</p>
+
+<p align="center">https://nuxtent.now.sh/</p>
+
+[📖 Release Notes](./CHANGELOG.md)
+
+# Summary
 
 The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
