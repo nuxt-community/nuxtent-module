@@ -1,16 +1,17 @@
 import { resolve } from 'path'
 
-import { get, commonBefore, commonAfter } from '../fixtures/nuxt'
+import { get } from '../fixtures/nuxt'
 
-export default (config = {}) => {
-  beforeAll(commonBefore(
+export default (beforeFunction, afterFunction, config = {}) => {
+  beforeAll(beforeFunction(
     {
       content: [
         [
           'posts',
           {
             page: '/posts/_slug',
-            permalink: '/:year/:slug'
+            permalink: '/:year/:slug',
+            generate: ['get', 'getAll']
           }
         ],
         [
@@ -18,7 +19,8 @@ export default (config = {}) => {
           {
             page: '/projects/_slug',
             permalink: '/projects/:slug',
-            isPost: false
+            isPost: false,
+            generate: ['get', 'getAll']
           }
         ]
       ]
@@ -29,7 +31,7 @@ export default (config = {}) => {
     }
   ))
 
-  afterAll(commonAfter)
+  afterAll(afterFunction)
 
   test('index', async () => {
     const html = await get('/')

@@ -1,14 +1,24 @@
+import { commonBefore, commonAfter } from '../fixtures/nuxt'
+
 import simple from './simple.js'
 import complex from './complex.js'
 
 describe('dev - simple', () => {
-  simple({
-    dev: true
-  })
+  simple(
+    commonBefore,
+    commonAfter,
+    {
+      dev: true
+    }
+  )
 })
 
 describe('dev - complex', () => {
-  complex({
-    dev: true
-  })
+  complex(
+    commonBefore,
+    commonAfter,
+    {
+      dev: true
+    }
+  )
 })
