@@ -13,7 +13,6 @@
         "stage-2"
       ],
       "plugins": [
-        "istanbul",
         [
           "transform-object-rest-spread",
           {
@@ -21,7 +20,7 @@
           }
         ]
       ],
-      "sourceMaps": "inline"
+      "sourceMaps": "both"
     }
   },
   "comments": false

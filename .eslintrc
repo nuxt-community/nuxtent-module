@@ -7,16 +7,17 @@
   },
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "plugins": [
     "babel",
-    "ava"
+    "jest"
   ],
   "extends": [
     "eslint-config-standard",
     "eslint-config-i-am-meticulous",
-    "plugin:ava/recommended",
+    "plugin:jest/recommended",
     "eslint-config-prettier"
   ],
   "rules": {
@@ -24,5 +25,9 @@
       "error",
       "all"
     ]
+  },
+  "globals": {
+    "jest/globals": true,
+    "jasmine": true
   }
 }

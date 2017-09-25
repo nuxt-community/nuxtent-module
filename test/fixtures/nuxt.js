@@ -3,7 +3,7 @@ import request from 'request-promise-native'
 
 import baseConfig from './nuxt.config'
 
-// jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
 process.env.PORT = process.env.PORT || 5060
 process.env.NODE_ENV = 'production'
 
