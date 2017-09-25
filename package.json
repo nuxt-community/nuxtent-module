@@ -33,7 +33,7 @@
     "test": "npm run e2e",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "watch": "npm run build -- -w",
-    "prepare": "npm run test",
+    "prepare": "npm run test && npm run build",
     "release": "standard-version && git push --follow-tags && npm publish"
   },
   "peerDependencies": {
