@@ -2,7 +2,7 @@ import { resolve } from 'path'
 
 import { get, commonBefore, commonAfter } from '../fixtures/nuxt'
 
-describe('simple', () => {
+export default (config = {}) => {
   beforeAll(commonBefore(
     {
       content: {
@@ -11,7 +11,8 @@ describe('simple', () => {
       }
     },
     {
-      srcDir: resolve(__dirname, '../fixtures/single-content-type')
+      srcDir: resolve(__dirname, '../fixtures/single-content-type'),
+      ...config
     }
   ))
 
@@ -34,4 +35,4 @@ describe('simple', () => {
     )
   })
 
-})
+}

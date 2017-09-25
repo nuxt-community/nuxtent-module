@@ -32,7 +32,7 @@
     "lint": "eslint --fix \"**/*.js\"",
     "pretest": "npm run lint",
     "unit": "cross-env NODE_ENV=development karma start test/unit/karma.conf.js",
-    "e2e": "cross-env NODE_ENV=test jest --runInBand",
+    "e2e": "cross-env NODE_ENV=test jest --runInBand --forceExit",
     "test": "npm run e2e",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "watch": "npm run build -- -w",
