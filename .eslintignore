@@ -2,3 +2,4 @@ node_modules/
 lib/plugins/*.template.js
 dist/
 nuxt/
+coverage/

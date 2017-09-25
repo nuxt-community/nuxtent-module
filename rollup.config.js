@@ -19,7 +19,24 @@ const corePlugins = [
     include: 'node_modules/**'
   }),
   babel({
-    plugins: ['external-helpers']
+    babelrc: false,
+    presets: [
+      [
+        'es2015',
+        { modules:false }
+      ],
+      'stage-2'
+    ],
+    plugins: [
+      'transform-async-to-generator',
+      [
+        "transform-object-rest-spread",
+        {
+          "useBuiltIns": true
+        }
+      ],
+      'external-helpers'
+    ]
   }),
   uglify(),
   filesize()

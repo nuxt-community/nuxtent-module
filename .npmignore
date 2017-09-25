@@ -1,6 +1,7 @@
-.babelrc
+.*
 rollup.config.js
 examples/
 docs/
 lib/
-tests/
+test/
+coverage/
