@@ -1,7 +1,7 @@
 {
   "name": "nuxtent",
   "version": "1.0.0",
-  "description": "Content Module for Nuxt.js.",
+  "description": "Seamlessly use content files in your Nuxt.js sites.",
   "main": "index.js",
   "contributors": [
     "Alid Castano (@alidcastano)"
