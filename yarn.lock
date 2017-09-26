@@ -2843,6 +2843,12 @@ eslint-config-prettier-standard@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier-standard/-/eslint-config-prettier-standard-1.0.1.tgz#f8e9b5251298af21410cc071650f23da195fae27"
 
+eslint-config-prettier@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-2.6.0.tgz#f21db0ebb438ad678fb98946097c4bb198befccc"
+  dependencies:
+    get-stdin "^5.0.1"
+
 eslint-import-resolver-node@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.1.tgz#4422574cde66a9a7b099938ee4d508a199e0e3cc"
@@ -8057,7 +8063,7 @@ sinon-chai@^2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-2.13.0.tgz#b9a42e801c20234bfc2f43b29e6f4f61b60990c4"
 
-sinon@4.0.0:
+sinon@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-4.0.0.tgz#a54a5f0237aa1dd2215e5e81c89b42b50c4fdb6b"
   dependencies:
