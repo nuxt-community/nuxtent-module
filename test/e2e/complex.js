@@ -3,33 +3,35 @@ import { resolve } from 'path'
 import { get } from '../fixtures/nuxt'
 
 export default (beforeFunction, afterFunction, config = {}) => {
-  beforeAll(beforeFunction(
-    {
-      content: [
-        [
-          'posts',
-          {
-            page: '/posts/_slug',
-            permalink: '/:year/:slug',
-            generate: ['get', 'getAll']
-          }
-        ],
-        [
-          'projects',
-          {
-            page: '/projects/_slug',
-            permalink: '/projects/:slug',
-            isPost: false,
-            generate: ['get', 'getAll']
-          }
+  beforeAll(
+    beforeFunction(
+      {
+        content: [
+          [
+            'posts',
+            {
+              page: '/posts/_slug',
+              permalink: '/:year/:slug',
+              generate: ['get', 'getAll']
+            }
+          ],
+          [
+            'projects',
+            {
+              page: '/projects/_slug',
+              permalink: '/projects/:slug',
+              isPost: false,
+              generate: ['get', 'getAll']
+            }
+          ]
         ]
-      ]
-    },
-    {
-      srcDir: resolve(__dirname, '../fixtures/multiple-content-types'),
-      ...config
-    }
-  ))
+      },
+      {
+        srcDir: resolve(__dirname, '../fixtures/multiple-content-types'),
+        ...config
+      }
+    )
+  )
 
   afterAll(afterFunction)
 
@@ -42,7 +44,9 @@ export default (beforeFunction, afterFunction, config = {}) => {
 
   test('posts content - get', async () => {
     const html = await get('/2016/first-post')
-    expect(html).toContain('<h1>My First Post</h1><div><p>This is my first post!</p>')
+    expect(html).toContain(
+      '<h1>My First Post</h1><div><p>This is my first post!</p>'
+    )
   })
 
   test('posts content - getAll', async () => {
@@ -66,5 +70,4 @@ export default (beforeFunction, afterFunction, config = {}) => {
       '<section class="container"><h1>Projects</h1><ul><li><a href="/projects/projects/nuxtent">Nuxt Content</a></li><li><a href="/projects/projects/ency">Ency.js</a></li></ul></section>'
     )
   })
-
 }

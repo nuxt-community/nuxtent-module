@@ -1,9 +1,9 @@
 import nuxtent from '../../lib/module'
 
 export default nuxtentConfig => ({
-  buildDir: ".nuxt",
+  buildDir: '.nuxt',
   generate: {
-    dir: ".dist",
+    dir: '.dist',
     minify: false
   },
   dev: false,

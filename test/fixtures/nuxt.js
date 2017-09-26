@@ -60,6 +60,6 @@ const generate = (nuxtentConfig, config = {}) => async () => {
 const generateAfter = async () => {
   await commonAfter()
   stopServe()
-};
+}
 
 export { get, commonBefore, commonAfter, generate, generateAfter }
