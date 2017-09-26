@@ -15,10 +15,9 @@
     "jest"
   ],
   "extends": [
-    "eslint-config-standard",
     "eslint-config-i-am-meticulous",
     "plugin:jest/recommended",
-    "eslint-config-prettier"
+    "eslint-config-prettier-standard"
   ],
   "rules": {
     "curly": [

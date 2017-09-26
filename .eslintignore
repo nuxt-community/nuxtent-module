@@ -1,5 +1,5 @@
 node_modules/
-lib/plugins/*.template.js
+*.template.js
 dist/
 nuxt/
 coverage/
