@@ -4,7 +4,8 @@
   "description": "Seamlessly use content files in your Nuxt.js sites.",
   "main": "index.js",
   "contributors": [
-    "Alid Castano (@alidcastano)"
+    "Alid Castano (@alidcastano)",
+    "Mehdi Lahlou (@medfreeman)"
   ],
   "repository": {
     "type": "git",
