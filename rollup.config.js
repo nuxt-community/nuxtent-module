@@ -20,19 +20,13 @@ const corePlugins = [
   }),
   babel({
     babelrc: false,
-    presets: [
-      [
-        'es2015',
-        { modules:false }
-      ],
-      'stage-2'
-    ],
+    presets: [['es2015', { modules: false }], 'stage-2'],
     plugins: [
       'transform-async-to-generator',
       [
-        "transform-object-rest-spread",
+        'transform-object-rest-spread',
         {
-          "useBuiltIns": true
+          useBuiltIns: true
         }
       ],
       'external-helpers'
@@ -72,14 +66,7 @@ export default [
       }),
       ...corePlugins
     ],
-    external: [
-      'path',
-      'fs',
-      'querystring',
-      'express',
-      'axios',
-      ...external
-    ],
+    external: ['path', 'fs', 'querystring', 'express', 'axios', ...external],
     globals: {
       express: 'express'
     }

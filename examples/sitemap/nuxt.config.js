@@ -15,7 +15,7 @@ module.exports = {
   },
   sitemap: {
     generate: true,
-    routes: function () {
+    routes: function() {
       return axios.get('http://localhost:3000/content-api').then(res => {
         return res.data.map(page => page.path)
       })
