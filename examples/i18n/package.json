@@ -1,7 +1,7 @@
 {
   "name": "nuxt-i18n",
   "dependencies": {
-    "@nuxtjs/axios": "^3.1.4",
+    "@nuxtjs/axios": "^4.3.0",
     "nuxt": "latest",
     "nuxtent": "latest"
   },

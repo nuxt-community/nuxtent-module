@@ -4,7 +4,7 @@
   "description": "nuxtent single content types example",
   "author": "Alid Castano <alidcastano@gmail.com>",
   "dependencies": {
-    "@nuxtjs/axios": "^2.2.1",
+    "@nuxtjs/axios": "^4.3.0",
     "@nuxtjs/sitemap": "0.0.3",
     "axios": "^0.16.2",
     "nuxt": "latest",

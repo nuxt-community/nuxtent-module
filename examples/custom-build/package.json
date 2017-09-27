@@ -4,7 +4,7 @@
   "description": "nuxtent custom-build example",
   "author": "Alid Castano <alidcastano@gmail.com>",
   "dependencies": {
-    "@nuxtjs/axios": "^2.2.1",
+    "@nuxtjs/axios": "^4.3.0",
     "nuxt": "latest",
     "nuxtent": "latest",
     "prismjs": "^1.8.1"
