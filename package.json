@@ -88,7 +88,7 @@
     "lint-staged": "^4.2.3",
     "mocha": "^3.5.3",
     "nuxt": "^1.0.0-rc11",
-    "prettier-standard": "^6.0.0",
+    "prettier-standard": "^7.0.0",
     "request-promise-native": "^1.0.5",
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
