@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 
-import { get } from '../fixtures/nuxt'
+import { get } from '../../common/nuxt'
 
 export default (beforeFunction, afterFunction, config = {}) => {
   beforeAll(
@@ -27,7 +27,7 @@ export default (beforeFunction, afterFunction, config = {}) => {
         ]
       },
       {
-        srcDir: resolve(__dirname, '../fixtures/multiple-content-types'),
+        srcDir: resolve(__dirname, './fixtures'),
         ...config
       }
     )

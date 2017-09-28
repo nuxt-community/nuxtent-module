@@ -1,15 +1,14 @@
-import { commonBefore, commonAfter } from '../fixtures/nuxt'
+import { commonBefore, commonAfter } from './common/nuxt'
+import simple from './scenarios/single'
+import complex from './scenarios/multiple'
 
-import simple from './simple.js'
-import complex from './complex.js'
-
-describe('dev - simple', () => {
+describe('dev - single content types', () => {
   simple(commonBefore, commonAfter, {
     dev: true
   })
 })
 
-describe('dev - complex', () => {
+describe('dev - multiple content types', () => {
   complex(commonBefore, commonAfter, {
     dev: true
   })

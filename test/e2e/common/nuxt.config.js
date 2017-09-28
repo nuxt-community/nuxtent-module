@@ -1,4 +1,4 @@
-import nuxtent from '../../lib/module'
+import nuxtent from '../../../lib/module'
 
 export default nuxtentConfig => ({
   buildDir: '.nuxt',
