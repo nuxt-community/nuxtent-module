@@ -9,6 +9,6 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxtent generate"
+    "generate": "nuxt generate"
   }
 }
