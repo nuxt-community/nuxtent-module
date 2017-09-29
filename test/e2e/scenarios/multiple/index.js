@@ -67,7 +67,7 @@ export default (beforeFunction, afterFunction, config = {}) => {
   test('projects content - getAll', async () => {
     const html = await get('/projects/')
     expect(html).toContain(
-      '<section class="container"><h1>Projects</h1><ul><li><a href="/projects/projects/nuxtent">Nuxt Content</a></li><li><a href="/projects/projects/ency">Ency.js</a></li></ul></section>'
+      '<section class="container"><h1>Projects</h1><ul><li><a href="/projects/nuxtent">Nuxt Content</a></li><li><a href="/projects/ency">Ency.js</a></li></ul></section>'
     )
   })
 }
