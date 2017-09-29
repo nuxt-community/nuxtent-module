@@ -3,16 +3,16 @@ module.exports = {
     [
       'posts',
       {
-        page: '/_post',
-        permalink: ':year/:slug',
+        page: '/posts/_slug',
+        permalink: '/:year/:slug',
         generate: ['get', 'getAll']
       }
     ],
     [
       'projects',
       {
-        page: '/projects/slug',
-        permalink: '/:slug',
+        page: '/projects/_slug',
+        permalink: '/projects/:slug',
         isPost: false,
         generate: ['get', 'getAll']
       }
