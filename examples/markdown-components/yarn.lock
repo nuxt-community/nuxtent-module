@@ -3059,8 +3059,8 @@ nuxt@1.0.0-rc11:
     webpack-node-externals "^1.6.0"
 
 nuxtent@latest:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nuxtent/-/nuxtent-1.0.1.tgz#9f438f59f12961ff2c23900ce6eece8356f283bc"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/nuxtent/-/nuxtent-1.0.2.tgz#552110739debe5c8d8db890da8fe521e38e5666a"
   dependencies:
     chalk "^2.1.0"
     date-fns "^1.28.5"
