@@ -68,10 +68,10 @@ module.exports = {
   }
 }
 
-// pages/_posts.vue
+// pages/_post.vue
 export default {
   asyncData: async ({ app, route }) => ({
-    posts: app.$content('posts').get(route.path)
+    post: app.$content('posts').get(route.path)
   })
 }
 ```
