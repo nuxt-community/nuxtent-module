@@ -22,10 +22,10 @@ export default (beforeFunction, afterFunction, config = {}) => {
 
   afterAll(afterFunction)
 
-  test.skip('home', async () => {
+  test('home', async () => {
     const html = await get('/')
     expect(html).toContain(
-      '<h1>Index Page</h1><div><iframe id="ytplayer" type="text/html" width="640" height="360" src="http://www.youtube.com/embed/0TYnoYl1JfY?autoplay=0" frameborder="0"></iframe></div>'
+      `<h1>This is my home page with a custom component</h1><div><p>This is home!</p> <iframe id="ytplayer" type="text/html" width="640" height="360" src="http://www.youtube.com/embed/0TYnoYl1JfY?autoplay=0" frameborder="0"></iframe> <p>Hooray!</p></div>`
     )
   })
 }

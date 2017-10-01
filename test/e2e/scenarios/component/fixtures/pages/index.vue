@@ -1,7 +1,7 @@
 <template>
 <div>
     <h1>{{ page.title }}</h1>
-    <nuxtent-body :body="page.body"></nuxtent-body>
+    <nuxtent-body :body="page.body"/>
 </div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   async asyncData ({ app, route }) {
     return {
-      page: await app.$content('/').get(route.path)
+      page: await app.$content('/').get('/index')
     }
   }
 }
