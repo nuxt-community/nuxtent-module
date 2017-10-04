@@ -106,7 +106,7 @@ module.exports = {
   parsers: {
     md: {
       highlight: (code, lang) => {
-        return Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
+        return `<pre class="language-${lang}"><code class="language-${lang}">${Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)}</code></pre>`
       }
     }
   }
