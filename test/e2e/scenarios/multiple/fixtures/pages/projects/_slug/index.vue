@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-     <h1>Project: {{ project.name }}</h1>
+    <h1>Project: {{ project.name }}</h1>
     <nuxtent-body :body="project.body" />
   </section>
 </template>
