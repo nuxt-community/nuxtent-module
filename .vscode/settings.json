@@ -1,0 +1,7 @@
+{
+    "javascript.validate.enable": false,
+    "flow.useNPMPackagedFlow": true,
+    "openInGitHub.requireSelectionForLines": true,
+    "npm-intellisense.scanDevDependencies": true,
+    "npm-intellisense.showBuildInLibs": true
+}
