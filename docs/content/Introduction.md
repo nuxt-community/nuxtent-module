@@ -23,5 +23,5 @@ There you go: four reasons to give Nuxtent a try, and maybe even star and share 
 
 There are two main steps to using `nuxtent`:
 
-1) [Configuring how you want your content data compiled](/configuration)
+1) [Configuring how you want your content data compiled](configuration)
 2) [Dynamically fetching and rendering the content data inside Nuxt pages](usage)
