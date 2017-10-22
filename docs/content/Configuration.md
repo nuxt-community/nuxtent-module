@@ -71,22 +71,26 @@ module.exports = {
 
 # API Options
 
-For custom environments, you must configure the `baseURL`, so that the content's `serverMiddleware` API and `axios` requests helpers can be setup appropriately.
+For custom environments, you must configure the `browserBaseURL`, so that the content's `serverMiddleware` API and `axios` requests helpers can be setup appropriately.
 
-- `baseURL`, String that specifies that the site's base url.
+- `browserBaseURL`, String that specifies the site's base url when content is requested from the browser.
 
-*Note: You can use environment variables to dynamically set the base url.*
+*Note: You can specify the `api` option as a function receiving an `isStatic` parameter to dynamically set the api options depending on the fact you're making a static build ('nuxt generate') or not.*
 
 ```js
 module.exports = {
- api: {
-   baseURL: process.env.NODE_ENV === 'production'
-    ? 'http://production-url.com'
-    : 'http://localhost:3000'
- }
+  api: function(isStatic) {
+    return {
+      browserBaseURL: isStatic ? 'http://production-url.com' : ''
+    }
+  }
 }
 
 ```
+
+API options are also passed down to `axios` if you need a specific configuration (see [axios options](https://github.com/nuxt-community/axios-module#options)).
+
+*Note: Remember not to alter the `baseUrl` parameter in a way that would prevent nuxtent to access the content server (i.e. by specifying a remote url).*
 
 # Parser Options
 
