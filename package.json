@@ -1,6 +1,6 @@
 {
   "name": "nuxtent",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Seamlessly use content files in your Nuxt.js sites.",
   "main": "index.js",
   "contributors": [
