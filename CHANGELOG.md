@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **config** add possibility to declare nuxtent options `api` key as a function
   given the `isStatic` parameter to adjust Axios options when using `nuxt generate`, fixes [#92](https://github.com/nuxt-community/nuxtent-module/issues/92)
 
-```json
+```
 {
   content: {
     page: '/_slug',
