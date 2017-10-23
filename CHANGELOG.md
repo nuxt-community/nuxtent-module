@@ -31,10 +31,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* **prism** change Prism implementation to include classes ([
-4dad625](https://github.com/nuxt-community/nuxtent-module/commit/4dad625ba6ec329cd327134cca3757d6abcd0f19))
+* **prism** change Prism implementation to include classes ([4dad625](https://github.com/nuxt-community/nuxtent-module/commit/4dad625ba6ec329cd327134cca3757d6abcd0f19))
 
-* **module** harmonize date format of posts and pages ([2154c45](https://github.com/nuxt-community/nuxtent-module/commit/2154c4535fdcf0de268385c09aae64977b065ebb)), fixes[#98](https://github.com/nuxt-community/nuxtent-module/issues/98)
+* **module** harmonize date format of posts and pages ([2154c45](https://github.com/nuxt-community/nuxtent-module/commit/2154c4535fdcf0de268385c09aae64977b065ebb)), fixes [#98](https://github.com/nuxt-community/nuxtent-module/issues/98)
 
 * **module** do not expose `filePath` to the browser ([7311294](https://github.com/nuxt-community/nuxtent-module/commit/7311294734270c093bf9c7379be043bba351504d)), fixes [#96](https://github.com/nuxt-community/nuxtent-module/issues/96)
 
