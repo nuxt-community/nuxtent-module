@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="https://user-images.githubusercontent.com/5158436/30198986-d4c5d7f8-9485-11e7-9c3e-8b5f5f061f5f.png" />
+</p>
+
+<p align="center">
 
 <a href="https://david-dm.org/nuxt-community/nuxtent-module">
   <img src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square" />
