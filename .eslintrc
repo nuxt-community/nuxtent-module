@@ -12,13 +12,20 @@
   },
   "plugins": [
     "babel",
+    "flowtype",
     "jest"
   ],
   "extends": [
     "eslint-config-i-am-meticulous",
+    "plugin:flowtype/recommended",
     "plugin:jest/recommended",
     "eslint-config-prettier-standard"
   ],
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
   "rules": {
     "curly": [
       "error",

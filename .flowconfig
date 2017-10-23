@@ -1,0 +1,21 @@
+[version]
+^0.56.0
+
+[libs]
+./flow/interfaces/
+
+[ignore]
+.*/node_modules/.*
+.*/coverage/.*
+.*/test/.*
+.*/\.nuxt/.*
+.*/dist/.*
+.*/\.dist/.*
+
+; please remove me when you have time to kill
+<PROJECT_ROOT>/examples/.*
+
+[options]
+# for Windows compat with json files
+module.file_ext=.js
+module.file_ext=.json
