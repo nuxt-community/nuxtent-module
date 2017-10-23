@@ -1,26 +1,39 @@
 <p align="center">
+
 <a href="https://david-dm.org/nuxt-community/nuxtent-module">
-    <img alt="" src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square">
+  <img src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square" />
 </a>
+
 <a href="https://greenkeeper.io/">
-    <img alt="" src="https://badges.greenkeeper.io/nuxt-community/nuxtent-module.svg">
+  <img src="https://badges.greenkeeper.io/nuxt-community/nuxtent-module.svg" />
 </a>
+
 <a href="https://standardjs.com">
-    <img alt="" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square">
+  <img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square" />
 </a>
+
+<br />
+
 <a href="https://circleci.com/gh/nuxt-community/nuxtent-module">
-    <img alt="" src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module.svg?style=flat-square">
+  <img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module.svg?style=flat-square" />
 </a>
+
+<img src="https://ci.appveyor.com/api/projects/status/github/nuxt-community/nuxtent-module?svg=true" />
+
 <a href="https://codecov.io/gh/nuxt-community/nuxtent-module">
-    <img alt="" src="https://img.shields.io/codecov/c/github/nuxt-community/nuxtent-module.svg?style=flat-square">
+  <img src="https://img.shields.io/codecov/c/github/nuxt-community/nuxtent-module.svg?style=flat-square" />
 </a>
-<br>
+
+<br />
+
 <a href="https://npmjs.com/package/nuxtent">
-    <img alt="" src="https://img.shields.io/npm/v/nuxtent.svg?style=flat-square">
+  <img src="https://img.shields.io/npm/v/nuxtent.svg?style=flat-square" />
 </a>
+
 <a href="https://npmjs.com/package/nuxtent">
-    <img alt="" src="https://img.shields.io/npm/dt/nuxtent.svg?style=flat-square">
+  <img src="https://img.shields.io/npm/dt/nuxtent.svg?style=flat-square" />
 </a>
+
 </p>
 
 <h1 align="center">Nuxtent</h1>
