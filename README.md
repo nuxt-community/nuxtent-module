@@ -22,8 +22,8 @@
   <img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module.svg?style=flat-square" />
 </a>
 
-<a href="https://ci.appveyor.com/project/nuxt-community/nuxtent-module">
-  <img src="https://img.shields.io/appveyor/ci/nuxt-community/nuxtent-module.svg?style=flat-square" />
+<a href="https://ci.appveyor.com/project/alidcastano/nuxtent-module">
+  <img src="https://img.shields.io/appveyor/ci/alidcastano/nuxtent-module/master.svg?logo=appveyor&style=flat-square" />
 </a>
 
 <a href="https://codecov.io/gh/nuxt-community/nuxtent-module">
