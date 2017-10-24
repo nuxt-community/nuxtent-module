@@ -1,3 +1,5 @@
+const nuxtent = require('../../dist/module').default
+
 module.exports = {
   head: {
     title: 'starter',
@@ -7,5 +9,5 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ]
   },
-  modules: ['nuxtent']
+  modules: [nuxtent]
 }
