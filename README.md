@@ -19,7 +19,7 @@
 <br />
 
 <a href="https://circleci.com/gh/nuxt-community/nuxtent-module">
-  <img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module.svg?style=flat-square" />
+  <img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module/master.svg?style=flat-square" />
 </a>
 
 <a href="https://ci.appveyor.com/project/alidcastano/nuxtent-module">
