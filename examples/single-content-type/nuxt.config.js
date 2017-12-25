@@ -1,5 +1,7 @@
+const nuxtent = require('../../dist/module').default
+
 module.exports = {
-  modules: ['nuxtent'],
+  modules: [nuxtent],
   nuxtent: {
     content: {
       page: '/_post',
