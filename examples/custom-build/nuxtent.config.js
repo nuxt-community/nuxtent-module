@@ -10,11 +10,13 @@ module.exports = {
   parser: {
     // custom parser options
     md: {
-      highlight: (code, lang) => {
-        return Prism.highlight(
-          code,
-          Prism.languages[lang] || Prism.languages.markup
-        )
+      extend(config) {
+        config.highlight = (code, lang) => {
+          return Prism.highlight(
+            code,
+            Prism.languages[lang] || Prism.languages.markup
+          )
+        }
       }
     }
   },
