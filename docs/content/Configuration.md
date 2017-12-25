@@ -96,28 +96,44 @@ API options are also passed down to `axios` if you need a specific configuration
 
 You can also configure additional processing to be used Nuxtent parsers.
 
-Currently, this is only exposed for the `markdown` parser, exposed via `parser.md`.  The options are:
+Currently, this is only exposed for the `markdown` parser, exposed via `parser.md`.  
 
-* `Highlight`: Function, passed to the [markdownit](https://github.com/markdown-it/markdown-it) parser to setup your preferred syntax highlighter.
-* `Use`: Array, additional plugins to apply to parser.
+There are three ways to configure the parser:
+
+1) `extend` the default options passed to the parser.
+2) Add `plugins` to the parser.
+3) `customize` the parser after it was created.
 
 Here's an example setup:
 
 ```js
 // nuxtent.config.js
 const Prism = require('prismjs')
+const externalLinks = require('markdown-it-link-attributes')
+const emoji = require('markdown-it-emoji')
+const twemoji = require('twemoji')
+
 module.exports = {
   parsers: {
     md: {
-      highlight: (code, lang) => {
-        return `<pre class="language-${lang}"><code class="language-${lang}">${Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)}</code></pre>`
-      }
+        extend(config) {
+          config.highlight = (code, lang) => {
+            return `<pre class="language-${lang}"><code class="language-${lang}">${Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)}</code></pre>`
+          }
+        },
+        plugins: [
+            emoji,
+            [ externalLinks, { target: '_blank', rel: 'noopener' } ]
+        ],
+        customize(parser) {
+            parser.linkify.tlds('onion')
+            parser.linkify.add(... custom code to recognize and handle twitter handles ...)
+            parser.renderer.rules['emoji'] = (token, idx) => {
+                return twemoji.parse(token[idx].content);
+            }
+        }
     }
-  }
-}
-
-// nuxt.config.js
-module.exports = {
+  },
   ...
   css: [
     'prismjs/themes/prism-coy.css'
