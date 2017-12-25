@@ -20,7 +20,7 @@ export default {
   async asyncData ({ app }) {
     return {
       lessons: await app.$content('/')
-      .query({ exlcude: ['attributes', 'body'] })
+      .query({ exclude: ['attributes', 'body'] })
       .getAll()
     }
   }
