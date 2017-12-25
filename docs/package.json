@@ -7,7 +7,7 @@
     "@nuxtjs/axios": "^2.2.1",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-link-attributes": "^1.0.0",
-    "nuxt": "1.0.0-alpha.3",
+    "nuxt": "^1.0.0-alpha.3",
     "nuxtent": "0.2.59",
     "prismjs": "^1.8.1"
   },
