@@ -45,7 +45,7 @@ For example:
 * In `pages/_posts`, the content path would not be prefixed since it is a top level dynamic route.
 * In `pages/guide/_slug`, the content path would be prefixed by '/guide' since it is a nested dynamic route.
 
-Thus, when [fetching content](/usage#fetching-content), you must use Nuxt's `route.path` or `route.params` appropriately to grab the content's permalink.
+Thus, when [fetching content](/guide/usage#fetching-content), you must use Nuxt's `route.path` or `route.params` appropriately to grab the content's permalink.
 
 
 ### Multiple Content Types
