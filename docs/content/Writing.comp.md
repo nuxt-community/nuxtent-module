@@ -41,10 +41,10 @@ Here is a list of reserved attributes:
 
 - `meta`, contains meta information about the file, such as the `fileName` and `section`.
 - `date`, contains the file's date if it is a post, otherwise it defaults to the date the file was last updated.
-- `path` contains the file's entire url path, including any nested routes.
+- `path`, contains the file's entire url path, including any nested routes.
 - `permalink`, contains the file's path paramters.
 - `body`, contains the content below the `front-matter`.
-- `anchors`, contains the page's heading that were converted to link anchors for page navigation.
+- `anchors`, contains the page's heading that was converted to link anchors for page navigation.
 
 # Async Components
 

@@ -3,9 +3,9 @@ title: Introduction
 order: 2
 ---
 
-The goal Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
+The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
-It does in two main ways:
+It does this in two main ways:
 
 1. By compiling all the data from markdown or yaml files based on configured rules.
 2. By providing helper methods for dynamically accessing this data inside Nuxt pages.

@@ -5,7 +5,7 @@ order: 3
 
 Nuxtent converts all your content files `json` so that they can be used flexibly within Nuxt pages.
 
-There are two places where you can configure how your content is parsed and compiled: inside the `nuxtent.config.js` file or under the `nuxtent` property inside `nuxt.config.js`. For complex configurations, the preferred approach is placing the configuration under it's own file.
+There are two places where you can configure how your content is parsed and compiled: inside the `nuxtent.config.js` file or under the `nuxtent` property inside `nuxt.config.js`. For complex configurations, the preferred approach is placing the configuration under its own file.
 
 # Content Options
 
@@ -94,7 +94,7 @@ API options are also passed down to `axios` if you need a specific configuration
 
 # Parser Options
 
-You can also configure additional processing to be used Nuxtent parsers.
+You can also configure additional processing to be used by Nuxtent parsers.
 
 Currently, this is only exposed for the `markdown` parser, exposed via `parser.md`.  
 

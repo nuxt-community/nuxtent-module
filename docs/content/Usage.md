@@ -13,7 +13,7 @@ Nuxtent injects the `$content` helper into Nuxt's `content.app` instance that al
   * `query`, Object that accepts query options to add to the content's request and returns the `$content` object. Here are the options:
     * `exclude`: String or Array of page properties that are not needed and should be excluded from request.
   * `get`, Function, takes in the content's permalink and returns a promise that contains the content of that specific route.
-  * `getOnly`, Function that takes in the start index and end index as arguments and returns a promise of all the pages within that the range. All content file ordering is reserved, so if it the content is dated, it's sorted from latest to oldest.
+  * `getOnly`, Function that takes in the start index and end index as arguments and returns a promise of all the pages within that the range. All content file ordering is preserved, so if it the content is dated, it's sorted from latest to oldest.
   * `getAll` Function, that returns promise of all the content data retrieved from the registered directory.
 
 *Note: You must use Nuxt's `asyncData` or `fetch` methods in order to request content, which are only available inside pages*
@@ -85,7 +85,7 @@ async asyncData ({ app, route, payload }) {
 ```html
 <div>
   <h1> Is Nuxtent better than Jekyll? </h1>
-  <di>
+  <div>
     <p> Well, it uses Vue and Nuxt.... </p>
   </div>
 </div>
