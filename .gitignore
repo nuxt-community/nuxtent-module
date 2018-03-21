@@ -1,5 +1,6 @@
 # dependencies
 node_modules
+# Why not locking?
 package-lock.json
 
 # build
