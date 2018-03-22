@@ -20,17 +20,18 @@ const corePlugins = [
   }),
   babel({
     babelrc: false,
-    presets: [['env', { modules: false }], 'stage-2'],
-    plugins: [
-      'transform-async-to-generator',
-      [
-        'transform-object-rest-spread',
-        {
-          useBuiltIns: true
-        }
-      ],
-      'external-helpers'
-    ]
+    presets: [['env', { modules: false, targets: { node: '8.0' } }], 'stage-2']
+    // plugins: [
+    //   'transform-async-to-generator',
+    //   'transform-regenerator',
+    //   [
+    //     'transform-object-rest-spread',
+    //     {
+    //       useBuiltIns: true
+    //     }
+    //   ],
+    //   'external-helpers'
+    // ]
   }),
   uglify(),
   filesize()
