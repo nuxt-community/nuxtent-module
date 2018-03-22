@@ -103,7 +103,7 @@ const mdCompParser = mdParser => {
   return mdParser
 }
 
-module.exports = function(source) {
+module.exports = function nuxtent(source) {
   this.cacheable()
 
   const moduleOpts = loaderUtils.getOptions(this)
