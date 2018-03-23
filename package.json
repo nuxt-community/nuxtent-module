@@ -83,7 +83,7 @@
     "jsdom": "^11.5.1",
     "lint-staged": "^6.0.0",
     "mocha": "^4.1.0",
-    "nuxt": "^1.0.0",
+    "nuxt": "latest",
     "prettier-standard": "^8.0.0",
     "request-promise-native": "^1.0.5",
     "rollup": "^0.53.4",

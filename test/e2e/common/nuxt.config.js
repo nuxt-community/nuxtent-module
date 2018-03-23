@@ -1,4 +1,4 @@
-import nuxtent from '../../../lib/module'
+// import nuxtent from '../../../lib/module'
 
 export default nuxtentConfig => ({
   buildDir: '.nuxt',
@@ -10,7 +10,7 @@ export default nuxtentConfig => ({
   render: {
     resourceHints: false
   },
-  modules: [nuxtent],
+  modules: ['@@'],
   nuxtent: {
     ...nuxtentConfig,
     api: {
