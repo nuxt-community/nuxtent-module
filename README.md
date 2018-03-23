@@ -54,7 +54,7 @@
 
 The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
 
-It does in two main ways:
+Nuxtent mainly does this in two ways:
 
 1. By compiling all the data from `markdown` or `yaml` files based on configured rules.
 2. By providing helpers for dynamically accessing this data inside Nuxt pages.
@@ -71,9 +71,9 @@ There you go: five reasons to give `Nuxtent` a try, and maybe even star and [sha
 
 ## Simple yet flexible API
 
-Nuxtent's main focus was to integrate into Nuxt (otherwise, you're just building another Jekyll-like tool, with the same amount of mental overhead).
+Nuxtent was created to integrate with Nuxt (otherwise, you're just building another Jekyll-like tool, with the same amount of mental overhead).
 
-As a result, the API simple yet flexible. All you have to do is 1) configure the content and 2) fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
+Nuxtent's API is simple yet flexible. All you have to do is 1) configure the content and 2) fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
 
 
 Here's a basic example:
