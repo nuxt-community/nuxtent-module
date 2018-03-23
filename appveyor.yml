@@ -19,6 +19,7 @@ test_script:
   - npm --version
   - yarn --version
   # run tests
+  - yarn cache clean nuxt
   - yarn test
 
 build_script:
