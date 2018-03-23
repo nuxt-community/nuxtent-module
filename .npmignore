@@ -1,7 +1,5 @@
 .*
-rollup.config.js
 examples/
 docs/
-lib/
 test/
 coverage/

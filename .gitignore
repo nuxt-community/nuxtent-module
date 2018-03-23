@@ -1,14 +1,16 @@
 # dependencies
 node_modules
+# Why not locking?
 package-lock.json
+yarn.lock
 
 # build
-dist
 .nuxt
 .dist
 
 # logs
 npm-debug.log
+yarn-error.log
 
 # Coverage directory used by tools like istanbul
 coverage
