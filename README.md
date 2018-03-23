@@ -50,6 +50,8 @@
 
 [📖 Release Notes](./CHANGELOG.md)
 
+**I unfortunately don't use this module anymore (interests changed), so I'm hoping that people that do use it can step up as maintainers / contributors. Please join [Nuxtent's slack channel](https://join.slack.com/t/nuxtent/shared_invite/enQtMjQ1MzI4MzgxNzI5LTcwOTlkYTczNTMzMGU1YjYyYjlkNzNjNDc3MjQ3YTdmMjc0ZThkZjM1ZWY4ZjhiZjc1MDIwYjJmMjAxODlhMzU) and DM me if interested.**
+
 # Summary
 
 The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as using Jekyll, Hugo, or any other static site generator.
