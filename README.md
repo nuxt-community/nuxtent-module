@@ -1,61 +1,15 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/5158436/30198986-d4c5d7f8-9485-11e7-9c3e-8b5f5f061f5f.png" />
-</p>
+# Nuxtdown
 
-<p align="center">
+Support for markdown content in your nuxt.js site.
 
-<a href="https://david-dm.org/nuxt-community/nuxtent-module">
-  <img src="https://david-dm.org/nuxt-community/nuxtent-module/status.svg?style=flat-square" />
-</a>
-
-<a href="https://greenkeeper.io/">
-  <img src="https://badges.greenkeeper.io/nuxt-community/nuxtent-module.svg" />
-</a>
-
-<a href="https://standardjs.com">
-  <img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square" />
-</a>
-
-<br />
-
-<a href="https://circleci.com/gh/nuxt-community/nuxtent-module">
-  <img src="https://img.shields.io/circleci/project/github/nuxt-community/nuxtent-module/master.svg?style=flat-square" />
-</a>
-
-<a href="https://ci.appveyor.com/project/medfreeman/nuxtent-module">
-  <img src="https://img.shields.io/appveyor/ci/medfreeman/nuxtent-module/master.svg?style=flat-square&logo=appveyor" />
-</a>
-
-<a href="https://codecov.io/gh/nuxt-community/nuxtent-module">
-  <img src="https://img.shields.io/codecov/c/github/nuxt-community/nuxtent-module.svg?style=flat-square" />
-</a>
-
-<br />
-
-<a href="https://npmjs.com/package/nuxtent">
-  <img src="https://img.shields.io/npm/v/nuxtent.svg?style=flat-square" />
-</a>
-
-<a href="https://npmjs.com/package/nuxtent">
-  <img src="https://img.shields.io/npm/dt/nuxtent.svg?style=flat-square" />
-</a>
-
-</p>
-
-<h1 align="center">Nuxtent</h1>
-
-<p align="center">Use markdown files in Nuxt.js.</p>
-
-<p align="center">https://nuxtent.now.sh/</p>
-
-[📖 Release Notes](./CHANGELOG.md)
+> Note: This is a fork of [Nuxtent](https://github.com/nuxt-community/nuxtent-module) with some additional features.
 
 ## Summary
 
-Nuxtent allows you to use markdown files as content in your Nuxt.js application. 
+Nuxtdown allows you to use markdown files as content in your Nuxt.js application. 
 It combines the ease-of-use of markdown for writing content, with the power of [Nuxt.js](https://nuxtjs.org) for building advanced sites and web applications.
 
-In combination with Nuxt's *generate* mode to generate a static site, Nuxtent allows you to seamlessly port your site's content from Jekyll, Hugo, or other static site generators.
+In combination with Nuxt's *generate* mode to generate a static site, Nuxtdown allows you to seamlessly port your site's content from Jekyll, Hugo, or other static site generators.
 
 ## Features
 
@@ -71,15 +25,6 @@ In combination with Nuxt's *generate* mode to generate a static site, Nuxtent al
 
 ## Quick Start
 
-If you're starting a new site, you can use the [nuxtent-starter](https://github.com/nuxt-community/content-template) template.
-
-``` bash
-$ vue init nuxt-community/nuxtent-template my-site
-$ cd my-site
-# install dependencies
-$ npm install # Or yarn install
-```
-
 If you already have a site, follow these three steps:
 
  - Step 1: Pick your mode
@@ -93,7 +38,7 @@ That's it, you're done.
 ## Installation
 
 ```
-npm install nuxtent --save
+npm install nuxtdown --save
 
 ```
 
@@ -101,13 +46,13 @@ Then, under `nuxt.config.js` install the module:
 
 ```
 modules: [
-   'nuxtent'
+   'nuxtdown'
  ]
 ```
 
 ## Configuration
 
-Nuxtent looks for its configuration in the `nuxtent.config.js` file in the root of your application.
+Nuxtdown looks for its configuration in the `nuxtdown.config.js` file in the root of your application.
 
 ### Content configuration
 
@@ -203,7 +148,7 @@ Name              | Description                                               |
 ------------------|-----------------------------------------------------------|
 `level`           | The value your set `toc` to in your content configuration |
 `permalink`       | `true`                                                    |
-`permalinkClass`  | `nuxtent-toc`                                             |
+`permalinkClass`  | `nuxtdown-toc`                                            |
 `permalinkSymbol` | 🔗                                                        |
 
 ##### `toc` as an object
@@ -286,7 +231,7 @@ Here's an example that covers most use cases:
 > Note that the path doesn't have to be a top-level directory. It can also be something like `docs/translations/fr`
 
 ```js
-// nuxtent.config.js
+// nuxtdown.config.js
 module.exports = {
   content: [
     // My blog posts are in content/blog
@@ -300,14 +245,14 @@ module.exports = {
       permalink: '/docs/:section*/:slug',
       isPost: false,
       data: { 
-        generatedBy: 'Nuxt with the nuxtent module' 
+        generatedBy: 'Nuxt with the nuxtdown module' 
       },
       breadcrumbs: true,
       toc: 1
       markdown: {
         plugins: {
           toc: {
-            permalinkClass: 'nuxtent-toc',
+            permalinkClass: 'nuxtdown-toc',
             permalinkSymbol: '↗'
           },
           attrs: require('markdown-it-attrs'),
@@ -400,7 +345,7 @@ will be fetched in async from `/content-api/blog/blog/hello-world`
 ## API configuration
 
 Apart from the content, you can (and should) configure how to access the content api
-in `nuxtent.config.js`. Here's an example:
+in `nuxtdown.config.js`. Here's an example:
 
 ```js
     api: {
