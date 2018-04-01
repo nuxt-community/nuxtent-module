@@ -1,15 +1,15 @@
 {
-  "name": "nuxtent",
-  "version": "1.2.2",
-  "description": "Seamlessly use content files in your Nuxt.js sites.",
+  "name": "nuxtdown",
+  "version": "2.0.0",
+  "description": "Support for markdown content in your nuxt.js sit.",
   "main": "index.js",
   "contributors": [
-    "Alid Castano (@alidcastano)",
-    "Mehdi Lahlou (@medfreeman)"
+    "Joost De Cock (@joostdecock)",
+    "Alid Castano (@alidcastano)"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nuxt-community/nuxtent-module.git"
+    "url": "git+https://github.com/joostdecock/nuxtdown-module.git"
   },
   "keywords": [
     "Nuxt.js",
@@ -118,12 +118,12 @@
   "bugs": {
     "url": "https://github.com/nuxt-community/nuxtent-module/issues"
   },
-  "homepage": "https://github.com/nuxt-community/nuxtent-module#readme",
+  "homepage": "https://github.com/joostdecock/nuxtdown-module#readme",
   "directories": {
     "doc": "docs",
     "example": "examples",
     "lib": "lib",
     "test": "test"
   },
-  "author": "Alid Castano"
+  "author": "Joost De Cock"
 }
