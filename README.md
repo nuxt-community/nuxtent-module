@@ -366,20 +366,20 @@ In this example, our `content` direcory is structured like this:
 
 Which would lead to this permalink structure on our website:
 
- - [/blog/hello-world/index.html]
- - [/blog/hello-world/happy-holidays/index.html]
- - [/blog/hello-world/pizza-party/index.html]
- - [/blog/hello-world/when-in-rome/index.html]
- - [/docs/index.html]
- - [/docs/about/index.html]
- - [/docs/license/index.html]
- - [/docs/examples/index.html]
- - [/docs/examples/building-a-pizza-over/index.html]
- - [/docs/examples/pizza-from-scratch/index.html]
- - [/docs/tutorial/index.html]
- - [/docs/tutorial/part-1/index.html]
- - [/docs/tutorial/part-2/index.html]
- - [/docs/tutorial/part-3/index.html]
+ - [/blog/hello-world/index.html](#)
+ - [/blog/hello-world/happy-holidays/index.html](#)
+ - [/blog/hello-world/pizza-party/index.html](#)
+ - [/blog/hello-world/when-in-rome/index.html](#)
+ - [/docs/index.html](#)
+ - [/docs/about/index.html](#)
+ - [/docs/license/index.html](#)
+ - [/docs/examples/index.html](#)
+ - [/docs/examples/building-a-pizza-over/index.html](#)
+ - [/docs/examples/pizza-from-scratch/index.html](#)
+ - [/docs/tutorial/index.html](#)
+ - [/docs/tutorial/part-1/index.html](#)
+ - [/docs/tutorial/part-2/index.html](#)
+ - [/docs/tutorial/part-3/index.html](#)
 
 Requests for a blog posts are served by the `blog/_postpost.vue` page.
 Inside it, we have this:
