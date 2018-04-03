@@ -1,9 +1,10 @@
 {
   "presets": [
-    "env",
+    ["env", {"modules" : false}], 
     "stage-2"
   ],
   "plugins": [
+    "external-helpers",
     "transform-async-to-generator",
     [
       "transform-object-rest-spread",
