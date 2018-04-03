@@ -1,6 +1,6 @@
 {
   "name": "nuxtdown",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Support for markdown content in your nuxt.js site.",
   "main": "index.js",
   "contributors": [
