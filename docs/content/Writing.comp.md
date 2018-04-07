@@ -67,7 +67,7 @@ For example, this markdown component:
 Is converted to:
 
 ```html
-<ExampleProject name="Hello World") />
+<ExampleProject name="Hello World" />
 ```
 
 And imported and registered as:
