@@ -3,7 +3,7 @@ title: Configuring Your Content
 order: 3
 ---
 
-Nuxtent converts all your content files `json` so that they can be used flexibly within Nuxt pages.
+Nuxtent converts all your content files to `json` so that they can be used flexibly within Nuxt pages.
 
 There are two places where you can configure how your content is parsed and compiled: inside the `nuxtent.config.js` file or under the `nuxtent` property inside `nuxt.config.js`. For complex configurations, the preferred approach is placing the configuration under its own file.
 
@@ -71,11 +71,11 @@ module.exports = {
 
 # API Options
 
-For custom environments, you must configure the `browserBaseURL`, so that the content's `serverMiddleware` API and `axios` requests helpers can be setup appropriately.
+For custom environments, you must configure the `browserBaseURL`, so that the content's `serverMiddleware` API and `axios` request helpers can be setup appropriately.
 
 - `browserBaseURL`, String that specifies the site's base url when content is requested from the browser.
 
-*Note: You can specify the `api` option as a function receiving an `isStatic` parameter to dynamically set the api options depending on the fact you're making a static build ('nuxt generate') or not.*
+*Note: You can specify the `api` option as a function receiving an `isStatic` parameter to dynamically set the api options depending on whether you're making a static build ('nuxt generate') or not.*
 
 ```js
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
 
 API options are also passed down to `axios` if you need a specific configuration (see [axios options](https://github.com/nuxt-community/axios-module#options)).
 
-*Note: Remember not to alter the `baseUrl` parameter in a way that would prevent nuxtent to access the content server (i.e. by specifying a remote url).*
+*Note: Remember not to alter the `baseUrl` parameter in a way that would prevent nuxtent from accessing the content server (i.e. by specifying a remote url).*
 
 # Parser Options
 
