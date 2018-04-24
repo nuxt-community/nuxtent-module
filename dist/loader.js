@@ -4,7 +4,7 @@ const { join } = require('path')
 const loaderUtils = require('loader-utils')
 const uppercamelcase = require('uppercamelcase')
 const paramCase = require('param-case')
-const fm = require('front-matter')
+const fm = require('gray-matter')
 
 const getDirOpts = (contentOptions, section) => {
   // configuration options can be for root files ('/') but regex for section also
@@ -114,7 +114,7 @@ module.exports = function nuxtent(source) {
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
 
-  const { body } = fm(source)
+  const { content: body } = fm(source)
   const { transformedSource, components } = mdComponents(
     body,
     componentsDir,

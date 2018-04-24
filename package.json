@@ -42,7 +42,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "date-fns": "^1.28.5",
-    "front-matter": "^2.3.0",
+    "gray-matter": "^4.0.1",
     "js-yaml": "^3.10.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.4.0",
