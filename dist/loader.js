@@ -86,21 +86,21 @@ const mdComponents = (source, componentsDir, extensions) => {
   }
 }
 
-const mdCompParser = mdParser => {
+const mdCompParser = markdownParser => {
   // we need to add the `v-pre` snippet to code snippets so
   // that mustage tags (`{{ }}`) are interpreted as raw text
-  if (mdParser.renderer && mdParser.renderer.rules) {
+  if (markdownParser.renderer && markdownParser.renderer.rules) {
     const codeRules = ['code_inline', 'code_block', 'fence']
 
-    mdParser.renderer.rules = mergeParserRules(
-      mdParser.renderer.rules,
+    markdownParser.renderer.rules = mergeParserRules(
+      markdownParser.renderer.rules,
       codeRules,
       str => {
         return str.replace(/(<pre|<code)/g, '$1 v-pre')
       }
     )
   }
-  return mdParser
+  return markdownParser
 }
 
 module.exports = function nuxtdown(source) {
@@ -109,7 +109,7 @@ module.exports = function nuxtdown(source) {
   const moduleOpts = loaderUtils.getOptions(this)
 
   const { content, componentsDir, extensions, parsers } = moduleOpts
-  const { mdParser, md } = parsers
+  const { markdownParser, md } = parsers
 
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
@@ -121,7 +121,9 @@ module.exports = function nuxtdown(source) {
     extensions
   )
 
-  const template = mdCompParser(mdParser(md, dirOpts)).render(transformedSource)
+  const template = mdCompParser(markdownParser(md, dirOpts)).render(
+    transformedSource
+  )
 
   const allImports = Object.keys(components)
     .map(key => `import ${key} from '~/components/${components[key]}'`)
