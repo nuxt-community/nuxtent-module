@@ -10,7 +10,7 @@ importAllMdComps(
   require.context(<%= JSON.stringify(options.contentDirWebpackAlias) %>, true, /\.comp\.md$/)
 )
 
-Vue.component('nuxtent-body', {
+Vue.component('nuxtdown-body', {
   render () {
     if (typeof this.body === 'object' && this.body.relativePath) {
       const MarkdownComponent = mdComps[this.body.relativePath]

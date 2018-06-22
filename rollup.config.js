@@ -42,19 +42,19 @@ const bundle = (name, options) => ({
   output: {
     file: `dist/${name}.js`,
     format: 'cjs',
-    exports: 'named'
+    exports: 'named',
+    banner: `
+      /**
+      * Nuxt Content v${version}
+      * (c) ${new Date().getFullYear()} Alid Castano
+      * @license MIT
+      */
+     `,
+    name: `nuxtContent`,
+    globals: options.globals || {}
   },
-  name: `nuxtContent`,
   plugins: options.plugins || [],
-  external: options.external || [],
-  globals: options.globals || {},
-  banner: `
-    /**
-    * Nuxt Content v${version}
-    * (c) ${new Date().getFullYear()} Alid Castano
-    * @license MIT
-    */
-   `
+  external: options.external || []
 })
 
 export default [
