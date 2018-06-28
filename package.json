@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "chalk": "^2.3.0",
+    "consola": "^1.4.1",
     "date-fns": "^1.28.5",
     "front-matter": "^2.3.0",
     "js-yaml": "^3.10.0",

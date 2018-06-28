@@ -5,6 +5,9 @@ const loaderUtils = require('loader-utils')
 const uppercamelcase = require('uppercamelcase')
 const paramCase = require('param-case')
 const fm = require('front-matter')
+const consola = require('consola')
+
+const logger = consola.withScope('nuxtent')
 
 const getDirOpts = (contentOptions, section) => {
   // configuration options can be for root files ('/') but regex for section also
@@ -64,6 +67,9 @@ const mdComponents = (source, componentsDir, extensions) => {
 
   while ((result = componentExpression.exec(transformedSource))) {
     const [match, codeSnippet, name, props] = result
+    console.log(result)
+    logger.info('Log from test scope')
+    logger.debug(result)
     if (!codeSnippet) {
       const componentName = uppercamelcase(paramCase(name))
       if (!components[componentName]) {
