@@ -11,12 +11,13 @@ importAllMdComps(
 )
 
 Vue.component('nuxtdown-body', {
-  render () {
-    if (typeof this.body === 'object' && this.body.relativePath) {
-      const MarkdownComponent = mdComps[this.body.relativePath]
-      return <MarkdownComponent />
+  functional: true,
+  render (createElement, context) {
+    if (typeof context.props.body === 'object' && context.props.body.relativePath) {
+      const MarkdownComponent = mdComps[context.props.body.relativePath]
+      return createElement(MarkdownComponent, context.data)
     } else {
-      return <div domPropsInnerHTML={ this.body } />
+      return createElement('div', {...context.data, domProps: {innerHTML: context.props.body}})
     }
   },
   props: {

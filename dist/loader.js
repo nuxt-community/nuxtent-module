@@ -5,9 +5,6 @@ const loaderUtils = require('loader-utils')
 const uppercamelcase = require('uppercamelcase')
 const paramCase = require('param-case')
 const fm = require('front-matter')
-const consola = require('consola')
-
-const logger = consola.withScope('nuxtent')
 
 const getDirOpts = (contentOptions, section) => {
   // configuration options can be for root files ('/') but regex for section also
@@ -18,8 +15,7 @@ const getDirOpts = (contentOptions, section) => {
 
 const getSection = dirPath => {
   // capture '/content/closestSubsection' or  '/content'
-  // eslint-disable-next-line no-unused-vars
-  const [match, section] = dirPath.match(/[/\\]content([/\\][a-zA-Z\-_]*|$)/)
+  const [, section] = dirPath.match(/[/\\]content([/\\][a-zA-Z\-_]*|$)/)
   return section === '' ? '/' : section
 }
 
@@ -57,7 +53,8 @@ const mdComponents = (source, componentsDir, extensions) => {
   const componentExpression = new RegExp(
     [
       '(`{3}[\\s\\S]*?`{3}|`{1}[^`].*?`{1}[^`])', // code snippet
-      '@\\[(.*?)\\](?:\\((.*?)\\))?' // markdown component - '@[]' or '@[]()'
+      // markdown component - '@[]' or '@[]()' or '@[#]():n' or @[/]
+      '@\\[(#)?(\\/)?([\\w/\\-_\\\\]*?)\\](?:\\((.*?)\\))?'
     ].join('|'),
     'g'
   )
@@ -66,10 +63,8 @@ const mdComponents = (source, componentsDir, extensions) => {
   const components = {}
 
   while ((result = componentExpression.exec(transformedSource))) {
-    const [match, codeSnippet, name, props] = result
-    console.log(result)
-    logger.info('Log from test scope')
-    logger.debug(result)
+    const [match, codeSnippet, isSlot, closeSlot, name, props] = result
+
     if (!codeSnippet) {
       const componentName = uppercamelcase(paramCase(name))
       if (!components[componentName]) {
@@ -79,10 +74,23 @@ const mdComponents = (source, componentsDir, extensions) => {
         }
         components[componentName] = component
       }
-      transformedSource = transformedSource.replace(
-        match,
-        `<${componentName} ${props || ''} />`
-      )
+      if (closeSlot) {
+        transformedSource = transformedSource.replace(
+          match,
+          `</${componentName}>`
+        )
+      } else if (isSlot) {
+        // Not auto clossing tag
+        transformedSource = transformedSource.replace(
+          match,
+          `<${componentName} ${props || ''}>`
+        )
+      } else {
+        transformedSource = transformedSource.replace(
+          match,
+          `<${componentName} ${props || ''} />`
+        )
+      }
     }
   }
 
@@ -119,15 +127,43 @@ module.exports = function nuxtdown(source) {
 
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
-
-  const { body } = fm(source)
+  if (typeof dirOpts.toc === 'number') {
+    if (typeof dirOpts.markdown === 'undefined') {
+      dirOpts.markdown = { plugins: {} }
+    }
+    if (typeof dirOpts.markdown.plugins === 'undefined') {
+      dirOpts.markdown.plugins = {}
+    }
+    dirOpts.markdown.plugins['toc'] = [
+      require('markdown-it-anchor'),
+      {
+        level: dirOpts.toc,
+        permalink: true,
+        permalinkClass: 'nuxtdown-toc',
+        permalinkSymbol: '🔗'
+      }
+    ]
+  } else if (typeof dirOpts.toc === 'object') {
+    dirOpts.markdown.plugins['toc'] = [
+      require('markdown-it-anchor'),
+      dirOpts.toc
+    ]
+  }
+  const frontmatter = fm(source)
   const { transformedSource, components } = mdComponents(
-    body,
+    frontmatter.body,
     componentsDir,
     extensions
   )
-
-  const template = mdCompParser(markdownParser(md, dirOpts)).render(
+  const markdownConfig = Object.assign(
+    md,
+    {
+      highlight: null,
+      use: []
+    },
+    dirOpts.markdown ? dirOpts.markdown : {}
+  )
+  const template = mdCompParser(markdownParser(markdownConfig, dirOpts)).render(
     transformedSource
   )
 
@@ -136,6 +172,10 @@ module.exports = function nuxtdown(source) {
     .join('\n')
 
   const allComponents = Object.keys(components).join(', ')
+  const [, fileName] = this.resourcePath.match(
+    /[/\\]content([/\\\w\-_]*)(\.comp\.md$)?|$/
+  )
+  const componentName = uppercamelcase(paramCase(fileName))
 
   return `
     <template>
@@ -147,9 +187,11 @@ module.exports = function nuxtdown(source) {
     <script>
       ${allImports}
       export default {
+        name: '${componentName}',
         components: {
           ${allComponents}
-        }
+        },
+        data: () => (${JSON.stringify(frontmatter.attributes)}),
       }
     </script>
   `
