@@ -1,7 +1,5 @@
 # dependencies
 node_modules
-# Why not locking?
-package-lock.json
 yarn.lock
 
 # build
