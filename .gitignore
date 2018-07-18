@@ -5,6 +5,7 @@ yarn.lock
 # build
 .nuxt
 .dist
+dist/*
 
 # logs
 npm-debug.log
