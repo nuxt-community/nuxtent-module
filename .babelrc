@@ -1,10 +1,8 @@
 {
   "presets": [
-    ["env", {"modules" : false}], 
-    "stage-2"
+    ["env", {"modules" : "commonjs", "targets": { "node": 8 }, "debug": true}]
   ],
   "plugins": [
-    "external-helpers",
     "transform-async-to-generator",
     [
       "transform-object-rest-spread",
@@ -14,9 +12,7 @@
     ]
   ],
   "env": {
-    "test": {
-      "sourceMaps": "both"
-    }
+    "sourceMaps": "both"
   },
   "comments": false
 }

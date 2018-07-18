@@ -10,14 +10,8 @@
     "es6": true,
     "jest": true
   },
-  "plugins": [
-    "babel",
-    "jest"
-  ],
   "extends": [
-    "eslint-config-i-am-meticulous",
-    "plugin:jest/recommended",
-    "eslint-config-prettier-standard"
+    "prettier-standard"
   ],
   "rules": {
     "curly": [

@@ -13,25 +13,18 @@ const external = Object.keys(pkg.dependencies || {})
 
 const corePlugins = [
   resolve({
-    preferBuiltins: false
+    preferBuiltins: true
   }),
   commonjs({
     include: 'node_modules/**'
   }),
   babel({
     babelrc: false,
-    presets: [['env', { modules: false, targets: { node: '8.0' } }], 'stage-2']
-    // plugins: [
-    //   'transform-async-to-generator',
-    //   'transform-regenerator',
-    //   [
-    //     'transform-object-rest-spread',
-    //     {
-    //       useBuiltIns: true
-    //     }
-    //   ],
-    //   'external-helpers'
-    // ]
+    presets: [
+      ['env', { modules: false, targets: { node: '8.11' } }],
+      'stage-2'
+    ],
+    plugins: ['external-helpers']
   }),
   uglify(),
   filesize()
@@ -62,14 +55,35 @@ export default [
     plugins: [
       json(),
       copy({
-        'lib/plugins': 'dist/plugins',
-        'lib/loader.js': 'dist/loader.js'
+        'lib/plugins': 'dist/plugins'
       }),
       ...corePlugins
     ],
     external: ['path', 'fs', 'querystring', 'express', 'axios', ...external],
     globals: {
-      express: 'express'
+      express: 'express',
+      process: {}
     }
+  }),
+  bundle('loader', {
+    plugins: [
+      json(),
+      resolve({
+        preferBuiltins: true
+      }),
+      commonjs({
+        include: 'node_modules/**'
+      }),
+      babel({
+        babelrc: false,
+        presets: [
+          ['env', { modules: false, targets: { node: '8.11' } }],
+          'stage-2'
+        ],
+        plugins: ['external-helpers']
+      }),
+      filesize()
+    ],
+    external: ['path', 'fs', 'querystring', 'express', 'axios', ...external]
   })
 ]
