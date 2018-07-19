@@ -1,5 +1,7 @@
 const Prism = require('prismjs')
 const externalLinks = require('markdown-it-link-attributes')
+const host = process.env.HOST || 'localhost'
+const port = process.env.PORT || '3000'
 
 module.exports = {
   content: {
@@ -11,7 +13,7 @@ module.exports = {
 
   parsers: {
     md: {
-      extend(config) {
+      extend (config) {
         config.highlight = (code, lang) => {
           return Prism.highlight(
             code,
@@ -28,6 +30,12 @@ module.exports = {
           }
         ]
       ]
+    }
+  },
+  api (isStatic) {
+    return {
+      baseURL: `http://${host}:${port}`,
+      browserBaseURL: isStatic ? '//infiniti.dinamo.mx' : '/'
     }
   }
 }

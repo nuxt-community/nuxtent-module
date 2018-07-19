@@ -115,13 +115,10 @@ export default {
 }
 ```
 
-The response for each item is:
+The response is:
 
-``` json
+```
 
-{
-	
-}
 ```
 
 
@@ -137,7 +134,7 @@ $ npm install # Or yarn install
 ```
 
 
-Or if you already have your nuxt project:
+Or if you alredy have your nuxt project:
 
 
 

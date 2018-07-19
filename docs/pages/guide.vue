@@ -23,6 +23,12 @@ div.main-container
 
 <script>
 export default {
+  data: () => ({
+    showMenu: false,
+    showGuide: true,
+    updateAnchors: false,
+    guide: []
+  }),
   asyncData: async ({ app, route }) => ({
     showMenu: false,
     showGuide: true,
@@ -30,7 +36,6 @@ export default {
     guide: (await app.$content('/').getAll())
       .sort((p1, p2) => p1.order - p2.order)
   }),
-
   computed: {
     menu () {
       return this.guide.map(lesson => {

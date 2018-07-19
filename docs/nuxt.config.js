@@ -1,4 +1,6 @@
-module.exports = {
+import nuxtent from '../lib/module'
+
+export default {
   head: {
     title: 'Nuxtent',
     meta: [
@@ -12,10 +14,26 @@ module.exports = {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  modules: ['nuxtent'],
+  modules: ['../lib/module'],
   css: [
     'prismjs/themes/prism-coy.css',
     { src: '~/assets/sass/base.sass', lang: 'sass' }
   ],
-  loading: { color: '#35495e' }
+  loading: { color: '#35495e' },
+
+  build: {
+    /*
+    ** Run ESLint on save
+    */
+    extend(config, { isDev, isClient }) {
+      if (isDev && isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        })
+      }
+    }
+  }
 }
