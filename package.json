@@ -2,8 +2,8 @@
   "name": "nuxtent",
   "version": "2.1.3",
   "description": "Seamlessly use content files in your Nuxt.js sites.",
-  "main": "dist/module.js",
-  "module": "lib/module.js",
+  "main": "index.js",
+  "module": "index.esm.js",
   "contributors": [
     "Joost De Cock (@joostdecock)",
     "Alid Castano (@alidcastano)",
@@ -42,6 +42,7 @@
     "@nuxtjs/axios": "^4.5.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "chalk": "^2.3.0",
     "consola": "^1.4.1",
     "date-fns": "^1.28.5",
