@@ -8,7 +8,7 @@ div.main-container
       div.menu-container(:style="menuStyle")
         ul.nav-links(v-for="lesson in menu")
           li.nav-link-container
-            nuxt-link.nav-link(:to="'/guide' + lesson.permalink") {{ lesson.title }}
+            nuxt-link.nav-link(:to="lesson.permalink") {{ lesson.title }}
             ul.nav-nested-links(
                 v-if="lesson.anchors && lesson.showAnchors"
                 v-for="anchor in lesson.anchors"

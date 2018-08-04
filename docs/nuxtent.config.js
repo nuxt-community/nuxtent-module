@@ -6,7 +6,7 @@ const port = process.env.PORT || '3000'
 module.exports = {
   content: {
     page: 'guide/_slug',
-    permalink: ':slug',
+    permalink: 'guide/:slug',
     isPost: false,
     generate: ['get', 'getAll']
   },
@@ -30,12 +30,6 @@ module.exports = {
           }
         ]
       ]
-    }
-  },
-  api (isStatic) {
-    return {
-      baseURL: `http://${host}:${port}`,
-      browserBaseURL: isStatic ? '//infiniti.dinamo.mx' : '/'
     }
   }
 }
