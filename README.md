@@ -46,7 +46,7 @@
 
 <p align="center">Seamlessly use content files in your Nuxt.js sites.</p>
 
-<p align="center">https://nuxtent.now.sh/</p>
+<p align="center">https://nuxtent-module.netlify.com/</p>
 
 [📖 Release Notes](./CHANGELOG.md)
 
