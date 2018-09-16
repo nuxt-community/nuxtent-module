@@ -92,7 +92,7 @@ module.exports = {
 // pages/_post.vue
 export default {
   asyncData: async ({ app, route }) => ({
-    post: app.$content('posts').get(route.path)
+    post: await app.$content('posts').get(route.path)
   })
 }
 ```
