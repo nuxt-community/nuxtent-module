@@ -1,18 +1,24 @@
-import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
 import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import uglify from 'rollup-plugin-uglify-es'
 import filesize from 'rollup-plugin-filesize'
 import copy from 'rollup-plugin-copy'
+import nodeResolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
 
 import pkg from './package.json'
 
 const version = process.env.VERSION || pkg.version
 const external = Object.keys(pkg.dependencies || {})
 
+const banner = `/**
+* Nuxtent v${version}
+* (c) ${new Date().getFullYear()} Alid Castano
+* @license MIT
+*/
+`
+
 const corePlugins = [
-  resolve({
+  nodeResolve({
     preferBuiltins: true
   }),
   commonjs({
@@ -20,70 +26,71 @@ const corePlugins = [
   }),
   babel({
     babelrc: false,
+    exclude: 'node_modules/**',
     presets: [
-      ['env', { modules: false, targets: { node: '8.11' } }],
-      'stage-2'
-    ],
-    plugins: ['external-helpers']
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            node: 10
+          },
+          debug: false
+        }
+      ]
+    ]
   }),
-  uglify(),
+  json(),
   filesize()
 ]
 
 const bundle = (name, options) => ({
   input: `lib/${name}.js`,
-  output: {
-    file: `dist/${name}.js`,
-    format: 'cjs',
-    exports: 'named',
-    banner: `
-      /**
-      * Nuxt Content v${version}
-      * (c) ${new Date().getFullYear()} Alid Castano
-      * @license MIT
-      */
-     `,
-    name: `nuxtContent`,
-    globals: options.globals || {}
-  },
-  plugins: options.plugins || [],
-  external: options.external || []
+  output: [
+    {
+      file: `dist/${name}.js`,
+      format: 'cjs',
+      exports: 'named',
+      banner,
+      name: `nuxtent`,
+      globals: options.globals || {}
+    },
+    {
+      file: `dist/${name}.mjs`,
+      format: 'esm',
+      exports: 'named',
+      banner,
+      name: `nuxtent`,
+      globals: options.globals || {}
+    }
+  ],
+  plugins: options.plugins || [...corePlugins],
+  external: options.external || [...external]
 })
 
 export default [
   bundle('module', {
     plugins: [
-      json(),
       copy({
         'lib/plugins': 'dist/plugins'
       }),
       ...corePlugins
     ],
-    external: ['path', 'fs', 'querystring', 'express', 'axios', ...external],
+    external: [
+      'path',
+      'fs',
+      'url',
+      'querystring',
+      'consola',
+      'express',
+      'axios',
+      ...external
+    ],
     globals: {
-      express: 'express',
       process: {}
     }
   }),
   bundle('loader', {
-    plugins: [
-      json(),
-      resolve({
-        preferBuiltins: true
-      }),
-      commonjs({
-        include: 'node_modules/**'
-      }),
-      babel({
-        babelrc: false,
-        presets: [
-          ['env', { modules: false, targets: { node: '8.11' } }],
-          'stage-2'
-        ],
-        plugins: ['external-helpers']
-      }),
-      filesize()
-    ],
-    external: ['path', 'fs', 'querystring', 'express', 'axios', ...external]
+    plugins: [...corePlugins],
+    external: ['path', 'fs', 'axios', ...external]
   })
 ]
