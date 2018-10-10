@@ -81,6 +81,28 @@ There you go: five reasons to give `Nuxtent` a try, and maybe even star and [sha
 - Support for using vue components inside your markdown content
 - Adds the $content helper to Nuxt to allow your to access your markdown content and metadata inside Nuxt pages
 
+# v3.X goals
+
+- [] Improve the documentation and at least a spanish translation
+- [] Windows compatible (Help needed)
+- [] Be zeroconf and extendible through it's own api and exposing the markdown parser
+- [] Allow default attributes to be set on the frontmatter ej. title
+- [] Real async modules (this affects ssr more than a static build)
+- [] Fully integrate with the new features nuxt2.0 and node 11
+- [] Debugable configuration
+- [] Better error reporting
+- [] Improve the template with optional addons as examples
+- [] Document the code in order to simplify contributions and future development
+- [] Support multiple file types
+- [] Integrate the api configuration with nuxt itself while keeping it configurable
+- [] Expose $content helper and it's constant like api endpoint through all of vue
+- [] Vuex integration
+- [] Improve on SSR memory usage
+- [] Keep the main features from nuxtdown:
+  - [] Breadcrubms
+  - [] Automatic table of content (TOC)
+  - [] Isolated and global configurations
+  - [] Allow for nested content and index files
 
 
 ## Simple yet flexible API
