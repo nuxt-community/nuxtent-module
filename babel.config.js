@@ -5,6 +5,6 @@ module.exports = {
       { modules: 'commonjs ', targets: { node: 10 }, debug: false }
     ]
   ],
-  plugins: [],
+  plugins: ['@babel/plugin-syntax-dynamic-import'],
   comments: false
 }

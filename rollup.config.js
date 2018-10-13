@@ -27,6 +27,7 @@ const corePlugins = [
   babel({
     babelrc: false,
     exclude: 'node_modules/**',
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
     presets: [
       [
         '@babel/preset-env',
@@ -71,7 +72,9 @@ export default [
   bundle('module', {
     plugins: [
       copy({
-        'lib/plugins': 'dist/plugins'
+        'lib/markdownComponents.template.js':
+          'dist/markdownComponents.template.js',
+        'lib/requestContent.template.js': 'dist/requestContent.template.js'
       }),
       ...corePlugins
     ],
