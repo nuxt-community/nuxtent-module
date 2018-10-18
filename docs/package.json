@@ -7,7 +7,7 @@
     "axios": "^0.18.0",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-link-attributes": "^2.1.0",
-    "nuxt-edge": "^2.0.0-25555150.dbba872",
+    "nuxt": "^2.2.0",
     "prismjs": "^1.15.0"
   },
   "scripts": {
@@ -21,19 +21,19 @@
     "debug": "node --inspect node_modules/.bin/nuxt"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.5",
-    "eslint": "^5.3.0",
-    "eslint-config-standard": "^11.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.7.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "eslint-plugin-vue": "^5.0.0-beta.2",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.0.0-beta.3",
     "node-sass": "^4.9.1",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^7.0.3"
+    "sass-loader": "^7.1.0"
   }
 }

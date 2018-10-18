@@ -119,7 +119,8 @@
     "test": "test"
   },
   "files": [
-    "dist"
+    "dist",
+    "plugins"
   ],
   "author": "Joost De Cock"
 }
