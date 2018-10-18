@@ -20,12 +20,16 @@ export default {
     { src: '~/assets/sass/base.sass', lang: 'sass' }
   ],
   loading: { color: '#35495e' },
+  watch: [],
 
   build: {
     /*
     ** Run ESLint on save
     */
     extend (config, { isDev, isClient }) {
+      if (isClient) {
+        config.devtool = '#source-map'
+      }
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',

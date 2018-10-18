@@ -11,7 +11,7 @@
     "prismjs": "^1.15.0"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "HOST=0.0.0.0 DEBUG=nuxt* nuxt",
     "build": "NODE_ENV=production nuxt build",
     "start": "NODE_ENV=production nuxt start",
     "generate": "NODE_ENV=production nuxt generate",
