@@ -1,7 +1,6 @@
 import json from 'rollup-plugin-json'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
-import copy from 'rollup-plugin-copy'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 
@@ -70,14 +69,7 @@ const bundle = (name, options) => ({
 
 export default [
   bundle('module', {
-    plugins: [
-      copy({
-        'lib/markdownComponents.template.js':
-          'dist/markdownComponents.template.js',
-        'lib/requestContent.template.js': 'dist/requestContent.template.js'
-      }),
-      ...corePlugins
-    ],
+    plugins: [...corePlugins],
     external: [
       'path',
       'fs',
