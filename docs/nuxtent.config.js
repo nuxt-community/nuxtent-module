@@ -15,6 +15,7 @@ module.exports = {
     md: {
       extend (config) {
         config.highlight = (code, lang) => {
+          console.log(config)
           return Prism.highlight(
             code,
             Prism.languages[lang] || Prism.languages.markup
