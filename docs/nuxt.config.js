@@ -23,10 +23,31 @@ export default {
   watch: [],
 
   build: {
+    babel: {
+      presets: ({ isServer }) => [
+        [
+          require.resolve('@nuxt/babel-preset-app'),
+          {
+            buildTarget: isServer ? 'server' : 'client',
+            // Incluir polyfills globales es mejor que no hacerlo
+            useBuiltIns: 'entry',
+            // Un poco menos de código a cambio de posibles errores
+            loose: true,
+            // Nuxt quiere usar ie 9, yo no.
+            targets: isServer ? { node: 'current' } : {}
+          }
+        ]
+      ]
+    },
     /*
-    ** Run ESLint on save
-    */
+     ** Run ESLint on save
+     */
     extend (config, { isDev, isClient }) {
+      // Arregla pnpm
+      const babelLoader = config.module.rules.find(
+        rule => rule.test.toString() === /\.jsx?$/.toString()
+      )
+      babelLoader.use[0].loader = require.resolve('babel-loader')
       if (isClient) {
         config.devtool = '#source-map'
       }
