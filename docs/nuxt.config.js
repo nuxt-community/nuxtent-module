@@ -21,8 +21,27 @@ export default {
   ],
   loading: { color: '#35495e' },
   watch: [],
+  modern: true,
 
   build: {
+    extractCSS: true,
+    html: {
+      minify: {
+        collapseBooleanAttributes: true,
+        decodeEntities: true,
+        minifyCSS: true,
+        minifyJS: false,
+        processConditionalComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        trimCustomFragments: true,
+        useShortDoctype: true
+      }
+    },
+    terser: false,
+    filenames: {
+      chunk: ({ isDev }) => (isDev ? '[name].js' : '[name].[chunkhash].js')
+    },
     babel: {
       presets: ({ isServer }) => [
         [
@@ -30,7 +49,7 @@ export default {
           {
             buildTarget: isServer ? 'server' : 'client',
             // Incluir polyfills globales es mejor que no hacerlo
-            useBuiltIns: 'entry',
+            // useBuiltIns: 'entry',
             // Un poco menos de código a cambio de posibles errores
             loose: true,
             // Nuxt quiere usar ie 9, yo no.

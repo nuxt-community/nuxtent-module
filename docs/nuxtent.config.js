@@ -6,7 +6,7 @@ const port = process.env.PORT || '3000'
 module.exports = {
   content: {
     page: 'guide/_slug',
-    permalink: 'guide/:slug',
+    permalink: '/guide/:slug',
     isPost: false,
     generate: ['get', 'getAll']
   },
