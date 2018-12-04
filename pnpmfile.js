@@ -11,5 +11,8 @@ function readPackage(pkg, context) {
     pkg.dependencies['webpack'] = 'latest'
     context.log('Fixing some NUXT dependencies')
   }
+  if (pkg.name === '@nuxt/webpack' && pkg.version.startsWith('2.3')) {
+    pkg.dependencies['babel-loader'] = '^8.0.4'
+  }
   return pkg
 }

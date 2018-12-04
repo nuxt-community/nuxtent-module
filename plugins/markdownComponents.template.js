@@ -1,67 +1,38 @@
 import Vue from 'vue'
 
-// TODO: Hacer componentes de carga condicional, error, and loading
-// TODO:Dar opción de configurar el timeout y delay
+import { interopDefault } from './utils'
 
+const mdComps = {<% options.components.forEach(([relativePath, filePath]) => {
+  print(`
+    '${relativePath}': () => interopDefault(import('${filePath}')),`
+  )})
+%>}
 
-const NuxtentLoading = {
-  name: 'nuxtent-loading',
-  // functional: true,
-  data() {
-    return {
-      loading: 'Loading...'
-    }
-  },
-  render: function (createElement) {
-    return createElement('div', this.loading)
-  },
-}
-const NuxtentError = {
-  name: 'nuxtent-loading',
-  // functional: true,
-  data() {
-    return {
-      msg: 'Error...'
-    }
-  },
-  render: function (createElement) {
-    return createElement('div', this.msg)
-  },
-}
-
-const mdComps = <% options.components.forEach(([relativePath, filePath]) => {
-print(`{'${relativePath}': () => ({
-  component: import('${filePath}'),
-  loading: NuxtentLoading,
-  error: NuxtentError,
-  asyncMeta: {}
-  })}`)
-}) %>
 
 Vue.component('nuxtent-body', {
-  // functional: true,
-  // data: () => {},
-  render (h) {
+  name: 'NuxtentBody',
+  render (createElement) {
     const body = this.body || ''
-    if (typeof body === 'object' && body.relativePath) {
-      const MarkdownComponent = mdComps[body.relativePath]
-      console.log(this)
-      return h(<MarkdownComponent  {...{ domProps: {}, attrs: {}, listeners: {} }}></MarkdownComponent>)
+    const tag = this.tag
+
+    const dataObject = {
+      props: {tag},
+      on: this.$listeners,
+      domProps: {},
+    }
+    if (typeof body === 'object') {
+      if (body.relativePath) {
+        const MarkdownComponent = mdComps[body.relativePath]
+        dataObject.nativeOn = this.$listeners
+        return createElement(MarkdownComponent, dataObject)
+      }
+      dataObject.domProps.innerHTML = JSON.stringify(body)
+      return createElement(tag, dataObject)
     } else {
-      const tag = this.tag
-      return h(<tag {...{ domProps: {innerHTML: body}, attrs: {}, listeners: {} }}></tag>)
+      dataObject.domProps.innerHTML = body
+      return createElement(tag, dataObject)
     }
   },
-  // render (createElement, context) {
-  //   const body = context.props.body || ''
-  //   if (typeof body === 'object' && body.relativePath) {
-  //     const MarkdownComponent = mdComps[body.relativePath]
-  //     console.log(context)
-  //     return createElement(MarkdownComponent, context.data)
-  //   } else {
-  //     return createElement('div', {...context.data, domProps: {innerHTML: body}})
-  //   }
-  // },
   props: {
     tag: {
       type: String,
