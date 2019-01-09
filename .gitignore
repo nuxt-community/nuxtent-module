@@ -13,3 +13,4 @@ yarn-error.log
 
 # Coverage directory used by tools like istanbul
 coverage
+pnpm-debug.log
