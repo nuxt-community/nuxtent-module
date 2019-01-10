@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2016",
-    "jsx": "preserve"
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "preserve",
+    "checkJs": true,
+    "alwaysStrict": true
   },
   "exclude": [
     "node_modules",

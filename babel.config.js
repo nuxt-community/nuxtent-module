@@ -7,9 +7,14 @@ module.exports = {
   ],
   env: {
     test: {
-      presets: [['@babel/preset-env']]
+      presets: [['@babel/preset-env', {
+        loose: true
+      }]]
     }
   },
-  plugins: ['@babel/plugin-syntax-dynamic-import'],
+  plugins: [
+    '@babel/plugin-syntax-dynamic-import',
+    ['@babel/plugin-proposal-class-properties', { loose: true }]
+  ],
   comments: false
 }
