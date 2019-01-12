@@ -4,7 +4,9 @@
     "target": "esnext",
     "jsx": "preserve",
     "checkJs": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
   },
   "exclude": [
     "node_modules",

@@ -18,6 +18,9 @@ devDependencies:
   '@babel/plugin-proposal-class-properties': 7.2.3
   '@babel/plugin-syntax-dynamic-import': 7.2.0
   '@babel/preset-env': 7.2.3
+  '@nuxt/builder': 2.3.4
+  '@nuxt/core': 2.3.4
+  '@nuxt/generator': 2.3.4
   '@types/express': 4.16.0
   babel-core: 7.0.0-bridge.0
   babel-eslint: 10.0.1
@@ -39,6 +42,7 @@ devDependencies:
   husky: 1.3.1
   jest: 23.6.0
   lint-staged: 8.1.0
+  nuxt-ts: 0.2.1
   prettier: 1.15.3
   regenerator-runtime: 0.13.1
   request-promise-native: 1.0.5
@@ -1350,17 +1354,16 @@ packages:
     dependencies:
       '@nuxt/common': 2.3.4
       '@nuxt/vue-app': 2.3.4
-      '@nuxtjs/devalue': 1.1.0
+      '@nuxtjs/devalue': 1.2.0
       chokidar: 2.0.4
-      consola: 2.3.0
+      consola: 2.3.2
       fs-extra: 7.0.1
       glob: 7.1.3
       hash-sum: 1.0.2
       lodash: 4.17.11
       pify: 4.0.1
-      serialize-javascript: 1.5.0
+      serialize-javascript: 1.6.1
       upath: 1.1.0
-    dev: false
     resolution:
       integrity: sha512-cGgAJYywXhkfCg0/UIoyOWyew1XIOLYjRNxWuvR/eNLBd9TR/5n592VWCTkA20nsat0CNP47m8rTpbjQxETgHA==
   /@nuxt/cli/2.3.4:
@@ -1380,16 +1383,14 @@ packages:
       integrity: sha512-mjK43A0QWJCZnHPsdLeHCbPjGXvcL6lyiVCC1MTY0xavYt7hVnSvsacaOmH5/c1oNDh851nl9oqnM/PQzb+5ng==
   /@nuxt/common/2.3.4:
     dependencies:
-      consola: 2.3.0
-    dev: false
+      consola: 2.3.2
     resolution:
       integrity: sha512-vyvlaL2+LZATFkURIQBTGn8H7IFdV904s7bb0HlBDZYP96opLmprggdqa2OM7MTh8K0LXF8CYMDiL1gkJSbwUw==
   /@nuxt/config/2.3.4:
     dependencies:
       '@nuxt/common': 2.3.4
-      consola: 2.3.0
+      consola: 2.3.2
       std-env: 2.2.1
-    dev: false
     resolution:
       integrity: sha512-nFI6NVjCW8X/kO/XIt+aqnfBUcK+lXLNUuV+yqGl6cejcYRWPhPw9iTGBmjGqVef8M/CPGKxyi3jmVE2a3zMUQ==
   /@nuxt/core/2.3.4:
@@ -1398,14 +1399,13 @@ packages:
       '@nuxt/config': 2.3.4
       '@nuxt/server': 2.3.4
       '@nuxt/vue-renderer': 2.3.4
-      '@nuxtjs/devalue': 1.1.0
-      consola: 2.3.0
-      debug: 4.1.0
+      '@nuxtjs/devalue': 1.2.0
+      consola: 2.3.2
+      debug: 4.1.1
       esm: 3.0.84
       fs-extra: 7.0.1
       hash-sum: 1.0.2
       std-env: 2.2.1
-    dev: false
     resolution:
       integrity: sha512-8ESI+r6TAatb4mvDsI3V0CM8sDGs9185p0d6SXJvSZHJrt6556GiEVQPjfqKdqeZyVUJX6cAmR2Hxbh4Qc2BkQ==
   /@nuxt/friendly-errors-webpack-plugin/2.3.2/webpack@4.26.1:
@@ -1427,11 +1427,10 @@ packages:
   /@nuxt/generator/2.3.4:
     dependencies:
       '@nuxt/common': 2.3.4
-      chalk: 2.4.1
-      consola: 2.3.0
+      chalk: 2.4.2
+      consola: 2.3.2
       fs-extra: 7.0.1
       html-minifier: 3.5.21
-    dev: false
     resolution:
       integrity: sha512-dkr0AFsvuC2zOHvTZMtkkoo8Jv6qKgTFxEv9yGVF6+FoxeyC3aseoiHdMkfcXDrtQEZmkE+KkOCwy2TUkBGk8w==
   /@nuxt/server/2.3.4:
@@ -1440,10 +1439,10 @@ packages:
       '@nuxt/config': 2.3.4
       '@nuxtjs/youch': 4.2.3
       browserslist-useragent: 2.0.1
-      chalk: 2.4.1
+      chalk: 2.4.2
       compression: 1.7.3
       connect: 3.6.6
-      consola: 2.3.0
+      consola: 2.3.2
       etag: 1.8.1
       fresh: 0.5.2
       fs-extra: 7.0.1
@@ -1453,28 +1452,25 @@ packages:
       serve-placeholder: 1.1.0
       serve-static: 1.13.2
       server-destroy: 1.0.1
-    dev: false
     resolution:
       integrity: sha512-Uv60VaAdCVCxk5dFd9kKy+HOLO7Aip9z1/Uhd4I2++/AmDnzcX0Lsm17uQ4N35TyrHWs6MXD+QUlFfuYWml+AA==
   /@nuxt/vue-app/2.3.4:
-    dev: false
     resolution:
       integrity: sha512-csqCLpCujHaVfUazMHC9ovpImnpTOZsX5IFE0wWJu3XbXdzErK7TgEqfr5SCAtHMVXKtfCQqtnMjIuEljldP4g==
   /@nuxt/vue-renderer/2.3.4:
     dependencies:
       '@nuxt/common': 2.3.4
-      '@nuxtjs/devalue': 1.1.0
-      consola: 2.3.0
+      '@nuxtjs/devalue': 1.2.0
+      consola: 2.3.2
       fs-extra: 7.0.1
-      lru-cache: 4.1.4
-      vue: 2.5.17
-      vue-meta: 1.5.6
-      vue-no-ssr: 1.1.0
+      lru-cache: 4.1.5
+      vue: 2.5.21
+      vue-meta: 1.5.8
+      vue-no-ssr: 1.1.1
       vue-router: 3.0.2
-      vue-server-renderer: 2.5.17
-      vue-template-compiler: 2.5.17
+      vue-server-renderer: 2.5.21
+      vue-template-compiler: 2.5.21
       vuex: 3.0.1
-    dev: false
     resolution:
       integrity: sha512-TpRt9RoXlQu/zodzEDAfcTYLjCl4gIKYUX3ProEmkUR6521sJ6pNx1HQh7WxCULmQjPN9LNbcFPSx5d3oUwHlQ==
   /@nuxt/webpack/2.3.4:
@@ -1522,12 +1518,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2g+KputzC4raa20Vvg1hkNMtcrm90S0tcXx9XCv7pEmoMKzP0s4WrLCvZUFrFJosL9M6/8UvvNHsMcShnoCQdQ==
-  /@nuxtjs/devalue/1.1.0:
+  /@nuxtjs/devalue/1.2.0:
     dependencies:
-      consola: 2.3.0
-    dev: false
+      consola: 2.3.2
     resolution:
-      integrity: sha512-q0c6OY+NgIs0whENpQtGOdnxy95e357aBtX8ix4koMtqijjUuWO+SjFE/s3Apg7F+YfBWMuDJ0wj9ZWktzDnhg==
+      integrity: sha512-k5PwF2YD4BPqvNyDGUMZKx2nqMiqyz+9NqBKuhWYl+D5sElct/19Cos8X2qcxFze1u7nW7OZ+oYmkgibP9TK8g==
   /@nuxtjs/opencollective/0.2.0:
     dependencies:
       chalk: 2.4.1
@@ -1545,7 +1540,6 @@ packages:
       cookie: 0.3.1
       mustache: 2.3.2
       stack-trace: 0.0.10
-    dev: false
     resolution:
       integrity: sha512-XiTWdadTwtmL/IGkNqbVe+dOlT+IMvcBu7TvKI7plWhVQeBCQ9iKhk3jgvVWFyiwL2yHJDlEwOM5v9oVES5Xmw==
   /@octokit/endpoint/3.1.1:
@@ -2141,7 +2135,6 @@ packages:
     resolution:
       integrity: sha1-jCpe8kcv2ep0KwTHenUJO6J1fJM=
   /array-filter/0.0.1:
-    dev: false
     resolution:
       integrity: sha1-fajPLiZijtcygDWB/SH2fKzS7uw=
   /array-find-index/1.0.2:
@@ -2158,11 +2151,9 @@ packages:
     resolution:
       integrity: sha1-nlKHYrSpBmrRY6aWKjZEGOlibs4=
   /array-map/0.0.0:
-    dev: false
     resolution:
       integrity: sha1-iKK6tz0c97zVwbEYoAP2b2ZfpmI=
   /array-reduce/0.0.0:
-    dev: false
     resolution:
       integrity: sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=
   /array-union/1.0.2:
@@ -2723,10 +2714,9 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist-useragent/2.0.1:
     dependencies:
-      browserslist: 4.3.4
+      browserslist: 4.4.0
       semver: 5.6.0
       useragent: 2.3.0
-    dev: false
     engines:
       node: '>= 6.x.x'
     resolution:
@@ -2749,6 +2739,14 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-pWQv51Ynb0MNk9JGMCZ8VkM785/4MQNXiFYtPqI7EEP0TJO+/d/NqRVn1uiAN0DNbnlUSpL2sh16Kspasv3pUQ==
+  /browserslist/4.4.0:
+    dependencies:
+      caniuse-lite: 1.0.30000928
+      electron-to-chromium: 1.3.101
+      node-releases: 1.1.3
+    hasBin: true
+    resolution:
+      integrity: sha512-tQkHS8VVxWbrjnNDXgt7/+SuPJ7qDvD0Y2e6bLtoQluR2SPvlmPUcfcU75L1KAalhqULlIFJlJ6BDfnYyJxJsw==
   /bser/2.0.0:
     dependencies:
       node-int64: 0.4.0
@@ -2892,7 +2890,6 @@ packages:
     dependencies:
       no-case: 2.3.2
       upper-case: 1.1.3
-    dev: false
     resolution:
       integrity: sha1-yjw2iKTpzzpM2nd9xNy8cTJJz3M=
   /camelcase-keys/2.1.0:
@@ -2947,6 +2944,9 @@ packages:
     dev: true
     resolution:
       integrity: sha512-ogq4NbUWf1uG/j66k0AmiO3GjqJAlQyF8n4w8a954cbCyFKmYGvRtgz6qkq2fWuduTXHibX7GyYL5Pg58Aks2g==
+  /caniuse-lite/1.0.30000928:
+    resolution:
+      integrity: sha512-aSpMWRXL6ZXNnzm8hgE4QDLibG5pVJ2Ujzsuj3icazlIkxXkPXtL+BWnMx6FBkWmkZgBHGUxPZQvrbRw2ZTxhg==
   /capture-exit/1.2.0:
     dependencies:
       rsvp: 3.6.2
@@ -3031,7 +3031,6 @@ packages:
       path-is-absolute: 1.0.1
       readdirp: 2.2.1
       upath: 1.1.0
-    dev: false
     optionalDependencies:
       fsevents: 1.2.4
     resolution:
@@ -3079,7 +3078,6 @@ packages:
   /clean-css/4.2.1:
     dependencies:
       source-map: 0.6.1
-    dev: false
     engines:
       node: '>= 4.0'
     resolution:
@@ -3265,7 +3263,6 @@ packages:
   /compressible/2.0.15:
     dependencies:
       mime-db: 1.37.0
-    dev: false
     engines:
       node: '>= 0.6'
     resolution:
@@ -3279,7 +3276,6 @@ packages:
       on-headers: 1.0.1
       safe-buffer: 5.1.2
       vary: 1.1.2
-    dev: false
     engines:
       node: '>= 0.8.0'
     resolution:
@@ -3303,7 +3299,6 @@ packages:
       finalhandler: 1.1.0
       parseurl: 1.3.2
       utils-merge: 1.0.1
-    dev: false
     engines:
       node: '>= 0.10.0'
     resolution:
@@ -3325,7 +3320,6 @@ packages:
       figures: 2.0.0
       std-env: 2.2.1
       string-width: 2.1.1
-    dev: false
     resolution:
       integrity: sha512-7SAo6nBdWJw7XQFu0ZRnXbGBu+RhEp0/fEpm7lTnqRT6bHM0MwEkW0Yxv8phCP9s18qyMqBmVU/pJ2bri/TZIg==
   /console-browserify/1.1.0:
@@ -3973,11 +3967,9 @@ packages:
     resolution:
       integrity: sha512-Qlkiu0NNDpYwhk0syK4ImvAl/5YnsEMkvC2O123INviGeOA3Q8s5VyVkZzmN5SC7Wv9bb1+rfwO+uSqtHB4UWw==
   /dayjs/1.7.8:
-    dev: false
     resolution:
       integrity: sha512-Gp4Y5KWeSri0QOWGzHQz7VrKDkfEpS92dCLK7P8hYowRFbaym1vj3d6CoHio3apSS4KSi/qb5Edemv26IN5Hfg==
   /de-indent/1.0.2:
-    dev: false
     resolution:
       integrity: sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
   /debug/2.6.9:
@@ -4057,14 +4049,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
-  /deepmerge/2.2.1:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
   /deepmerge/3.0.0:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -4082,7 +4067,6 @@ packages:
       for-own: 0.1.5
       is-extendable: 0.1.1
       lazy-cache: 0.2.7
-    dev: false
     engines:
       node: '>=0.10.0'
     resolution:
@@ -4348,6 +4332,9 @@ packages:
     dev: true
     resolution:
       integrity: sha512-cEUzis2g/RatrVf8x26L8lK5VEls1AGnLHk6msluBUg/NTB4wcXzExTsGscFq+Vs4WBBU2zbLLySvD4C0C3hwg==
+  /electron-to-chromium/1.3.101:
+    resolution:
+      integrity: sha512-WiqTxlFFzJP1CbG3XFWfEhs2390qKvx92PQGGqAhin2pIR1mqZjR5zv+aQmloU/kutDN9UMq3yx8uCAIRS0Eow==
   /electron-to-chromium/1.3.85:
     dev: false
     resolution:
@@ -4708,7 +4695,6 @@ packages:
     resolution:
       integrity: sha512-LntwyPxtOHrsJdcSwyQKVtHofPHdv+4+mFwEe91r2V13vqpM8yLr7b1sW+Oo/yheOPkWYsYlYJCkzlFAt8KV7g==
   /esm/3.0.84:
-    dev: false
     engines:
       node: '>=6'
     resolution:
@@ -5119,7 +5105,6 @@ packages:
       parseurl: 1.3.2
       statuses: 1.3.1
       unpipe: 1.0.0
-    dev: false
     engines:
       node: '>= 0.8'
     resolution:
@@ -5301,7 +5286,7 @@ packages:
     bundledDependencies:
       - node-pre-gyp
     dependencies:
-      nan: 2.11.1
+      nan: 2.12.1
     engines:
       node: '>=0.8.0'
     optional: true
@@ -5648,7 +5633,6 @@ packages:
     resolution:
       integrity: sha1-X8hoaEfs1zSZQDMZprCj8/auSRg=
   /hash-sum/1.0.2:
-    dev: false
     resolution:
       integrity: sha1-M7QHd3VMZDJXPBIMw4CLvRDUfwQ=
   /hash.js/1.1.5:
@@ -5659,7 +5643,6 @@ packages:
     resolution:
       integrity: sha512-eWI5HG9Np+eHV1KQhisXWwM+4EPPYe5dFX1UZZH7k/E3JzDEazVH+VGlZi6R94ZqImq+A3D1mCEtrFIfg/E7sA==
   /he/1.2.0:
-    dev: false
     hasBin: true
     resolution:
       integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
@@ -5733,7 +5716,6 @@ packages:
       param-case: 2.1.1
       relateurl: 0.2.7
       uglify-js: 3.4.9
-    dev: false
     engines:
       node: '>=4'
     hasBin: true
@@ -6032,7 +6014,6 @@ packages:
     resolution:
       integrity: sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==
   /ip/1.1.5:
-    dev: false
     resolution:
       integrity: sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
   /ipaddr.js/1.8.0:
@@ -6922,7 +6903,6 @@ packages:
     resolution:
       integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
   /jsonify/0.0.0:
-    dev: false
     resolution:
       integrity: sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=
   /jsonparse/1.3.1:
@@ -6983,18 +6963,15 @@ packages:
   /launch-editor-middleware/2.2.1:
     dependencies:
       launch-editor: 2.2.1
-    dev: false
     resolution:
       integrity: sha512-s0UO2/gEGiCgei3/2UN3SMuUj1phjQN8lcpnvgLSz26fAzNWPQ6Nf/kF5IFClnfU2ehp6LrmKdMU/beveO+2jg==
   /launch-editor/2.2.1:
     dependencies:
-      chalk: 2.4.1
+      chalk: 2.4.2
       shell-quote: 1.6.1
-    dev: false
     resolution:
       integrity: sha512-On+V7K2uZK6wK7x691ycSUbLD/FyKKelArkbaAMSSJU8JmqmhwN2+mnJDNINuJWSrh2L0kDk+ZQtbC/gOWUwLw==
   /lazy-cache/0.2.7:
-    dev: false
     engines:
       node: '>=0.10.0'
     resolution:
@@ -7225,7 +7202,6 @@ packages:
     resolution:
       integrity: sha1-+CbJtOKoUR2E46yinbBeGk87cqk=
   /lodash.debounce/4.0.8:
-    dev: false
     resolution:
       integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=
   /lodash.escaperegexp/4.1.2:
@@ -7289,6 +7265,9 @@ packages:
     dev: true
     resolution:
       integrity: sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI=
+  /lodash.uniqueid/4.0.1:
+    resolution:
+      integrity: sha1-MmjyanyI5PSxdY1nknGBTjH6WyY=
   /lodash.upperfirst/4.3.1:
     dev: true
     resolution:
@@ -7342,7 +7321,6 @@ packages:
     resolution:
       integrity: sha1-W0b4AUft7leIcPCG0Eghz5mOVR8=
   /lower-case/1.1.4:
-    dev: false
     resolution:
       integrity: sha1-miyr0bno4K6ZOkv31YdcOcQujqw=
   /lru-cache/4.1.4:
@@ -7763,7 +7741,6 @@ packages:
     resolution:
       integrity: sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
   /mustache/2.3.2:
-    dev: false
     engines:
       npm: '>=1.4.0'
     hasBin: true
@@ -7773,10 +7750,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
-  /nan/2.11.1:
+  /nan/2.12.1:
     optional: true
     resolution:
-      integrity: sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
+      integrity: sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
   /nanomatch/1.2.13:
     dependencies:
       arr-diff: 4.0.0
@@ -7822,7 +7799,6 @@ packages:
   /no-case/2.3.2:
     dependencies:
       lower-case: 1.1.4
-    dev: false
     resolution:
       integrity: sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
   /node-abi/2.5.1:
@@ -7892,7 +7868,6 @@ packages:
   /node-releases/1.1.3:
     dependencies:
       semver: 5.6.0
-    dev: true
     resolution:
       integrity: sha512-6VrvH7z6jqqNFY200kdB6HdzkgM96Oaj9v3dqGfgp6mF+cHmU4wyQKZ2/WPDRVoR0Jz9KqbamaBN0ZhdUaysUQ==
   /noop-logger/0.1.1:
@@ -8115,6 +8090,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
+  /nuxt-ts/0.2.1:
+    dev: true
+    peerDependencies:
+      ts-loader: '*'
+      typescript: '*'
+    resolution:
+      integrity: sha512-ERoKlRJGnRn1/rPfBurz4f6477o0jKEpiyXB2xhzBQ9LcOKyWXa+341kWn/BTyM8/jFqeK+9lJzbwVZD6QHFgg==
   /nuxt/2.3.4:
     dependencies:
       '@nuxt/builder': 2.3.4
@@ -8213,7 +8195,6 @@ packages:
     resolution:
       integrity: sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=
   /on-headers/1.0.1:
-    dev: false
     engines:
       node: '>= 0.8'
     resolution:
@@ -8421,7 +8402,6 @@ packages:
   /param-case/2.1.1:
     dependencies:
       no-case: 2.3.2
-    dev: false
     resolution:
       integrity: sha1-35T9jPZTHs915r75oIWPvHK+Ikc=
   /parent-module/1.0.0:
@@ -8591,7 +8571,6 @@ packages:
     resolution:
       integrity: sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
   /pify/4.0.1:
-    dev: false
     engines:
       node: '>=6'
     resolution:
@@ -9875,7 +9854,6 @@ packages:
     resolution:
       integrity: sha512-RQ7YyokLiQBomUJuUG8iGVvkgOLxwyZM8k6d3q5SAXpg4r5TZJZigKFvC6PpD+qQ98bCDC5YelPeA3EucDoNeQ==
   /relateurl/0.2.7:
-    dev: false
     engines:
       node: '>= 0.10'
     resolution:
@@ -10040,7 +10018,6 @@ packages:
   /resolve/1.9.0:
     dependencies:
       path-parse: 1.0.6
-    dev: true
     resolution:
       integrity: sha512-TZNye00tI67lwYvzxCxHGjwTNlUV70io54/Ed4j6PscB8xVfuBJpRenI/o6dVk0cY0PYTY27AgCoGGxRnYuItQ==
   /restore-cursor/2.0.0:
@@ -10328,10 +10305,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Ga8c8NjAAp46Br4+0oZ2WxJCwIzwP60Gq1YPgU+39PiTVxyed/iKE/zyZI6+UlVYH5Q4PaQdHhcegIFPZTUfoQ==
+  /serialize-javascript/1.6.1:
+    resolution:
+      integrity: sha512-A5MOagrPFga4YaKQSWHryl7AXvbQkEqpw4NNYMTNYUNV51bA8ABHgYFpqKx+YFFrw59xMV1qGH1R4AgoNIVgCw==
   /serve-placeholder/1.1.0:
     dependencies:
       defaults-deep: 0.2.4
-    dev: false
     resolution:
       integrity: sha512-kMYOLX8hwcyQ/8nLuyPcOhGhi4c29sJLsfz3i1vOFQnYMtZdPSsJLxxblTU+5wf6CPHh/g3EYo/V/SQ6eVEO5Q==
   /serve-static/1.13.2:
@@ -10345,7 +10324,6 @@ packages:
     resolution:
       integrity: sha512-p/tdJrO4U387R9oMjb1oj7qSMaMfmOyd4j9hOFoxZe2baQszgHcSWjuya/CiT5kgZZKRudHNOA0pYXOl8rQ5nw==
   /server-destroy/1.0.1:
-    dev: false
     resolution:
       integrity: sha1-8Tv5KOQrnD55OD5hzDmYtdFObN0=
   /set-blocking/2.0.0:
@@ -10405,7 +10383,6 @@ packages:
       array-map: 0.0.0
       array-reduce: 0.0.0
       jsonify: 0.0.0
-    dev: false
     resolution:
       integrity: sha1-9HgZSczkAmlxJ0MOo7PFR29IF2c=
   /shellwords/0.1.1:
@@ -10540,7 +10517,6 @@ packages:
     resolution:
       integrity: sha1-PpNdfd1zYxuXZZlW1VEo6HtQhKM=
   /source-map/0.5.6:
-    dev: false
     engines:
       node: '>=0.10.0'
     resolution:
@@ -10641,7 +10617,6 @@ packages:
     resolution:
       integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
   /stack-trace/0.0.10:
-    dev: false
     resolution:
       integrity: sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
   /stack-utils/1.0.2:
@@ -10684,7 +10659,6 @@ packages:
     resolution:
       integrity: sha1-YICcOcv/VTNyJv1eC1IPNB8ftcY=
   /statuses/1.3.1:
-    dev: false
     engines:
       node: '>= 0.6'
     resolution:
@@ -10702,7 +10676,6 @@ packages:
   /std-env/2.2.1:
     dependencies:
       ci-info: 1.6.0
-    dev: false
     resolution:
       integrity: sha512-IjYQUinA3lg5re/YMlwlfhqNRTzMZMqE+pezevdcTaHceqx8ngEi1alX9nNCk9Sc81fy1fLDeQoaCzeiW1yBOQ==
   /stealthy-require/1.1.1:
@@ -11367,13 +11340,11 @@ packages:
     resolution:
       integrity: sha1-g3aHP30jNRef+x5vw6jtDfyKtVk=
   /upath/1.1.0:
-    dev: false
     engines:
       node: '>=4'
     resolution:
       integrity: sha512-bzpH/oBhoS/QI/YtbkqCg6VEiPYjSZtrHQM6/QnJS6OL9pKUFLqb3aFh4Scvwm45+7iAgiMkLhSbaZxUqmrprw==
   /upper-case/1.1.3:
-    dev: false
     resolution:
       integrity: sha1-9rRQHC7EzdJrp4vnIilh3ndiFZg=
   /uppercamelcase/3.0.0:
@@ -11432,9 +11403,8 @@ packages:
       integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
   /useragent/2.3.0:
     dependencies:
-      lru-cache: 4.1.4
+      lru-cache: 4.1.5
       tmp: 0.0.33
-    dev: false
     resolution:
       integrity: sha512-4AoH4pxuSvHCjqLO04sU6U/uE65BYza8l/KKBS0b0hnUPWi+cQ2BpeTEwejCSx9SPV5/U03nniDTrWx5NrmKdw==
   /util-deprecate/1.0.2:
@@ -11536,35 +11506,32 @@ packages:
       css-loader: '*'
     resolution:
       integrity: sha512-nVV27GNIA9MeoD8yQ3dkUzwlAaAsWeYSWZHsu/K04KCD339lW0Jv2sJWsjj3721SP7sl2lYdPmjcHgkWQSp5bg==
-  /vue-meta/1.5.6:
+  /vue-meta/1.5.8:
     dependencies:
-      deepmerge: 2.2.1
+      deepmerge: 3.0.0
       lodash.isplainobject: 4.0.6
+      lodash.uniqueid: 4.0.1
       object-assign: 4.1.1
-    dev: false
     resolution:
-      integrity: sha512-0MK3VGtAeZvGBkWmvCIsTE3LzoXvfbbduF1vbNOa491tYw7E1IlLMsmdr0DNypIdrFGS4NmOajVMJcDXCSp2VA==
-  /vue-no-ssr/1.1.0:
-    dev: false
+      integrity: sha512-cF/ADL1kA8Gn6wfSx0+kYIPAmJ49y9R0QlMS9tg5ddDDZWaZMZ0rveFWaTOKr0eabUV/H3D9ip68Xt9f5SFbyA==
+  /vue-no-ssr/1.1.1:
     resolution:
-      integrity: sha512-prJ9czuPrVu0GhUZKTS/epFfM15QjLuG6wt61g0nyixPXk0g6eY7wNF4RKIqJsxomOiuSYTv3Zo8A43Vi93xfw==
+      integrity: sha512-ZMjqRpWabMPqPc7gIrG0Nw6vRf1+itwf0Itft7LbMXs2g3Zs/NFmevjZGN1x7K3Q95GmIjWbQZTVerxiBxI+0g==
   /vue-router/3.0.2:
-    dev: false
     resolution:
       integrity: sha512-opKtsxjp9eOcFWdp6xLQPLmRGgfM932Tl56U9chYTnoWqKxQ8M20N7AkdEbM5beUh6wICoFGYugAX9vQjyJLFg==
-  /vue-server-renderer/2.5.17:
+  /vue-server-renderer/2.5.21:
     dependencies:
       chalk: 1.1.3
       hash-sum: 1.0.2
       he: 1.2.0
       lodash.template: 4.4.0
       lodash.uniq: 4.5.0
-      resolve: 1.8.1
-      serialize-javascript: 1.5.0
+      resolve: 1.9.0
+      serialize-javascript: 1.6.1
       source-map: 0.5.6
-    dev: false
     resolution:
-      integrity: sha512-n62Fg4xv9ouxNloW2U3Bru2Jj+DkbnnrlzwuTkaU1o7CIDifG+r0+ILLMW0eVjgCjhKefHTYjwJ49RJ3bCjv1Q==
+      integrity: sha512-bAkOYZ5DnmQKv3RboNbmCB4LReF2tIE20EgUeWrz/87aVkpMihf3FVK+8DT45nyN4k9iSQOhsyem49fq++cF8w==
   /vue-style-loader/4.1.2:
     dependencies:
       hash-sum: 1.0.2
@@ -11572,23 +11539,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0ip8ge6Gzz/Bk0iHovU9XAUQaFt/G2B61bnWa2tCcqqdgfHs1lF9xXorFbE55Gmy92okFT+8bfmySuUOu13vxQ==
-  /vue-template-compiler/2.5.17:
+  /vue-template-compiler/2.5.21:
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
-    dev: false
     resolution:
-      integrity: sha512-63uI4syCwtGR5IJvZM0LN5tVsahrelomHtCxvRkZPJ/Tf3ADm1U1wG6KWycK3qCfqR+ygM5vewUvmJ0REAYksg==
+      integrity: sha512-Vmk5Cv7UcmI99B9nXJEkaK262IQNnHp5rJYo+EwYpe2epTAXqcVyExhV6pk8jTkxQK2vRc8v8KmZBAwdmUZvvw==
   /vue-template-es2015-compiler/1.6.0:
     dev: false
     resolution:
       integrity: sha512-x3LV3wdmmERhVCYy3quqA57NJW7F3i6faas++pJQWtknWT+n7k30F4TVdHvCLn48peTJFRvCpxs3UuFPqgeELg==
-  /vue/2.5.17:
-    dev: false
+  /vue/2.5.21:
     resolution:
-      integrity: sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
+      integrity: sha512-Aejvyyfhn0zjVeLvXd70h4hrE4zZDx1wfZqia6ekkobLmUZ+vNFQer53B4fu0EjWBSiqApxPejzkO1Znt3joxQ==
   /vuex/3.0.1:
-    dev: false
     resolution:
       integrity: sha512-wLoqz0B7DSZtgbWL1ShIBBCjv22GV5U+vcBFox658g6V0s4wZV9P4YjCNyoHSyIBpj1f29JBoNQIqD82cR4O3w==
   /w3c-hr-time/1.0.1:
@@ -11985,6 +11949,9 @@ specifiers:
   '@babel/plugin-proposal-class-properties': ^7.2.3
   '@babel/plugin-syntax-dynamic-import': ^7.2.0
   '@babel/preset-env': ^7.2.3
+  '@nuxt/builder': ^2.3.4
+  '@nuxt/core': ^2.3.4
+  '@nuxt/generator': ^2.3.4
   '@types/express': ^4.16.0
   babel-core: ^7.0.0-bridge.0
   babel-eslint: ^10.0.1
@@ -12017,6 +11984,7 @@ specifiers:
   markdown-it-anchor: ^5.0.2
   markdown-it-toc-done-right: ^2.0.3
   nuxt: ^2.3.4
+  nuxt-ts: ^0.2.1
   param-case: ^2.1.1
   path-to-regexp: ^2.4.0
   prettier: ^1.15.3
