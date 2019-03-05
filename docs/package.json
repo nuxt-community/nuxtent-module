@@ -4,7 +4,7 @@
   "description": "nuxtent docs ",
   "author": "",
   "dependencies": {
-    "@nuxtjs/axios": "^4.5.2",
+    "@nuxtjs/axios": "5.4.1",
     "axios": "^0.17.1",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-link-attributes": "^2.0.0",
