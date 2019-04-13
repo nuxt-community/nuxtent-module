@@ -8,15 +8,14 @@ import { sep } from 'path'
  * Borrowed from vuepress, those guys are amazing
  * string.js slugify drops non ascii chars so we have to
  * use a custom implementation here
- * @param {string} str The string to slugify
- * @returns {string} The slugified string
  */
-export const slugify = (str) => {
+export const slugify = (str: string): string => {
   // eslint-disable-next-line no-control-regex
   const rControl = /[\u0000-\u001f]/g
   const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'<>,.?/]+/g
   return (
-    diacritics.remove(str)
+    diacritics
+      .remove(str)
       .normalize('NFD')
       // Remove control characters
       .replace(rControl, '')
@@ -41,7 +40,7 @@ export const logger = consola.withScope('nuxt:nuxtent')
  * // /pages/_category/_slug => pages-category-slug
  * @returns {string} The url like name
  */
-export const pathToName = routePath => {
+export const pathToName = (routePath: string): string => {
   const firstSlash = /^\//
   return routePath
     .replace(firstSlash, '')
@@ -55,7 +54,7 @@ export const pathToName = routePath => {
  * @param {Map} assetMap El mapa de páginas
  * @returns {String[]} array
  */
-export function generatePluginMap (assetMap) {
+export function generatePluginMap(assetMap) {
   const webpackAlias = '~/content'
   const mdComps = []
   for (const collections of assetMap.values()) {

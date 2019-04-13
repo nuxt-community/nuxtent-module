@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "*": ["types/*"]
+    },
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
@@ -13,6 +16,6 @@
     "baseUrl": "./lib",
     "lib": ["esnext"],
     "typeRoots": ["./types"],
-    "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app"]
+    "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app", "@types/markdown-it"]
   }
 }

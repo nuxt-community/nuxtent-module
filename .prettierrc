@@ -8,6 +8,7 @@
   "arrowParens": "avoid",
   "jsxBracketSameLine": true,
   "jsxSingleQuote": false,
+  "pluginSearchDirs": ["./node_modules"],
   "overrides": [
     {
       "files": ["*.scss"],
