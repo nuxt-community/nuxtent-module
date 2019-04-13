@@ -1,8 +1,7 @@
 import json from 'rollup-plugin-json'
-import babel from 'rollup-plugin-babel'
-import filesize from 'rollup-plugin-filesize'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import typescript from 'rollup-plugin-typescript'
 
 import pkg from './package.json'
 
@@ -11,40 +10,24 @@ const external = Object.keys(pkg.dependencies || {})
 
 const banner = `/**
 * Nuxtent v${version}
-* (c) ${new Date().getFullYear()} Alid Castano
+* (c) ${new Date().getFullYear()} César Valadez
 * @license MIT
 */
 `
 
 const corePlugins = [
+  typescript(),
   nodeResolve({
     preferBuiltins: true
   }),
   commonjs({
     include: 'node_modules/**'
   }),
-  babel({
-    babelrc: false,
-    exclude: 'node_modules/**',
-    plugins: ['@babel/plugin-syntax-dynamic-import'],
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          targets: {
-            node: 10
-          },
-          debug: false
-        }
-      ]
-    ]
-  }),
   json(),
-  filesize()
 ]
 
 const bundle = (name, options) => ({
-  input: `lib/${name}.js`,
+  input: `lib/${name}.ts`,
   output: [
     {
       file: `dist/${name}.js`,
