@@ -2,6 +2,7 @@
 import diacritics from 'diacritics'
 import consola from 'consola'
 import { sep } from 'path'
+import Database from './content/database'
 
 /**
  * Slugifies a string
@@ -54,13 +55,13 @@ export const pathToName = (routePath: string): string => {
  * @param {Map} assetMap El mapa de páginas
  * @returns {String[]} array
  */
-export function generatePluginMap(assetMap) {
+export function generatePluginMap(assetMap: Map<string, Database>) {
   const webpackAlias = '~/content'
   const mdComps = []
   for (const collections of assetMap.values()) {
-    for (const page of collections.__pagesMap.values()) {
+    for (const page of collections.pagesMap.values()) {
       if (page.meta.fileName.endsWith('.comp.md')) {
-        let filePath = webpackAlias + page.body.relativePath.substring(1)
+        const filePath = webpackAlias + page.body.relativePath.substring(1)
         mdComps.push([page.body.relativePath, filePath])
       }
     }

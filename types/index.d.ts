@@ -1,4 +1,6 @@
 import MarkdownIt from 'markdown-it'
+// import { NuxtConfiguration } from '@nuxt/config'
+// export NuxtConfiguration
 export namespace INuxtent {
   type RequestMethods = 'get' | 'getOnly' | ['getAll', { query: Query }]
   /**
@@ -46,7 +48,7 @@ export namespace INuxtent {
   /**
    * The api configuration for nuxtent
    */
-  interface ApiConfig {
+  interface ConfigApi {
     /** The host to use for generate and ssr requests */
     host: string
     /** The port to use for generate and ssr requests */
@@ -64,7 +66,7 @@ export namespace INuxtent {
     apiBrowserPrefix: string
   }
 
-  interface BuildConfig {
+  interface ConfigBuild {
     /** The alias used by webpack for the components folder */
     contentDirWebpackAlias: string
     /** Prefix for igonring content files */
@@ -135,5 +137,31 @@ export namespace INuxtent {
     /** The markdown Settings */
     settings: MarkdownSettings
   }
-  interface Config {}
+  type ContentArray = Array<[string, ConfigContent]>
+  type ConfigContentUser = ConfigContent | ContentArray
+  interface Config {
+    api: ConfigApi
+    markdown: ConfigMarkdown
+    toc: ConfigToc
+    build: ConfigBuild
+    content: ContentArray
+  }
+
+  interface ConfigUser {
+    api: ConfigApi
+    markdown: ConfigMarkdown
+    toc: ConfigToc
+    build: ConfigBuild
+    content: ConfigContentUser
+  }
+
+  type RoutePaths = Map<string, string>
+  type AssetMap = Map<string, string>
+}
+
+export interface ILodashTemplate {
+  src: string // `src` can be absolute or relative
+  dst: string // `dst` is relative to project `.nuxt` dir
+  // Options are provided to template as `options` key
+  options: any
 }

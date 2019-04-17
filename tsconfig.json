@@ -12,10 +12,15 @@
     "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
+    "strictNullChecks": false,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "baseUrl": "./lib",
     "lib": ["esnext"],
     "typeRoots": ["./types"],
-    "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app", "@types/markdown-it"]
+    "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app", "@types/markdown-it", "@nuxt/config"]
   }
 }

@@ -24,7 +24,9 @@ const { max, min } = Math
  * @class Database
  */
 export default class Database {
-  dirPath = ''
+  public dirPath = ''
+  public pagesMap: Map<any, any>
+  public pagesArr: any[]
   /**
    * Creates an instance of Database.
    * @param {Object} build The build config
@@ -58,7 +60,7 @@ export default class Database {
      */
     const globAndApply = (dirPath, nestedPath = sep) => {
       const stats = readdirSync(dirPath, {
-        withFileTypes: true
+        withFileTypes: true,
       }).reverse() // posts more useful in reverse order
       stats.forEach((stat, index) => {
         const statPath = join(dirPath, stat.name)
@@ -68,7 +70,13 @@ export default class Database {
             stat.name.search(/\.(yaml|yml|md|json)$/) !== -1 &&
             !stat.name.startsWith(ignorePrefix)
           ) {
-            const fileData = { index, fileName: stat.name, section: nestedPath, filePath: statPath, dirName: dirPath }
+            const fileData = {
+              index,
+              fileName: stat.name,
+              section: nestedPath,
+              filePath: statPath,
+              dirName: dirPath,
+            }
             const page = createMap(fileData)
             fileStore.set(page.permalink, page)
           }
@@ -96,7 +104,7 @@ export default class Database {
    * @returns {void}
    * @memberOf Database
    */
-  __loadBreadcrumbs(dirPage) {
+  public __loadBreadcrumbs(dirPage) {
     const target = dirPage
       .split('/')
       .slice(0, -1)
@@ -112,18 +120,18 @@ export default class Database {
         if (crumb !== target) {
           breadcrumbs.push({
             frontMatter: this.pagesMap.get(crumb).attributes,
-            permalink: crumb
+            permalink: crumb,
           })
         }
       }
       if (breadcrumbs.length > 0) {
         const attributes = {
           ...this.pagesMap.get(page.permalink).attributes,
-          ...{ breadcrumbs }
+          ...{ breadcrumbs },
         }
         const pageWithBreadcrumbs = {
           ...this.pagesMap.get(page.permalink),
-          attributes
+          attributes,
         }
         this.pagesMap.set(page.permalink, pageWithBreadcrumbs)
       }
@@ -135,7 +143,7 @@ export default class Database {
    * @public
    * @returns {boolean} Weather or not exist this page
    */
-  exists(permalink) {
+  public exists(permalink) {
     return this.pagesMap.has(permalink)
   }
 
@@ -144,7 +152,7 @@ export default class Database {
    * @param {any} query Query parameters that the page might need
    * @returns {NuxtentPageData} The page data
    */
-  find(permalink, query) {
+  public find(permalink, query) {
     return this.pagesMap.get(permalink).create(query)
   }
 
@@ -153,7 +161,7 @@ export default class Database {
    * @param {any} query The query parameters
    * @returns {NuxtentPageData[]} An array of pages that mathced the args
    */
-  findOnly(onlyArg, query) {
+  public findOnly(onlyArg, query) {
     if (typeof onlyArg === 'string') {
       onlyArg = onlyArg.split(',')
     }
@@ -161,9 +169,9 @@ export default class Database {
     const [startIndex, endIndex] = onlyArg
     let currIndex = max(0, parseInt(startIndex))
     const finalIndex =
-   endIndex !== undefined
-     ? min(parseInt(endIndex), this.pagesArr.length - 1)
-     : null
+      endIndex !== undefined
+        ? min(parseInt(endIndex), this.pagesArr.length - 1)
+        : null
 
     if (!finalIndex) {
       return this.pagesArr[currIndex].create(query)
@@ -185,7 +193,7 @@ export default class Database {
    * @param {any} query query parameters
    * @returns {NuxtentPageData[]} An array with the search results
    */
-  findBetween(betweenStr, query) {
+  public findBetween(betweenStr, query) {
     const { findOnly } = this
     const [currPermalink, numStr1, numStr2] = betweenStr.split(',')
 
@@ -230,8 +238,7 @@ export default class Database {
    * @param {*} query The query parameters
    * @returns {NuxtentPageData[]} The page array with all the content
    */
-  findAll(query) {
-    return this.pagesArr.map(
-      page => page.create(query))
+  public findAll(query) {
+    return this.pagesArr.map(page => page.create(query))
   }
 }

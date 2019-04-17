@@ -1,2 +1,1 @@
-export = index
-declare function index(md: any, options: any): void
+declare module 'markdown-it-toc-done-right'

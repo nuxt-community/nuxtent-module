@@ -8,7 +8,9 @@
     "quotemark": false,
     "semicolon": false,
     "ordered-imports": false,
-    "arrow-parens": false
+    "arrow-parens": false,
+    "trailing-comma": false,
+    "align": false
   },
   "rulesDirectory": []
 }

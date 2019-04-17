@@ -2,11 +2,12 @@ import { join } from 'path'
 import markdownItAnchor from 'markdown-it-anchor'
 import { merge } from 'lodash'
 import MarkdownIt from 'markdown-it'
-import markdownItTocDoneRight from '../types/markdown-it-toc-done-right'
 import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
 import { INuxtent } from '../types'
-
+import NuxtConfiguration, { Router, Module as ModuleConfig } from '@nuxt/config'
+import { RouteConfig, Route } from 'vue-router'
+import markdwonToc from 'markdown-it-toc-done-right'
 const createParser = (markdownConfig: INuxtent.ConfigMarkdown) => {
   const config = markdownConfig.settings
   if (typeof markdownConfig.extend === 'function') {
@@ -15,11 +16,11 @@ const createParser = (markdownConfig: INuxtent.ConfigMarkdown) => {
   const parser = new MarkdownIt(config)
   const plugins = markdownConfig.plugins || {}
 
-  Object.keys(plugins).forEach(plugin => {
-    Array.isArray(plugins[plugin])
-      ? parser.use.apply(parser, plugins[plugin])
-      : parser.use(plugins[plugin])
-  })
+  // Object.keys(plugins).forEach(plugin => {
+  //   Array.isArray(plugins[plugin])
+  //     ? parser.use.apply(parser, plugins[plugin])
+  //     : parser.use(plugins[plugin])
+  // })
 
   if (typeof markdownConfig.customize === 'function') {
     markdownConfig.customize(parser)
@@ -92,13 +93,35 @@ export default class NuxtentConfig implements INuxtent.Config {
     ['getAll', { query: { exclude: 'body' } }],
   ]
 
-  public content: { [dirName: string]: INuxtent.ConfigContent } = {}
+  public content: INuxtent.ContentArray
 
-  public api: INuxtent.ApiConfig = { ...this.defaultApi }
+  public api: INuxtent.ConfigApi
 
-  public build: INuxtent.BuildConfig = { ...this.defaultBuild }
+  public build: INuxtent.ConfigBuild
 
-  public markdown: INuxtent.ConfigMarkdown = { ...this.defaultMarkdown }
+  public markdown: INuxtent.ConfigMarkdown
+
+  public toc: INuxtent.ConfigToc
+
+  public routePaths: INuxtent.RoutePaths = new Map()
+
+  public assetMap: INuxtent.AssetMap = new Map()
+
+  public database: Map<string, Database>
+
+  /**
+   * @description An array of the static pages to render during generate
+   * @type {String[]} The routes of the pages to render
+   *
+   */
+  public staticRoutes: string[] = []
+
+  /**
+   * @description Is a static (--generate) build
+   * @type {boolean}
+   *
+   */
+  public isStatic: boolean = false
 
   /**
    * @type {NuxtentConfigContent}
@@ -116,7 +139,7 @@ export default class NuxtentConfig implements INuxtent.Config {
     toc: { ...this.defaultToc },
   }
 
-  protected defaultBuild: INuxtent.BuildConfig = {
+  protected defaultBuild: INuxtent.ConfigBuild = {
     buildDir: 'content',
     componentsDir: 'components',
     contentDir: 'content',
@@ -125,7 +148,7 @@ export default class NuxtentConfig implements INuxtent.Config {
     loaderComponentExtensions: ['.vue', '.js', '.mjs'],
   }
 
-  protected defaultApi: INuxtent.ApiConfig = {
+  protected defaultApi: INuxtent.ConfigApi = {
     apiBrowserPrefix: this.publicPath + this.defaultBuild.buildDir,
     apiServerPrefix: '/content-api',
     baseURL: `http://${this.host}:${this.port}`,
@@ -134,16 +157,16 @@ export default class NuxtentConfig implements INuxtent.Config {
     port: this.port,
   }
 
-  protected rawContent: [] = []
-
   /**
    * @description The default container struture for content collections
    *
    * @memberOf NuxtentConfig
    */
-  protected defaultContentContainer = [['/', { ...this.defaultContent }]]
+  protected defaultContentContainer: INuxtent.ContentArray = [
+    ['/', { ...this.defaultContent }],
+  ]
 
-  private userConfig = {
+  private userConfig: INuxtent.ConfigUser = {
     api: { ...this.defaultApi },
     build: { ...this.defaultBuild },
     content: { ...this.defaultContentContainer },
@@ -152,45 +175,29 @@ export default class NuxtentConfig implements INuxtent.Config {
   }
 
   /**
-   * @description The global toc configuration
-   * @type {NuxtentConfigToc}
-   *
-   * @memberOf NuxtentConfig
-   */
-  toc: NuxtentConfigToc = { ...this.defaultToc }
-
-  /**
-   * @description An array of the static pages to render during generate
-   * @type {String[]} The routes of the pages to render
-   *
-   * @memberOf NuxtentConfig
-   */
-  staticRoutes: string[] = []
-
-  /**
-   * @description Is a static (generated) build
-   * @type {boolean}
-   *
-   * @memberOf NuxtentConfig
-   */
-  isStatic: boolean = false
-
-  /**
    * Creates an instance of NuxtentConfig.
    * @param {Object} [moduleOptions={}] The module of the config found on nuxt.config.js
    * @param {Object} options The nuxt options found on ModuleContainer.options
    *
    * @memberOf NuxtentConfig
    */
-  constructor(moduleOptions: object = {}, options: object) {
+  constructor(moduleOptions: ModuleConfig, options: NuxtConfiguration) {
     this.host = options.host || this.host
     this.port = options.port || this.port
     process.env.NUXTENT_HOST = this.host
     process.env.NUXTENT_PORT = this.port
+    this.api = { ...this.defaultApi }
+    this.build = { ...this.defaultBuild }
+    this.markdown = { ...this.defaultMarkdown }
+    this.toc = { ...this.defaultToc }
+    this.content = { ...this.defaultContentContainer }
     merge(this.userConfig, moduleOptions, options.nuxtent)
-    this.publicPath = options.build.publicPath || this.publicPath
-    this.build.contentDir = join(options.srcDir, 'content')
-    this.build.componentsDir = join(options.srcDir, 'components')
+    if (options.build) {
+      this.publicPath = options.build.publicPath || this.publicPath
+    }
+    const srcDir = options.srcDir || '~/'
+    this.build.contentDir = join(srcDir, 'content')
+    this.build.componentsDir = join(srcDir, 'components')
   }
 
   /**
@@ -202,20 +209,15 @@ export default class NuxtentConfig implements INuxtent.Config {
    */
   get config() {
     return {
-      content: this.content,
       api: this.api,
       build: this.build,
+      content: this.content,
       markdown: this.markdown,
       toc: this.toc,
     }
   }
 
-  /**
-   * Loads the user configuration and parses the content modules
-   * @param {string} rootDir The proyect's root directory
-   * @returns {Promise.<NuxtentConfig>} this
-   */
-  async init(rootDir: string): Promise<NuxtentConfig> {
+  public async init(rootDir = '~/'): Promise<NuxtentConfig> {
     const userConfig = await this.loadNuxtentConfig(rootDir)
     merge(this.userConfig, userConfig)
     if (!Array.isArray(this.userConfig.content)) {
@@ -223,12 +225,11 @@ export default class NuxtentConfig implements INuxtent.Config {
         ['/', { ...this.defaultContent, ...this.userConfig.content }],
       ]
     }
-    this.rawContent = this.userConfig.content
     this.api = merge({}, this.defaultApi, this.userConfig.api)
     this.build = merge({}, this.defaultBuild, this.userConfig.build)
     this.markdown = merge({}, this.defaultMarkdown, this.userConfig.markdown)
     this.toc = merge({}, this.defaultToc, this.userConfig.toc)
-    this.content = this.formatContentOptions()
+    this.content = this.userConfig.content
     this.buildContent()
 
     // @ts-ignore
@@ -239,9 +240,10 @@ export default class NuxtentConfig implements INuxtent.Config {
   /**
    * Load the nuxtent config file
    * @param {String} rootDir The root of the proyect
-   * @returns {Promise.<NuxtentConfigUser>} The nuxtent user config
    */
-  async loadNuxtentConfig(rootDir: string): Promise<NuxtentConfigUser> {
+  public async loadNuxtentConfig(
+    rootDir: string
+  ): Promise<INuxtent.ConfigUser> {
     const rootConfig = join(rootDir, 'nuxtent.config.js')
     try {
       const configModule = await import(rootConfig)
@@ -260,19 +262,19 @@ export default class NuxtentConfig implements INuxtent.Config {
 
   /**
    * Formats the toc options
-   * @param {NuxtentConfigContent} dirOpts The content definition
-   * @returns {NuxtentConfigContent} The content with the toc formatted and the plugin inserted
+   * @param dirOpts The content definition
+   * @returns The content with the toc formatted and the plugin inserted
    */
-  setTocOptions(
-    dirOpts: NuxtentConfigContent = this.defaultContent
-  ): NuxtentConfigContent {
+  public setTocOptions(
+    dirOpts: INuxtent.ConfigContent = this.defaultContent
+  ): INuxtent.ConfigContent {
     // End early if is falsey
     if (!dirOpts.toc) {
       dirOpts.toc = false
       return dirOpts
     }
     // Local var to set the config
-    let tocConfig = this.defaultToc
+    const tocConfig = this.defaultToc
     if (typeof dirOpts.toc === 'number') {
       merge(tocConfig, {
         level: dirOpts.toc,
@@ -286,65 +288,17 @@ export default class NuxtentConfig implements INuxtent.Config {
     dirOpts.toc = tocConfig
     dirOpts.markdown.plugins.toc = [markdownItAnchor, tocConfig]
     dirOpts.markdown.plugins.markdownItTocDoneRight = [
-      markdownItTocDoneRight,
+      markdwonToc,
       {
-        slugify: slugify,
         containerClass: 'nuxtent-toc',
+        slugify,
       },
     ]
     return dirOpts
   }
 
-  /**
-   * Formats the content into an object
-   * @returns {object} Content config
-   */
-  formatContentOptions(): object {
-    // Single type content
-    if (!Array.isArray(this.rawContent)) {
-      throw new TypeError('Content is malformed')
-    }
-    // Multiple type content
-    return this.rawContent.reduce(
-      /**
-       * Maps
-       * @param {Object.<string, NuxtentConfigContent>} collection The collection
-       * @param {[string, NuxtentConfigContent]} contentGroup THe content config
-       * @returns {Object} alo
-       */
-      (
-        collection: { [s: string]: NuxtentConfigContent },
-        [dirName, dirOpts]: [string, NuxtentConfigContent]
-      ): object => {
-        if (dirName === '/' && this.rawContent.length > 1) {
-          // prevent endpoint conflict
-          throw new Error('Top level files not allowed with nested directories')
-        }
-        const key = `/${dirName}`
-        collection[key] = merge({}, this.defaultContent, dirOpts)
-        collection[key].markdown = merge(
-          {},
-          this.defaultMarkdown,
-          this.markdown,
-          collection[key].markdown
-        )
-        collection[key] = this.setTocOptions(collection[key])
-        collection[key].parser = createParser(collection[key].markdown)
-        return collection
-      },
-      {}
-    )
-  }
-
-  /**
-   * @type {NuxtentRoutePaths}
-   * @description paths to reconfigure
-   */
-  routePaths: NuxtentRoutePaths = new Map()
-  /** @type {Map.<string, string>} */
-  assetMap: Map<string, string> = new Map()
-  buildContent() {
-    this.rawContent.forEach(([, content]) => {
+  public buildContent() {
+    this.content.forEach(([, content]) => {
       const { page, permalink } = content
       if (page) {
         this.routePaths.set(pathToName(page), permalink.replace(/^\//, ''))
@@ -358,13 +312,11 @@ export default class NuxtentConfig implements INuxtent.Config {
    * @returns {void}
    */
 
-  interceptRoutes(moduleContianer: any): void {
-    /**
-     * Renames child routes
-     * @param {NuxtRoute} route The route
-     * @returns {void}
-     */
-    const renameRoutePath = (route: NuxtRoute): void => {
+  public interceptRoutes(moduleContianer: Router): void {
+    const renameRoutePath = (route: Route): Route => {
+      if (!route.name) {
+        return route
+      }
       let overwritedPath = this.routePaths.get(route.name)
       if (overwritedPath !== undefined) {
         const isOptional = route.path.match(/\?$/)
@@ -376,25 +328,24 @@ export default class NuxtentConfig implements INuxtent.Config {
           `Renamed ${route.name} path ${route.path} > ${overwritedPath}`
         )
         route.path = isOptional ? overwritedPath + '?' : overwritedPath
-      } else if (route.children) {
-        route.children.forEach(renameRoutePath)
       }
+      //  else if (route.children) {
+      //   route.children.forEach(renameRoutePath)
+      // }
+      return route
     }
-    return moduleContianer.extendRoutes(
-      (
-        /**
-         * @param {[NuxtRoute]} routes An array with the routes
-         * @returns {void}
-         */
-        routes: [NuxtRoute]
-      ): void => routes.forEach(renameRoutePath)
-    )
+    if (typeof moduleContianer.extendRoutes !== 'function') {
+      throw new Error('There is no "extendRoutes"')
+    }
+    moduleContianer.extendRoutes = (routes: Route[], resolve) => {
+      console.log(routes, resolve)
+      return routes.map(renameRoutePath)
+    }
   }
 
-  createContentDatabase() {
-    /** @type {Map.<string, Database>} */
+  public createContentDatabase() {
     const database: Map<string, Database> = new Map()
-    this.rawContent.forEach(([dirName, content]) => {
+    this.content.forEach(([dirName, content]) => {
       const db = new Database(this.build, dirName, content)
       database.set(dirName, db)
     })
