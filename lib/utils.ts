@@ -52,17 +52,20 @@ export const pathToName = (routePath: string): string => {
 /**
  * @description Genera objeto de componentes dinamicos
  *
- * @param {Map} assetMap El mapa de páginas
- * @returns {String[]} array
+ * @param assetMap El mapa de páginas
  */
 export function generatePluginMap(assetMap: Map<string, Database>) {
   const webpackAlias = '~/content'
-  const mdComps = []
+  const mdComps: Array<[string, string]> = []
   for (const collections of assetMap.values()) {
     for (const page of collections.pagesMap.values()) {
       if (page.meta.fileName.endsWith('.comp.md')) {
-        const filePath = webpackAlias + page.body.relativePath.substring(1)
-        mdComps.push([page.body.relativePath, filePath])
+        if (typeof page.body === 'string') {
+          logger.error('Content component file should have a relativePath')
+        } else {
+          const filePath = webpackAlias + page.body.relativePath.substring(1)
+          mdComps.push([page.body.relativePath, filePath])
+        }
       }
     }
   }

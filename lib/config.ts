@@ -4,11 +4,11 @@ import { merge } from 'lodash'
 import MarkdownIt from 'markdown-it'
 import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
-import { INuxtent } from '../types'
+import { Nuxtent } from '../types'
 import NuxtConfiguration, { Router, Module as ModuleConfig } from '@nuxt/config'
 import { RouteConfig, Route } from 'vue-router'
-import markdwonToc from 'markdown-it-toc-done-right'
-const createParser = (markdownConfig: INuxtent.ConfigMarkdown) => {
+import markdownItTocDoneRight from 'markdown-it-toc-done-right'
+const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
   const config = markdownConfig.settings
   if (typeof markdownConfig.extend === 'function') {
     markdownConfig.extend(config)
@@ -34,7 +34,7 @@ const createParser = (markdownConfig: INuxtent.ConfigMarkdown) => {
  * @export
  * @class NuxtentConfig
  */
-export default class NuxtentConfig implements INuxtent.Config {
+export default class NuxtentConfig implements Nuxtent.Config.Config {
   /**
    * @description The hostname to use the server
    * @type {String}
@@ -58,14 +58,14 @@ export default class NuxtentConfig implements INuxtent.Config {
    */
   public publicPath = '/_nuxt/'
 
-  public markdownSettings: INuxtent.MarkdownSettings = {
+  public markdownSettings: Nuxtent.Config.MarkdownSettings = {
     html: true,
     linkify: true,
     preset: 'default',
     typographer: true,
   }
 
-  public defaultMarkdown: INuxtent.ConfigMarkdown = {
+  public defaultMarkdown: Nuxtent.Config.Markdown = {
     customize: undefined,
     parser: undefined,
     plugins: {},
@@ -73,7 +73,7 @@ export default class NuxtentConfig implements INuxtent.Config {
     use: [],
   }
 
-  public defaultToc: INuxtent.ConfigToc = {
+  public defaultToc: Nuxtent.Config.Toc = {
     level: 2,
     permalink: true,
     permalinkClass: 'nuxtent-anchor',
@@ -87,27 +87,27 @@ export default class NuxtentConfig implements INuxtent.Config {
    *
    * @memberOf NuxtentConfig
    */
-  public requestMethods: INuxtent.RequestMethods[] = [
+  public requestMethods: Nuxtent.RequestMethods[] = [
     'getOnly',
     'get',
-    ['getAll', { query: { exclude: 'body' } }],
+    ['getAll', { query: { exclude: ['body'] } }],
   ]
 
-  public content: INuxtent.ContentArray
+  public content: Nuxtent.ContentArray
 
-  public api: INuxtent.ConfigApi
+  public api: Nuxtent.Config.Api
 
-  public build: INuxtent.ConfigBuild
+  public build: Nuxtent.Config.Build
 
-  public markdown: INuxtent.ConfigMarkdown
+  public markdown: Nuxtent.Config.Markdown
 
-  public toc: INuxtent.ConfigToc
+  public toc: Nuxtent.Config.Toc
 
-  public routePaths: INuxtent.RoutePaths = new Map()
+  public routePaths: Nuxtent.RoutePaths = new Map()
 
-  public assetMap: INuxtent.AssetMap = new Map()
+  public assetMap: Nuxtent.AssetMap = new Map()
 
-  public database: Map<string, Database>
+  public database!: Map<string, Database>
 
   /**
    * @description An array of the static pages to render during generate
@@ -127,7 +127,7 @@ export default class NuxtentConfig implements INuxtent.Config {
    * @type {NuxtentConfigContent}
    * @memberOf NuxtentConfig
    */
-  protected defaultContent: INuxtent.ConfigContent = {
+  protected defaultContent: Nuxtent.Config.Content = {
     breadcrumbs: false,
     data: undefined,
     isPost: false,
@@ -139,16 +139,17 @@ export default class NuxtentConfig implements INuxtent.Config {
     toc: { ...this.defaultToc },
   }
 
-  protected defaultBuild: INuxtent.ConfigBuild = {
+  protected defaultBuild: Nuxtent.Config.Build = {
     buildDir: 'content',
     componentsDir: 'components',
     contentDir: 'content',
     contentDirWebpackAlias: '~/components',
+    contentExtensions: ['json', 'md', 'yaml', 'yml'],
     ignorePrefix: '-',
     loaderComponentExtensions: ['.vue', '.js', '.mjs'],
   }
 
-  protected defaultApi: INuxtent.ConfigApi = {
+  protected defaultApi: Nuxtent.Config.Api = {
     apiBrowserPrefix: this.publicPath + this.defaultBuild.buildDir,
     apiServerPrefix: '/content-api',
     baseURL: `http://${this.host}:${this.port}`,
@@ -162,11 +163,11 @@ export default class NuxtentConfig implements INuxtent.Config {
    *
    * @memberOf NuxtentConfig
    */
-  protected defaultContentContainer: INuxtent.ContentArray = [
+  protected defaultContentContainer: Nuxtent.ContentArray = [
     ['/', { ...this.defaultContent }],
   ]
 
-  private userConfig: INuxtent.ConfigUser = {
+  private userConfig: Nuxtent.Config.User = {
     api: { ...this.defaultApi },
     build: { ...this.defaultBuild },
     content: { ...this.defaultContentContainer },
@@ -243,7 +244,7 @@ export default class NuxtentConfig implements INuxtent.Config {
    */
   public async loadNuxtentConfig(
     rootDir: string
-  ): Promise<INuxtent.ConfigUser> {
+  ): Promise<Nuxtent.Config.User> {
     const rootConfig = join(rootDir, 'nuxtent.config.js')
     try {
       const configModule = await import(rootConfig)
@@ -266,8 +267,8 @@ export default class NuxtentConfig implements INuxtent.Config {
    * @returns The content with the toc formatted and the plugin inserted
    */
   public setTocOptions(
-    dirOpts: INuxtent.ConfigContent = this.defaultContent
-  ): INuxtent.ConfigContent {
+    dirOpts: Nuxtent.Config.Content = this.defaultContent
+  ): Nuxtent.Config.Content {
     // End early if is falsey
     if (!dirOpts.toc) {
       dirOpts.toc = false
@@ -288,7 +289,7 @@ export default class NuxtentConfig implements INuxtent.Config {
     dirOpts.toc = tocConfig
     dirOpts.markdown.plugins.toc = [markdownItAnchor, tocConfig]
     dirOpts.markdown.plugins.markdownItTocDoneRight = [
-      markdwonToc,
+      markdownItTocDoneRight,
       {
         containerClass: 'nuxtent-toc',
         slugify,
@@ -338,7 +339,6 @@ export default class NuxtentConfig implements INuxtent.Config {
       throw new Error('There is no "extendRoutes"')
     }
     moduleContianer.extendRoutes = (routes: Route[], resolve) => {
-      console.log(routes, resolve)
       return routes.map(renameRoutePath)
     }
   }

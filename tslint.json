@@ -10,7 +10,8 @@
     "ordered-imports": false,
     "arrow-parens": false,
     "trailing-comma": false,
-    "align": false
+    "align": false,
+    "variable-name": false
   },
   "rulesDirectory": []
 }

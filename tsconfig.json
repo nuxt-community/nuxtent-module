@@ -3,7 +3,7 @@
     "paths": {
       "*": ["types/*"]
     },
-    "target": "es5",
+    "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -12,7 +12,7 @@
     "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "downlevelIteration": true,
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
@@ -22,5 +22,8 @@
     "lib": ["esnext"],
     "typeRoots": ["./types"],
     "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app", "@types/markdown-it", "@nuxt/config"]
+  },
+  "typeAcquisition": {
+    "enable": true
   }
 }

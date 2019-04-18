@@ -30,6 +30,7 @@ devDependencies:
   '@types/express': 4.16.1
   '@types/express-serve-static-core': 4.16.2
   '@types/html-minifier': 3.5.3
+  '@types/js-yaml': 3.12.1
   '@types/lodash': 4.14.123
   '@types/loglevel': 1.5.4
   '@types/markdown-it': 0.0.7
@@ -1147,6 +1148,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-j1P/4PcWVVCPEy5lofcHnQ6BtXz9tHGiFPWzqm7TtGuWZEfCHEP446HlkSNc9fQgNJaJZ6ewPtp2aaFla/Uerg==
+  /@types/js-yaml/3.12.1:
+    dev: true
+    resolution:
+      integrity: sha512-SGGAhXLHDx+PK4YLNcNGa6goPf9XRWQNAUUbffkwVGGXIxmDKWyGGL4inzq2sPmExu431Ekb9aEMn9BkPqEYFA==
   /@types/linkify-it/2.1.0:
     dev: true
     resolution:
@@ -7306,6 +7311,7 @@ specifiers:
   '@types/express': ^4.16.1
   '@types/express-serve-static-core': ^4.16.2
   '@types/html-minifier': ^3.5.3
+  '@types/js-yaml': ^3.12.1
   '@types/lodash': 4.14.123
   '@types/loglevel': ^1.5.4
   '@types/markdown-it': 0.0.7

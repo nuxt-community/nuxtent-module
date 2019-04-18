@@ -22,6 +22,7 @@ async function nuxtentModule(
   await nuxtentConfig.init(this.options.rootDir)
   this.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
     const isStatic = ((builder.bundleBuilder || {}).buildContext || {}).isStatic
+    console.log(builder.bundleBuilder.buildContext)
     if (typeof isStatic === 'undefined') {
       logger.error("Can't define if this is a static build or not")
     }

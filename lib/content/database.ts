@@ -2,21 +2,10 @@ import { join, sep } from 'path'
 import { readdirSync } from 'fs'
 
 import Page from './page'
+import { Nuxtent } from '../../types/index'
 
 const { max, min } = Math
-/** @typedef {import('../config').NuxtentConfigContent} NuxtentConfigContent */
-/** @typedef {import('./page').NuxtentPageData} NuxtentPageData */
-/**
- * @typedef {Object} NuxtentFileMeta
- * @property {number} index The index of the file
- * @property {string} fileName The filename
- * @property {string} section The section aka folder of the file
- * @property {string} filePath The section aka folder of the file
- * @property {string} dirName The directory for the content
- */
-/**
- * @typedef {Map.<string, Page>} NuxtentFileStore
- */
+
 /**
  * @description The database for each content container
  *
@@ -25,61 +14,67 @@ const { max, min } = Math
  */
 export default class Database {
   public dirPath = ''
-  public pagesMap: Map<any, any>
-  public pagesArr: any[]
+  public pagesMap: Map<string, Page>
+  public pagesArr: Page[]
   /**
    * Creates an instance of Database.
-   * @param {Object} build The build config
+   * @param {Nuxtent.Config.Build} build The build config
    * @param {string} build.contentDir The directory where the content is located
    * @param {string} build.ignorePrefix The string prefix for ignored files
    * @param {string} dirName The name of the folder for the content
-   * @param {NuxtentConfigContent} dirOpts The content container options
+   * @param {Nuxtent.Config.Content} dirOpts The content container options
    *
    * @memberOf Database
    */
-  constructor({ contentDir, ignorePrefix }, dirName, dirOpts) {
-    /** @type {string} */
-    this.dirPath = join(contentDir, dirName)
+  constructor(
+    build: Nuxtent.Config.Build,
+    dirName: string,
+    dirOpts: Nuxtent.Config.Content
+  ) {
+    this.dirPath = join(build.contentDir, dirName)
 
-    /** @type {NuxtentFileStore} */
-    const fileStore = new Map()
-    /**
-     *
-     * @param {NuxtentFileMeta} meta The metadata of the file
-     * @returns {Page} The page
-     */
-    const createMap = ({ index, fileName, section }) => {
-      const filePath = join(contentDir, dirName, section, fileName)
+    const fileStore: Nuxtent.FileStore = new Map()
+
+    const createMap = ({
+      index,
+      fileName,
+      section,
+    }: Nuxtent.Database.FileMeta) => {
+      const filePath = join(build.contentDir, dirName, section, fileName)
       const meta = { index, fileName, section, dirName, filePath }
       return new Page(meta, dirOpts)
     }
+
     /**
-     * @param {string} dirPath The directory path
-     * @param {string} nestedPath The path to search
-     * @returns {NuxtentFileStore} The filled file store
+     * Checks if the file has an allowed extension and if we should ignore it
+     * @param name The name of the file.
      */
-    const globAndApply = (dirPath, nestedPath = sep) => {
+    function canProcesFile(name: string): boolean {
+      const fileTest = new RegExp(`\.(${build.contentExtensions.join('|')}$)`)
+      return (
+        name.search(fileTest) !== -1 && !name.startsWith(build.ignorePrefix)
+      )
+    }
+
+    const globAndApply = (
+      dirPath: string,
+      nestedPath: string = sep
+    ): Nuxtent.FileStore => {
       const stats = readdirSync(dirPath, {
         withFileTypes: true,
       }).reverse() // posts more useful in reverse order
       stats.forEach((stat, index) => {
         const statPath = join(dirPath, stat.name)
-        if (stat.isFile()) {
-          // Allow only yaml and markdown files
-          if (
-            stat.name.search(/\.(yaml|yml|md|json)$/) !== -1 &&
-            !stat.name.startsWith(ignorePrefix)
-          ) {
-            const fileData = {
-              index,
-              fileName: stat.name,
-              section: nestedPath,
-              filePath: statPath,
-              dirName: dirPath,
-            }
-            const page = createMap(fileData)
-            fileStore.set(page.permalink, page)
+        if (stat.isFile() && canProcesFile(stat.name)) {
+          const fileData: Nuxtent.Database.FileMeta = {
+            dirName: dirPath,
+            fileName: stat.name,
+            filePath: statPath,
+            index,
+            section: nestedPath,
           }
+          const page = createMap(fileData)
+          fileStore.set(page.permalink, page)
         } else {
           globAndApply(statPath, join(nestedPath, stat.name))
         }
@@ -90,94 +85,68 @@ export default class Database {
     this.pagesMap = globAndApply(this.dirPath)
 
     if (dirOpts.breadcrumbs === true) {
-      this.__loadBreadcrumbs(dirOpts.page)
+      this.loadBreadcrumbs(dirOpts.page)
     }
 
     this.pagesArr = [...this.pagesMap.values()]
   }
 
   /**
-   * @description Loads the breadcrumbs
-   *
-   * @param {string} dirPage The page directory
-   * @private
-   * @returns {void}
-   * @memberOf Database
-   */
-  public __loadBreadcrumbs(dirPage) {
-    const target = dirPage
-      .split('/')
-      .slice(0, -1)
-      .join('/')
-    for (const page of this.pagesMap.values()) {
-      const hops = page.permalink.substr(target.length + 1).split('/')
-      const breadcrumbs = []
-      for (let i = 0; i < hops.length; i++) {
-        let crumb = target
-        for (let j = 0; j < i; j++) {
-          crumb += '/' + hops[j]
-        }
-        if (crumb !== target) {
-          breadcrumbs.push({
-            frontMatter: this.pagesMap.get(crumb).attributes,
-            permalink: crumb,
-          })
-        }
-      }
-      if (breadcrumbs.length > 0) {
-        const attributes = {
-          ...this.pagesMap.get(page.permalink).attributes,
-          ...{ breadcrumbs },
-        }
-        const pageWithBreadcrumbs = {
-          ...this.pagesMap.get(page.permalink),
-          attributes,
-        }
-        this.pagesMap.set(page.permalink, pageWithBreadcrumbs)
-      }
-    }
-  }
-
-  /**
-   * @param {any} permalink The permalink for the page
+   * @param {string} permalink The permalink for the page
    * @public
    * @returns {boolean} Weather or not exist this page
    */
-  public exists(permalink) {
+  public exists(permalink: string): boolean {
     return this.pagesMap.has(permalink)
   }
 
   /**
-   * @param {any} permalink The permalink for the page
-   * @param {any} query Query parameters that the page might need
-   * @returns {NuxtentPageData} The page data
+   * @param permalink The permalink for the page
+   * @param query parameters that the page might need
+   * @returns The page data
    */
-  public find(permalink, query) {
-    return this.pagesMap.get(permalink).create(query)
+  public find(
+    permalink: string,
+    query: Nuxtent.Query
+  ): Nuxtent.Page.PublicPage | null {
+    const page = this.pagesMap.get(permalink)
+    if (page) {
+      return page.create(query)
+    }
+    return null
   }
 
   /**
-   * @param {string[] | [string, string] | string} onlyArg Arguments for the search
-   * @param {any} query The query parameters
-   * @returns {NuxtentPageData[]} An array of pages that mathced the args
+   * @param onlyArg Arguments for the search
+   * @param query The query parameters
+   * @returns An array of pages that mathced the args
    */
-  public findOnly(onlyArg, query) {
+  public findOnly(
+    onlyArg: Nuxtent.OnlyArg,
+    query: Nuxtent.Query
+  ): Nuxtent.Page.PublicPage[] {
     if (typeof onlyArg === 'string') {
       onlyArg = onlyArg.split(',')
     }
 
     const [startIndex, endIndex] = onlyArg
-    let currIndex = max(0, parseInt(startIndex))
+    let currIndex =
+      typeof startIndex === 'number'
+        ? startIndex
+        : max(0, parseInt(startIndex, 10))
     const finalIndex =
       endIndex !== undefined
-        ? min(parseInt(endIndex), this.pagesArr.length - 1)
+        ? min(
+            typeof endIndex === 'number' ? endIndex : parseInt(endIndex, 10),
+            this.pagesArr.length - 1
+          )
         : null
 
     if (!finalIndex) {
-      return this.pagesArr[currIndex].create(query)
+      return [this.pagesArr[currIndex].create(query)]
     }
 
-    const pages = []
+    const pages: Page[] = []
     if (finalIndex) {
       while (currIndex <= finalIndex) {
         pages.push(this.pagesArr[currIndex])
@@ -193,52 +162,97 @@ export default class Database {
    * @param {any} query query parameters
    * @returns {NuxtentPageData[]} An array with the search results
    */
-  public findBetween(betweenStr, query) {
-    const { findOnly } = this
+  public findBetween(
+    betweenStr: string,
+    query: Nuxtent.Query
+  ): Nuxtent.Page.PublicPage[] {
     const [currPermalink, numStr1, numStr2] = betweenStr.split(',')
 
     if (!this.pagesMap.has(currPermalink)) {
       return []
     }
-
-    const currPage = this.pagesMap.get(currPermalink).create(query)
+    const page = this.pagesMap.get(currPermalink)
+    if (!page) {
+      return []
+    }
+    const currPage = page.create(query)
+    if (!currPage.meta) {
+      console.warn('You should not exclude meta when querying between')
+      return []
+    }
     const { index } = currPage.meta
     const total = this.pagesArr.length - 1
 
-    const num1 = parseInt(numStr1 || 0)
-    const num2 = numStr2 !== undefined ? parseInt(numStr2) : null
+    const num1 = parseInt(numStr1 || '0', 10)
+    const num2 = numStr2 !== undefined ? parseInt(numStr2, 10) : null
 
     if (num1 === 0 && num2 === 0) {
       return [currPage]
     }
 
-    /** @type {number[] | never[]} */
-    let beforeRange
+    let beforeRange: [number, number] | never[]
     if (num1 === 0) {
       beforeRange = []
     } else {
       beforeRange = [max(0, index - num1), max(min(index - 1, total), 0)]
     }
 
-    /** @type {number[] | never[]} */
-    let afterRange
+    let afterRange: [number, number] | never[]
     if (num2 === 0 || (!num2 && num1 === 0)) {
       afterRange = []
     } else {
       afterRange = [min(index + 1, total), min(index + (num2 || num1), total)]
     }
 
-    const beforePages = findOnly(beforeRange, query)
-    const afterPages = findOnly(afterRange, query)
+    const beforePages = this.findOnly(beforeRange, query)
+    const afterPages = this.findOnly(afterRange, query)
 
-    return [currPage, beforePages, afterPages]
+    return [currPage, ...beforePages, ...afterPages]
   }
 
   /**
-   * @param {*} query The query parameters
-   * @returns {NuxtentPageData[]} The page array with all the content
+   * @param query The query parameters
+   * @returns The page array with all the content
    */
-  public findAll(query) {
+  public findAll(query: Nuxtent.Query): Nuxtent.Page.PublicPage[] {
     return this.pagesArr.map(page => page.create(query))
+  }
+
+  /**
+   * @description Loads the breadcrumbs
+   *
+   * @param {string} dirPage The page directory
+   * @private
+   * @returns {void}
+   * @memberOf Database
+   */
+  protected loadBreadcrumbs(dirPage: string) {
+    const target = dirPage
+      .split('/')
+      .slice(0, -1)
+      .join('/')
+    for (const page of this.pagesMap.values()) {
+      const hops = page.permalink.substr(target.length + 1).split('/')
+      const breadcrumbs: Nuxtent.Page.Breadcrumbs[] = []
+      for (let i = 0; i < hops.length; i++) {
+        let crumb = target
+        for (let j = 0; j < i; j++) {
+          crumb += '/' + hops[j]
+        }
+        if (crumb !== target) {
+          const crumbPage = this.pagesMap.get(crumb)
+          if (crumbPage) {
+            breadcrumbs.push({
+              frontMatter: crumbPage.attributes,
+              permalink: crumb,
+            })
+          }
+        }
+      }
+      if (breadcrumbs.length > 0) {
+        page.breadcrumbs = breadcrumbs
+        this.pagesMap.set(page.permalink, page)
+      }
+    }
   }
 }

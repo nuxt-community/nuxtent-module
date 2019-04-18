@@ -6,24 +6,11 @@ import dateFns from 'date-fns'
 import _ from 'lodash'
 import pathToRegexp from 'path-to-regexp'
 import yaml from 'js-yaml'
-import { slugify } from '../utils'
+import { slugify, logger } from '../utils'
 // import { logger } from '../utils'
-
-/** @typedef {import('./database').NuxtentFileMeta} NuxtentFileMeta */
-/** @typedef {import('../config').NuxtentConfigContent} NuxtentConfigContent */
-
-/**
- * @typedef {Object} NuxtentPageData The page data
- * @property {*} [meta]
- * @property {string} [date]
- * @property {string} [path]
- * @property {string} [permalink]
- * @property {Object} [attributes]
- * @property {Object} [toc]
- * @property {Object} [data]
- * @property {Object|string} [body]
- */
-
+import { Nuxtent } from '../../types'
+import Anchor from 'markdown-it-anchor'
+import Token from 'markdown-it/lib/token'
 const permalinkCompiler = pathToRegexp.compile
 
 /**
@@ -31,7 +18,7 @@ const permalinkCompiler = pathToRegexp.compile
  * @param {string} fileName The file name
  * @returns {string} the slugified string
  */
-const getSlug = fileName => {
+const getSlug = (fileName: string): string => {
   const onlyName = slugify(fileName)
     .replace(/(\.comp)?(\.[0-9a-z]+$)/, '') // remove any ext
     .replace(/!?(\d{4}-\d{2}-\d{2}-)/, '') // remove date and hypen
@@ -43,115 +30,67 @@ const getSlug = fileName => {
  * @param {string} date The date
  * @returns {{year: string, month: string, day: string}} The date object
  */
-const splitDate = date => {
+const splitDate = (
+  date: string
+): { year: string; month: string; day: string } => {
   const [year, month, day] = date.split('-')
   return {
-    year,
+    day,
     month,
-    day
+    year,
   }
 }
 
 const isDev = process.env.NODE_ENV !== 'production'
 export default class Page {
   /**
-   * @typedef {'meta' | 'date' | 'path' | 'permalink' | 'attributes' | 'body' | 'toc'} NuxtentPageProp
+   * Gets the meta but hides the file path
    */
-  /**
-   * Creates an instance of Page.
-   * @param {NuxtentFileMeta} meta The metadata for the page file
-   * @param {NuxtentConfigContent} contentConfig The content configuration
-   *
-   * @memberOf Page
-   */
-  constructor(meta, contentConfig) {
-    /**
-     * @type NuxtentPageData
-     */
-    this.cached = {}
-    this.__meta = meta
-    this.__config = contentConfig
-    /**
-     * @type {NuxtentPageProp[]}
-     */
-    this.propsSet = ['meta', 'date', 'path', 'permalink', 'attributes', 'body']
-    if (contentConfig.toc !== false) {
-      this.propsSet.push('toc')
-    }
-  }
-  /**
-   * @description Creates an instance of the page
-   *
-   * @param {Object} [params={}] Params
-   * @param {NuxtentPageProp[]} [params.exclude] The props exclution list
-   * @returns  {Object} The page content
-   *
-   * @memberOf Page
-   */
-  create(params = {}) {
-    const props = new Set(this.propsSet)
-
-    if (params.exclude) {
-      params.exclude.forEach(prop => {
-        if (props.has(prop)) {
-          props.delete(prop)
-        }
-      })
-    }
-
-    /**
-     * @type {Object}
-     * @property {*} [meta]
-     * @property {Date} [date]
-     * @property {string} [path]
-     * @property {string} [permalink]
-     * @property {Object} [attributes]
-     * @property {Object|string} [body]
-     */
-    const data = {}
-    props.forEach(prop => {
-      if (prop === 'attributes') {
-        Object.assign(data, this[prop])
-      } else {
-        data[prop] = this[prop]
-      }
-    })
-
-    return data
-  }
-  get meta() {
+  get meta(): Nuxtent.Database.FileMeta {
     const cleanedMeta = Object.assign({}, this.__meta)
+    // Never expose the filePath
     delete cleanedMeta.filePath
     return cleanedMeta
   }
+
+  /**
+   * Gets the path of the file
+   */
   get path() {
-    const { permalink } = this
-    if (!this.__config.page) {
-      return permalink
+    // If there is no page defined in the configuration return the permalink
+    if (!this.config.page) {
+      return this.permalink
     }
+    // If is dev or isn't cached make it
     if (isDev || !this.cached.path) {
       const nestedPath = /([^_][a-zA-z]*?)\/[^a-z_]*/
-      const matchedPath = this.__config.page.match(nestedPath)
+      const matchedPath = this.config.page.match(nestedPath)
       if (matchedPath && matchedPath[1] !== 'index') {
-        this.cached.path = join(matchedPath[1], permalink).replace(/\\|\/\//, '/')
+        this.cached.path = join(matchedPath[1], this.permalink).replace(
+          /\\|\/\//,
+          '/'
+        )
       } else {
-        this.cached.path = permalink.replace(/\\|\/\//, '/')
+        this.cached.path = this.permalink.replace(/\\|\/\//, '/')
       }
     }
     return this.cached.path
   }
 
+  /**
+   * Gets the valid permalink for this page
+   */
   get permalink() {
     if (isDev || !this.cached.permalink) {
-      const { date } = this
+      const date = this.date.toString()
       const { section, fileName } = this.meta
       const slug = getSlug(fileName)
       const { year, month, day } = splitDate(date)
       const params = { section, slug, date, year, month, day }
-      const toPermalink = permalinkCompiler(this.__config.permalink)
+      const toPermalink = permalinkCompiler(this.config.permalink)
       let permalink = join(
         '/',
-        toPermalink(params, { pretty: true }).replace(/%2F/gi, '/') // make url encoded slash pretty
+        toPermalink(params).replace(/%2F/gi, '/') // make url encoded slash pretty
       )
       // Handle permalinks for subdirectory indexes
       if (permalink.length > 6 && permalink.substr(-6) === '/index') {
@@ -161,30 +100,38 @@ export default class Page {
     }
     return this.cached.permalink
   }
+
+  /**
+   * Gets all the attributes
+   */
   get attributes() {
-    if (typeof this.__config.data === 'object') {
-      return { ...this._rawData.attributes, ...this.__config.data }
+    if (typeof this.config.data === 'object') {
+      return { ...this._rawData.attributes, ...this.config.data }
     }
     return this._rawData.attributes
   }
 
-  get body() {
+  /**
+   * Gets the body contents for the object
+   */
+  get body(): Nuxtent.Page.Body {
     if (isDev || !this.cached.body) {
-      const { _rawData } = this
       const { dirName, section, fileName, filePath } = this.__meta
       if (fileName.search(/\.comp\.md$/) > -1) {
         let relativePath = '.' + join(dirName, section, fileName)
         relativePath = relativePath.replace(/\\/, '/') // normalize windows path
         this.cached.body = {
-          relativePath // component body compiled by loader and imported separately
+          relativePath, // component body compiled by loader and imported separately
         }
       } else if (fileName.search(/\.md$/) > -1) {
-        if (this.__config.markdown.plugins.toc) {
+        if (this.config.markdown.plugins.toc) {
           // Inject callback in markdown-it-anchor plugin
-          this.__config.markdown.plugins.toc[1].callback = this.tocParserCallback
+          const tocPlugin: [CallableFunction, Nuxtent.Config.Toc] = this.config
+            .markdown.plugins.toc
+          tocPlugin[1].callback = this.tocParserCallback
         }
         // markdown to html
-        this.cached.body = this.__config.parser.render(_rawData.body)
+        this.cached.body = this.config.parser.render(this._rawData.body.content)
       } else if (fileName.search(/\.(yaml|yml)$/) > -1) {
         const source = readFileSync(filePath).toString()
         const body = yaml.load(source)
@@ -197,7 +144,7 @@ export default class Page {
   get date() {
     if (isDev || !this.cached.date) {
       const { filePath, fileName, section } = this.__meta
-      if (this.__config.isPost) {
+      if (this.config.isPost) {
         const fileDate = fileName.match(/!?(\d{4}-\d{2}-\d{2})/) // YYYY-MM-DD
         if (!fileDate) {
           throw new Error(
@@ -213,30 +160,41 @@ export default class Page {
     return this.cached.date
   }
 
-  get _rawData() {
+  get _rawData(): Nuxtent.Page.RawData {
     if (isDev || !this.cached.data) {
       const source = readFileSync(this.__meta.filePath).toString()
-      if (this.__meta.fileName.search(/\.md$/) > -1) {
-        const { data: attributes, content: body } = matter(source)
-        this.cached.data = { attributes, body }
-      } else if (this.__meta.fileName.search(/\.(yaml|yml)$/) > -1) {
-        const body = yaml.load(source)
-        this.cached.data = { attributes: {}, body }
+      const fileName = this.__meta.fileName
+      if (fileName.search(/\.(md|html)$/) !== -1) {
+        // { data: attributes, content: body } = matter(source)
+        const result = matter(source)
+        this.cached.data.attributes = Object.assign(
+          { excerpt: result.excerpt },
+          result.data
+        )
+        this.cached.data.body.content = result.content
+      } else if (fileName.search(/\.(yaml|yml)$/) !== -1) {
+        this.cached.data.body.content = yaml.load(source)
+      } else if (fileName.endsWith('.json')) {
+        this.cached.data.body.content = JSON.parse(source)
+      } else {
+        logger.warn(`The file ${fileName} is not compatible with nuxtent`)
       }
     }
     return this.cached.data
   }
 
-  set toc(entry) {
-    if (!this.__config.toc) { return }
+  set toc(entry: Nuxtent.Page.PageToc) {
+    if (!this.config.toc) {
+      return
+    }
     const { permalink } = this
     if (typeof this.cached.toc === 'undefined') {
       this.cached.toc = {}
     }
     if (typeof this.cached.toc[permalink] === 'undefined') {
       this.cached.toc[permalink] = {
+        items: {},
         topLevel: Infinity,
-        items: {}
       }
     }
     if (typeof this.cached.toc[permalink].items[entry.slug] !== 'undefined') {
@@ -244,9 +202,9 @@ export default class Page {
     }
 
     const tocEntry = {
-      level: parseInt(entry.tag.substr(1)),
+      level: parseInt(entry.tag.substr(1), 10),
+      link: '#' + entry.slug,
       title: entry.title,
-      link: '#' + entry.slug
     }
     if (tocEntry.level < this.cached.toc[permalink].topLevel) {
       this.cached.toc[permalink].topLevel = tocEntry.level
@@ -256,40 +214,131 @@ export default class Page {
     }
   }
 
-  get toc() {
-    if (!this.__config.toc) { return null }
+  get toc(): Nuxtent.Page.PageToc {
+    if (!this.config.toc) {
+      return null
+    }
     return this.cached.toc[this.permalink]
+  }
+
+  private cached: Nuxtent.Page.PageData = {
+    attributes: {},
+    body: {
+      relativePath: '',
+    },
+    data: {
+      attributes: {},
+      body: {},
+    },
+    date: null,
+    path: null,
+    permalink: null,
+  }
+
+  private __meta: Nuxtent.Database.FileMeta
+
+  private config: Nuxtent.Config.Content
+
+  private propsSet: Set<Nuxtent.Page.PageProp> = new Set([
+    'meta',
+    'date',
+    'path',
+    'permalink',
+    'breadcrumbs',
+    'attributes',
+    'body',
+  ])
+
+  get breadcrumbs() {
+    if (Array.isArray(this.cached.breadcrumbs)) {
+      return this.cached.breadcrumbs
+    }
+    return []
+  }
+
+  set breadcrumbs(crumbs: Nuxtent.Page.Breadcrumbs[]) {
+    this.cached.breadcrumbs = crumbs
+  }
+
+  /**
+   * Creates an instance of Page.
+   * @param {Nuxtent.Database.FileMeta} meta The metadata for the page file
+   * @param {Nuxtent.Config.Content} contentConfig The content configuration
+   *
+   * @memberOf Page
+   */
+  constructor(
+    meta: Nuxtent.Database.FileMeta,
+    contentConfig: Nuxtent.Config.Content
+  ) {
+    this.__meta = meta
+    this.config = contentConfig
+    if (contentConfig.toc !== false) {
+      this.propsSet.add('toc')
+    }
+  }
+  /**
+   * @description Creates an instance of the page
+   *
+   * @param [params={}] Params
+   * @param [params.exclude] The props exclution list
+   * @returns {Object} The page content
+   *
+   * @memberOf Page
+   */
+  public create(params: Nuxtent.Query): Nuxtent.Page.PublicPage {
+    params.exclude.forEach(prop => {
+      if (this.propsSet.has(prop)) {
+        this.propsSet.delete(prop)
+      }
+    })
+    const data: Nuxtent.Page.PublicPage = {
+      attributes: {},
+      body: {
+        relativePath: '',
+      },
+      date: null,
+      path: null,
+      permalink: null,
+    }
+    this.propsSet.forEach(prop => {
+      if (prop === 'attributes') {
+        Object.assign(data, this[prop])
+      } else {
+        data[prop] = this[prop]
+      }
+    })
+
+    return data
   }
 
   /**
    * @description Callback for the toc
    *
-   * @param {Object} token The token object from markdownIt
-   * @param {Object.<string, [string, string]>} token.attrs The attributes for the token ej. class
-   * @param {*} token.tag The tag for the token
-   * @param {Object} info Title and slug
-   * @param {string} info.title The title text of the anchor
-   * @param {string} info.slug The slug for the anchor
+   * @param token The token object from markdownIt
+   * @param token.attrs The attributes for the token ej. class
+   * @param token.tag The tag for the token
+   * @param info Title and slug
+   * @param info.title The title text of the anchor
+   * @param info.slug The slug for the anchor
    * @returns {void}
    *
    * @memberOf Page
    */
-  tocParserCallback(token, info) {
+  private tocParserCallback(token: Token, info: Anchor.AnchorInfo) {
     let addToToc = true
     if (typeof token.attrs !== 'undefined') {
-      Object.keys(token.attrs).forEach(attr => {
-        const value = token.attrs[attr][1]
-        const key = token.attrs[attr][0]
-        if (key === 'class' && value.includes('notoc')) {
-          addToToc = false
-        }
-      })
+      const classValue = token.attrGet('class')
+      if (classValue.includes('notoc')) {
+        addToToc = true
+      }
     }
     if (addToToc) {
       this.toc = {
-        tag: token.tag,
         slug: info.slug,
-        title: info.title
+        tag: token.tag,
+        title: info.title,
+        topLevel: 0,
       }
     }
   }

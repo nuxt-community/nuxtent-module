@@ -1,4 +1,5 @@
 {
+  "extends": "..",
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -13,7 +14,7 @@
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "resolveJsonModule": true,
     "noEmit": true,
     "baseUrl": ".",
@@ -27,7 +28,11 @@
     },
     "types": [
       "@types/node",
-      "@nuxt/vue-app"
-    ]
+      "@nuxt/vue-app",
+    ],
+    "typeRoots": ["../types"]
+  },
+  "typeAcquisition": {
+    "enable": true
   }
 }
