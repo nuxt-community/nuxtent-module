@@ -5,9 +5,10 @@ import MarkdownIt from 'markdown-it'
 import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
 import { Nuxtent } from '../types'
-import NuxtConfiguration, { Router, Module as ModuleConfig } from '@nuxt/config'
 import { RouteConfig, Route } from 'vue-router'
+import markdownit from 'markdown-it'
 import markdownItTocDoneRight from 'markdown-it-toc-done-right'
+import { Nuxt } from '../types/nuxt'
 const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
   const config = markdownConfig.settings
   if (typeof markdownConfig.extend === 'function') {
@@ -134,7 +135,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     markdown: { ...this.defaultMarkdown },
     method: [...this.requestMethods],
     page: '',
-    parser: undefined,
+    parser: markdownit('commonmark'),
     permalink: ':slug',
     toc: { ...this.defaultToc },
   }
@@ -182,7 +183,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    *
    * @memberOf NuxtentConfig
    */
-  constructor(moduleOptions: ModuleConfig, options: NuxtConfiguration) {
+  constructor(moduleOptions: Nuxt.ModuleConfiguration, options: Nuxt.Options) {
     this.host = options.host || this.host
     this.port = options.port || this.port
     process.env.NUXTENT_HOST = this.host
@@ -233,8 +234,6 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     this.content = this.userConfig.content
     this.buildContent()
 
-    // @ts-ignore
-    logger.debug(this, 'Config finished')
     return this
   }
 
@@ -313,8 +312,8 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    * @returns {void}
    */
 
-  public interceptRoutes(moduleContianer: Router): void {
-    const renameRoutePath = (route: Route): Route => {
+  public interceptRoutes(moduleContianer: Nuxt.ModuleContainer): void {
+    const renameRoutePath = (route: RouteConfig): RouteConfig => {
       if (!route.name) {
         return route
       }
@@ -338,9 +337,9 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     if (typeof moduleContianer.extendRoutes !== 'function') {
       throw new Error('There is no "extendRoutes"')
     }
-    moduleContianer.extendRoutes = (routes: Route[], resolve) => {
-      return routes.map(renameRoutePath)
-    }
+    moduleContianer.extendRoutes((routes: RouteConfig[], resolve) =>
+      routes.map(renameRoutePath)
+    )
   }
 
   public createContentDatabase() {

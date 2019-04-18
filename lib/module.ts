@@ -6,35 +6,35 @@ import NuxtentConfig from './config'
 // import createRouter from './content/api'
 // import { addRoutes, addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
-import { Nuxt } from '../types/nuxt.js';
+import { Nuxt } from '../types/nuxt.js'
 
 /**
  * @description The Nuxtent Module
  * @export
  */
 async function nuxtentModule(
-  this: Nuxt.Options,
+  this: Nuxt.ModuleContainer,
   moduleOptions: Nuxt.ModuleConfiguration
 ): Promise<void> {
+  const self = this
   // Adding nuxtent files to watcher prop
-  this.options.watch.push('~/nuxtent.config.js')
-  const nuxtentConfig = new NuxtentConfig(moduleOptions, this.options)
-  await nuxtentConfig.init(this.options.rootDir)
-  this.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
+  self.options.watch.push('~/nuxtent.config.js')
+  const nuxtentConfig = new NuxtentConfig(moduleOptions, self.options)
+
+  self.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
     const isStatic = ((builder.bundleBuilder || {}).buildContext || {}).isStatic
-    console.log(builder.bundleBuilder.buildContext)
     if (typeof isStatic === 'undefined') {
       logger.error("Can't define if this is a static build or not")
     }
     nuxtentConfig.isStatic = !!isStatic
-    // logger.info(
-    //   `Nuxtent Initiated in ${
-    //     nuxtentConfig.isStatic ? 'static' : 'dynamic'
-    //   } mode`
-    // )
+    logger.info(
+      `Nuxtent Initiated in ${
+        nuxtentConfig.isStatic ? 'static' : 'dynamic'
+      } mode`
+    )
+    await nuxtentConfig.init(self.options.rootDir)
+    nuxtentConfig.interceptRoutes(self)
   })
-  // await nuxtentConfig.init(this.options.rootDir)
-  // nuxtentConfig.interceptRoutes(this)
   // // TODO: Refactor arguments in order to simplify this
   // const routesOptions = {
   //   contentDir: nuxtentConfig.build.contentDir,

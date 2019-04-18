@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
+    "sourceRoot": "./lib",
+    "typeRoots": ["./types"],
     "paths": {
-      "*": ["types/*"]
+      "*": ["./types/*", "./lib/*"]
     },
+    "outDir": "./dist",
+    "pretty": true,
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "allowJs": true,
+    "allowJs": false,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -19,11 +23,12 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "baseUrl": "./lib",
-    "lib": ["esnext"],
-    "typeRoots": ["./types"],
-    "types": ["@nuxt/typesript", "@types/node", "@nuxt/vue-app", "@types/markdown-it", "@nuxt/config"]
+    "lib": ["esnext", "dom"],
+    "types": ["@types/node", "@nuxt/vue-app", "@types/markdown-it", "@nuxt/config"]
   },
   "typeAcquisition": {
     "enable": true
-  }
+  },
+  "files": ["lib/module.ts"],
+  "include": ["./types"]
 }

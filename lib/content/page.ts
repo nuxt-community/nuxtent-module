@@ -40,7 +40,9 @@ const splitDate = (
     year,
   }
 }
-
+declare interface IPrivateFileMeta extends Nuxtent.Database.FileMeta {
+  filePath: string
+}
 const isDev = process.env.NODE_ENV !== 'production'
 export default class Page {
   /**
@@ -131,7 +133,9 @@ export default class Page {
           tocPlugin[1].callback = this.tocParserCallback
         }
         // markdown to html
-        this.cached.body = this.config.parser.render(this._rawData.body.content)
+        this.cached.body = this.config.parser.render(
+          this._rawData.body.content || ''
+        )
       } else if (fileName.search(/\.(yaml|yml)$/) > -1) {
         const source = readFileSync(filePath).toString()
         const body = yaml.load(source)
@@ -183,39 +187,44 @@ export default class Page {
     return this.cached.data
   }
 
-  set toc(entry: Nuxtent.Page.PageToc) {
-    if (!this.config.toc) {
+  set toc(entry: Nuxtent.Page.PageToc | null) {
+    if (!this.config.toc || !entry) {
       return
     }
-    const { permalink } = this
     if (typeof this.cached.toc === 'undefined') {
       this.cached.toc = {}
     }
-    if (typeof this.cached.toc[permalink] === 'undefined') {
-      this.cached.toc[permalink] = {
+    if (typeof this.cached.toc[this.permalink] === 'undefined') {
+      this.cached.toc[this.permalink] = {
         items: {},
+        slug: entry.slug,
         topLevel: Infinity,
       }
     }
-    if (typeof this.cached.toc[permalink].items[entry.slug] !== 'undefined') {
+    if (
+      !entry.slug ||
+      typeof this.cached.toc[this.permalink].items[entry.slug] !== 'undefined'
+    ) {
       return
     }
 
     const tocEntry = {
-      level: parseInt(entry.tag.substr(1), 10),
+      level: entry.tag ? parseInt(entry.tag.substr(1), 10) : 1,
       link: '#' + entry.slug,
       title: entry.title,
     }
-    if (tocEntry.level < this.cached.toc[permalink].topLevel) {
-      this.cached.toc[permalink].topLevel = tocEntry.level
+    if (tocEntry.level < this.cached.toc[this.permalink].topLevel) {
+      this.cached.toc[this.permalink].topLevel = tocEntry.level
     }
-    if (typeof this.cached.toc[permalink].items[entry.slug] === 'undefined') {
-      this.cached.toc[permalink].items[entry.slug] = tocEntry
+    if (
+      typeof this.cached.toc[this.permalink].items[entry.slug] === 'undefined'
+    ) {
+      this.cached.toc[this.permalink].items[entry.slug] = tocEntry
     }
   }
 
-  get toc(): Nuxtent.Page.PageToc {
-    if (!this.config.toc) {
+  get toc(): Nuxtent.Page.PageToc | null {
+    if (!this.config.toc || !this.cached.toc) {
       return null
     }
     return this.cached.toc[this.permalink]
@@ -235,7 +244,7 @@ export default class Page {
     permalink: null,
   }
 
-  private __meta: Nuxtent.Database.FileMeta
+  private __meta: IPrivateFileMeta
 
   private config: Nuxtent.Config.Content
 
@@ -267,10 +276,7 @@ export default class Page {
    *
    * @memberOf Page
    */
-  constructor(
-    meta: Nuxtent.Database.FileMeta,
-    contentConfig: Nuxtent.Config.Content
-  ) {
+  constructor(meta: IPrivateFileMeta, contentConfig: Nuxtent.Config.Content) {
     this.__meta = meta
     this.config = contentConfig
     if (contentConfig.toc !== false) {
@@ -287,7 +293,8 @@ export default class Page {
    * @memberOf Page
    */
   public create(params: Nuxtent.Query): Nuxtent.Page.PublicPage {
-    params.exclude.forEach(prop => {
+    const excludes = params.exclude || []
+    excludes.forEach(prop => {
       if (this.propsSet.has(prop)) {
         this.propsSet.delete(prop)
       }
@@ -329,12 +336,13 @@ export default class Page {
     let addToToc = true
     if (typeof token.attrs !== 'undefined') {
       const classValue = token.attrGet('class')
-      if (classValue.includes('notoc')) {
+      if (classValue && classValue.includes('notoc')) {
         addToToc = true
       }
     }
     if (addToToc) {
       this.toc = {
+        items: {},
         slug: info.slug,
         tag: token.tag,
         title: info.title,

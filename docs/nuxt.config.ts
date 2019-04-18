@@ -21,6 +21,7 @@ export default {
   typescript: {
     typeCheck: true,
   },
+  watch: ['../lib/*'],
   build: {
     extractCSS: true,
     html: {

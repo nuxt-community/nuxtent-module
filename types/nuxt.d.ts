@@ -2,9 +2,14 @@ import NuxtConfiguration, {
   Render as NuxtConfigurationRender,
   Build as NuxtConfigurationBuild,
   Router as NuxtConfigurationRouter,
-  Module as NuxtConfigurationModule
+  Module as NuxtConfigurationModule,
 } from '@nuxt/config'
-import { RouteConfig, RouterMode, Route } from 'vue-router'
+import {
+  RouteConfig,
+  RouterMode,
+  Route,
+  RouterOptions as VueRouterOptions,
+} from 'vue-router'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import { Options as WebpackDevMiddlewareOptions } from 'webpack-dev-middleware'
 import { Options as WebpackHotMiddlewareOptions } from 'webpack-hot-middleware'
@@ -21,7 +26,7 @@ import { BundleRendererOptions } from 'vue-server-renderer'
 import { CompressionOptions } from 'compression'
 import { ServeStaticOptions } from 'serve-static'
 import { Options as EtagOptions } from 'etag'
-
+import createServer from 'connect'
 declare namespace Nuxt {
   interface Loaders {
     [loader: string]: RuleSetQuery
@@ -158,16 +163,27 @@ declare namespace Nuxt {
     }
     watch: string[]
   }
-  type RoutePosition = { x: number, y: number };
-  type RoutePositionResult = RoutePosition | { selector: string, offset?: RoutePosition } | void;
-  interface RouterOptions extends NuxtConfigurationRouter {
+  type RoutePosition = { x: number; y: number }
+  type RoutePositionResult =
+    | RoutePosition
+    | { selector: string; offset?: RoutePosition }
+    | void
+  namespace Router {
+    type callBackExtendRoutes = (
+      routes: RouteConfig[],
+      resolve: (...pathSegments: string[]) => string
+    ) => void
+    type extendRoutes = (callback: callBackExtendRoutes) => void
+    // (routes: RouteConfig[],resolve: (...pathSegments: string[]) => string) => void
+  }
+  interface RouterOptions extends VueRouterOptions {
     base: string
-    extendRoutes(routes: RouteConfig[], resolve: (...pathSegments: string[]) => string): void
+    extendRoutes: Router.extendRoutes
     fallback: boolean
     linkActiveClass: string
     linkExactActiveClass: string
     linkPrefetchedClass: string
-    middleware: string[]
+    middleware: string[] | string
     mode: RouterMode
     parseQuery: (query: string) => Object
     prefetchLinks: boolean
@@ -181,7 +197,10 @@ declare namespace Nuxt {
     stringifyQuery: (query: Object) => string
   }
 
-  interface Options extends NuxtConfiguration {
+  interface Options {
+    [key: string]: any
+    host: string
+    port: string
     ErrorPage: any
     appTemplatePath: string
     build: Build
@@ -294,16 +313,18 @@ declare namespace Nuxt {
     render: Render
     rootDir: string
     router: RouterOptions
-    // server: {
-    //   host: string
-    //   https: false | {
-    //     cert: string | Buffer
-    //     key: string | Buffer
-    //   }
-    //   port: number
-    //   socket: string
-    //   timing: boolean | { total: boolean }
-    // }
+    server: {
+      host: string
+      https:
+        | false
+        | {
+            cert: string | Buffer
+            key: string | Buffer
+          }
+      port: number
+      socket: string
+      timing: boolean | { total: boolean }
+    }
     serverMiddleware: any[]
     srcDir: string
     styleExtensions: string[]
@@ -333,4 +354,64 @@ declare namespace Nuxt {
   }
 
   type ModuleConfiguration = NuxtConfigurationModule
+
+  interface Server {
+    [key: string]: any
+  }
+  interface Resolver {
+    [key: string]: any
+  }
+  interface Renderer {
+    [key: string]: any
+  }
+  interface Builder {
+    [key: string]: any
+  }
+  interface Nuxt {
+    [k: string]: any
+    options: Options
+    hook: (
+      hookName: string,
+      fn: (builder: Builder, buildOptions: Build) => void
+    ) => void
+    callHook: () => void
+    showReady: () => void
+    resolver: Resolver
+    moduleContainer: ModuleContainer
+    server: Server
+    renderer: Renderer
+  }
+  namespace ModuleContainer {
+    interface TemplateObject {
+      src: string
+      dst: string
+      options: {
+        [key: string]: any
+      }
+    }
+    type template = string | TemplateObject
+  }
+  interface ModuleContainer {
+    nuxt: Nuxt
+    options: Options
+    addPlugin: (template: ModuleContainer.template) => void
+    addServerMiddleware: (middleware: createServer.NextHandleFunction) => void
+    extendBuild: (
+      config: WebpackConfiguration,
+      ctx: {
+        isDev: boolean
+        isClient: boolean
+        isServer: boolean
+        loaders: Loaders
+      }
+    ) => void
+    extendRoutes: Router.extendRoutes
+    requiredModules: {
+      [module: string]: {
+        src: string
+        options?: any
+        handler: CallableFunction
+      }
+    }
+  }
 }

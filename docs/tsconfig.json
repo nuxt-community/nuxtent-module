@@ -19,12 +19,13 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
+      "*": ["../types/*"],
       "~/*": [
         "./*"
       ],
       "@/*": [
         "./*"
-      ]
+      ],
     },
     "types": [
       "@types/node",
@@ -34,5 +35,6 @@
   },
   "typeAcquisition": {
     "enable": true
-  }
+  },
+  "include": ["../types"]
 }

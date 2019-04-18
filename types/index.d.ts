@@ -52,7 +52,7 @@ export namespace Nuxtent {
       tag?: Anchors
       slug?: string
       topLevel: Number
-      items?: {
+      items: {
         [anchor: string]: TocEntry
       }
     }
@@ -68,7 +68,7 @@ export namespace Nuxtent {
       toc?: {
         [permalink: string]: PageToc
       }
-      data?: RawData
+      data: RawData
       body: Body
     }
 
@@ -133,7 +133,7 @@ export namespace Nuxtent {
       method: ConfigContentGenereate
       /** The specific markdown configuration for this container */
       markdown: Markdown
-      parser?: MarkdownIt
+      parser: MarkdownIt
     }
 
     interface Api {
