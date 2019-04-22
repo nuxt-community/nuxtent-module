@@ -3,7 +3,7 @@ import pkg from '../package.json'
 // import { join } from 'path'
 // import micro from 'micro'
 import NuxtentConfig from './config'
-// import createRouter from './content/api'
+import createRouter from './content/api'
 // import { addRoutes, addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
 import { Nuxt } from '../types/nuxt.js'
@@ -12,6 +12,8 @@ import { Nuxt } from '../types/nuxt.js'
  * @description The Nuxtent Module
  * @export
  */
+
+let server
 async function nuxtentModule(
   this: Nuxt.ModuleContainer,
   moduleOptions: Nuxt.ModuleConfiguration
@@ -32,8 +34,14 @@ async function nuxtentModule(
         nuxtentConfig.isStatic ? 'static' : 'dynamic'
       } mode`
     )
-    await nuxtentConfig.init(self.options.rootDir)
     nuxtentConfig.interceptRoutes(self)
+  })
+  await nuxtentConfig.init(self.options.rootDir)
+  nuxtentConfig.createContentDatabase()
+  const router = createRouter(nuxtentConfig)
+  this.addServerMiddleware({
+    handler: router,
+    path: nuxtentConfig.api.apiServerPrefix,
   })
   // // TODO: Refactor arguments in order to simplify this
   // const routesOptions = {

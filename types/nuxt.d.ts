@@ -395,7 +395,12 @@ declare namespace Nuxt {
     nuxt: Nuxt
     options: Options
     addPlugin: (template: ModuleContainer.template) => void
-    addServerMiddleware: (middleware: createServer.NextHandleFunction) => void
+    addServerMiddleware: (
+      middleware:
+        | string
+        | { path: string; handler: string | createServer.NextHandleFunction }
+        | createServer.NextHandleFunction
+    ) => void
     extendBuild: (
       config: WebpackConfiguration,
       ctx: {

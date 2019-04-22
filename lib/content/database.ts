@@ -16,6 +16,7 @@ export default class Database {
   public dirPath = ''
   public pagesMap: Map<string, Page>
   public pagesArr: Page[]
+  public permalink: string
   /**
    * Creates an instance of Database.
    * @param {Nuxtent.Config.Build} build The build config
@@ -32,7 +33,7 @@ export default class Database {
     dirOpts: Nuxtent.Config.Content
   ) {
     this.dirPath = join(build.contentDir, dirName)
-
+    this.permalink = dirOpts.permalink
     const fileStore: Nuxtent.FileStore = new Map()
 
     const createMap = ({

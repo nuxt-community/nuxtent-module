@@ -1,92 +1,144 @@
-import { parse } from 'querystring'
-
-import { Router } from 'express'
-
 import { logger } from '../utils'
-const logRequest = (apiPrefix, url) => {
-  logger.debug(`${apiPrefix} GET ${url}`)
-}
-
-const response = res => ({
-  json(data) {
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(data), 'utf-8')
-    logger.debug('\tResponse sent successfully.')
-  },
-  error(err) {
-    res.statusCode = 500
-    res.statusMessage = 'Internal Server Error'
-    res.end(err.stack || String(err))
-    logger.error('\tFailed to send response.', err)
-  },
-  notFound() {
-    res.statusCode = 404
-    res.statusMessage = 'Not Found'
-    res.end()
-    logger.error('\tPage not found.')
-  }
-})
+import NuxtentConfig from '../config'
+import { send, RequestHandler } from 'micro'
+import { router, get, AugmentedRequestHandler } from 'microrouter'
+import Database from './database'
+import createServer from 'connect'
 
 /**
- * @param {string | number} baseUrl The baseUrl of the server
- * @param {*} serverPrefix The prefix for the server (content-api)
- * @param {Object} db The database map
- * @returns {Function} sendContent
+ *  Sends a single response for a single item on a content group
+ * @param db The database for the content group
  */
-const curryResponseHandler = (baseUrl, serverPrefix, db) => {
-  return function sendContent(req, res) {
-    const send = response(res)
-    let permalink = req.params['0']
-    permalink = permalink.replace(/\\|\/\//g, '/')
+function itemResponse(db: Database): AugmentedRequestHandler {
+  return async (req, res) => {
+    if (!req.url) {
+      logger.error('There is no url on the request')
+      return send(res, 500, 'No url')
+    }
+    const permalink = req.url.endsWith('/')
+      ? req.url.replace(/\/$/, '')
+      : req.url
+    logger.debug({ requested: req.params, url: req.url })
+    if (!db.exists(permalink)) {
+      return send(res, 404, {
+        message: 'Not Found in ' + db.dirPath,
+      })
+    }
+    return send(res, 200, await db.find(permalink, req.query))
+  }
+}
 
-    // eslint-disable-next-line no-unused-vars
-    const [_, queryStr = ''] = req.url.match(/\?(.*)/)
-    const { only, between, ...query } = parse(queryStr)
+/**
+ * The fallback routing
+ * @param database The whole map for all the content groups
+ */
+function indexResponse(
+  database: Map<string, Database>
+): AugmentedRequestHandler {
+  // Cache the paths
+  const basePaths = Array.from(database.keys())
+  interface IFoundedDatabase {
+    key?: string
+    db: Database | null
+  }
+  function findDatabase(path: string): IFoundedDatabase {
+    const result: IFoundedDatabase = {
+      db: null,
+      key: basePaths.find(value => {
+        return value.indexOf(path) !== -1
+      }),
+    }
+    if (result.key) {
+      result.db = database.get(result.key) || null
+    }
+    return result
+  }
+  return async (req, res) => {
+    const { key, db } = findDatabase(req.url || '/')
+    if (key && db) {
+      const result = await Promise.resolve({
+        index: key,
+        pages: Array.from(db.pagesMap.keys()),
+      })
+      return send(res, 200, result)
+    }
+    logger.warn('Page ' + req.url + ' not found.')
+    return send(res, 404, {
+      endpoints: basePaths,
+      message: 'Not found',
+    })
+  }
+}
 
-    logRequest(serverPrefix, baseUrl + permalink)
+/**
+ * Makes the string with a optional trailing slash
+ * @param path The path to set the optional slash
+ */
+function trailingOptional(path: string): string {
+  if (path.endsWith('/')) {
+    // Make optional the trailing slash
+    return path.replace(/\/$/, '(/)')
+  }
+  return path + '(/)'
+}
 
-    if (permalink === '/') {
-      // request multiple pages from directory
-      if (between) {
-        send.json(db.findBetween(between, query))
-      } else if (only) {
-        send.json(db.findOnly(only, query))
-      } else {
-        send.json(db.findAll(query))
-      }
+function indexHandler(db: Database): AugmentedRequestHandler {
+  return async (req, res) => {
+    const { between, only } = req.query
+    if (between) {
+      return send(res, 200, await db.findBetween(between, req.query))
+    } else if (only) {
+      return send(res, 200, await db.findOnly(only, req.query))
     } else {
-      // request single page
-      if (db.exists(permalink)) {
-        send.json(db.find(permalink, query))
-      } else {
-        send.notFound()
-      }
+      return send(res, 200, await db.findAll(req.query))
     }
   }
 }
 
-const createRouter = (baseUrl, serverPrefix, options, database) => {
-  const router = Router()
-  const { content } = options
+/**
+ *  Instantiates the rotuter instance
+ * @param nuxtentConfig The nuxtent config
+ */
+function createRouter(
+  nuxtentConfig: NuxtentConfig
+): createServer.NextHandleFunction {
+  const routes: RequestHandler[] = []
 
   // for multiple content types, show the content configuration in the root request
-  if (!content['/']) {
-    router.use(
-      '/',
-      new Router().get('/', (req, res) => {
-        response(res).json({
-          'content-endpoints': Object.keys(content)
+  if (!nuxtentConfig.database.has('/')) {
+    // Cache the result
+    const contentEndpoints = Array.from(nuxtentConfig.database.keys())
+    routes.push(
+      get('/', (req, res) =>
+        send(res, 200, {
+          endpoints: contentEndpoints,
+          message: 'Found',
         })
-      })
+      )
     )
   }
-  Object.keys(content).forEach(dirName => {
-    const db = database.get(dirName)
-    const sendContent = curryResponseHandler(baseUrl, serverPrefix, db)
-    router.use(dirName, new Router().get('*', sendContent))
-  })
-
-  return router
+  for (const [path, database] of nuxtentConfig.database) {
+    // Generate the route match for each item
+    routes.push(
+      get(trailingOptional(database.permalink), itemResponse(database))
+    )
+    const linkMatch = database.permalink.match(/:[\w]+/)
+    const permalink = linkMatch
+      ? database.permalink.substr(0, linkMatch.index)
+      : path
+    // Instantate just once
+    const handler = indexHandler(database)
+    // The index route
+    routes.push(get(trailingOptional(permalink), handler))
+    // If permaink base differs from the base route on the config then set both
+    if (permalink !== path) {
+      routes.push(get(trailingOptional(path), handler))
+    }
+  }
+  routes.push(get('*', indexResponse(nuxtentConfig.database)))
+  return (req, res, next) => {
+    return router(...routes)(req, res)
+  }
 }
 
 export default createRouter
