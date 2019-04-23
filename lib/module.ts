@@ -7,7 +7,8 @@ import createRouter from './content/api'
 // import { addRoutes, addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
 import { Nuxt } from '../types/nuxt.js'
-
+import { join } from 'path'
+import { Configuration as WebpackConfiguration } from 'webpack'
 /**
  * @description The Nuxtent Module
  * @export
@@ -23,8 +24,48 @@ async function nuxtentModule(
   self.options.watch.push('~/nuxtent.config.js')
   const nuxtentConfig = new NuxtentConfig(moduleOptions, self.options)
 
+  // This section starts as early as possible
+  await nuxtentConfig.init(self.options.rootDir)
+  nuxtentConfig.createContentDatabase()
+  const router = createRouter(nuxtentConfig)
+
+  // Generate Vue templates from markdown with components (*.comp.md)
+  this.extendBuild((config: WebpackConfiguration, loaders) => {
+    if (config.module) {
+      config.module.rules.push({
+        test: /\.comp\.md$/,
+        use: [
+          'vue-loader',
+          {
+            loader: require.resolve('./loader.ts'),
+            options: {
+              componentsDir: nuxtentConfig.build.componentsDir,
+              content: nuxtentConfig.content,
+              database: nuxtentConfig.database,
+              extensions: nuxtentConfig.build.loaderComponentExtensions,
+            },
+          },
+        ],
+      })
+    }
+  })
+
+  // Add content API when running `nuxt` & `nuxt build` (development and production)
+  this.addServerMiddleware({
+    handler: router,
+    path: nuxtentConfig.api.apiServerPrefix,
+  })
+
+  this.options.build.templates.push({
+    dst: 'nuxtent-config.js', // We import it manyally
+    options: nuxtentConfig.config,
+    src: require.resolve('./plugins/nuxtent-config.template'),
+  })
+  // Execute this just before everyting starts building
   self.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
-    const isStatic = ((builder.bundleBuilder || {}).buildContext || {}).isStatic
+    const isStatic =
+      ((builder.bundleBuilder || {}).buildContext || {}).isStatic ||
+      process.static
     if (typeof isStatic === 'undefined') {
       logger.error("Can't define if this is a static build or not")
     }
@@ -35,47 +76,20 @@ async function nuxtentModule(
       } mode`
     )
     nuxtentConfig.interceptRoutes(self)
+    // Add `$content` helper
+
+    this.addPlugin({
+      src: require.resolve('./plugins/nuxtent-request'), // ts or js
+    })
+    // // Add Vue templates generated from markdown with components (*.comp.md) to output build
+    this.addPlugin({
+      options: {
+        components: generatePluginMap(nuxtentConfig.database),
+      },
+      src: join(__dirname, '..', 'plugins', 'nuxtent-components.template.js'),
+    })
   })
-  await nuxtentConfig.init(self.options.rootDir)
-  nuxtentConfig.createContentDatabase()
-  const router = createRouter(nuxtentConfig)
-  this.addServerMiddleware({
-    handler: router,
-    path: nuxtentConfig.api.apiServerPrefix,
-  })
-  // // TODO: Refactor arguments in order to simplify this
-  // const routesOptions = {
-  //   contentDir: nuxtentConfig.build.contentDir,
-  //   content: nuxtentConfig.content,
-  //   isDev: this.nuxt.options.dev,
-  // }
-  // // Maps static the routes to nuxt
-  // const contentDatabase = nuxtentConfig.createContentDatabase()
-  // const router = createRouter(
-  //   nuxtentConfig.api.baseURL,
-  //   nuxtentConfig.api.apiServerPrefix,
-  //   routesOptions,
-  //   contentDatabase
-  // )
-  // // Add `$content` helper
-  // this.addPlugin({
-  //   dst: 'nuxtent.js',
-  //   options: nuxtentConfig,
-  //   src: join(__dirname, '..', 'plugins', 'requestContent.template.js'),
-  // })
-  // // Execute this just before everyting starts building
-  // this.nuxt.hook('build:before', async (nuxt: any) => {
-  //   const isStatic = ((nuxt.bundleBuilder || {}).buildContext || {}).isStatic
-  //   if (typeof isStatic === 'undefined') {
-  //     logger.error("Can't define if this is a static build or not")
-  //   }
-  //   nuxtentConfig.isStatic = !!isStatic
-  //   logger.info(
-  //     `Nuxtent Initiated in ${
-  //       nuxtentConfig.isStatic ? 'static' : 'dynamic'
-  //     } mode`
-  //   )
-  // })
+
   // this.nuxt.hook('generate:before', async (nuxt: any, generateOptions: any) => {
   //   createStaticRoutes(nuxtentConfig, contentDatabase)
   //   // Adds routes as assets so it may be procesed
@@ -100,36 +114,6 @@ async function nuxtentModule(
   //       server.close()
   //     })
   //   }
-  // })
-  // // Add content API when running `nuxt` & `nuxt build` (development and production)
-  // this.addServerMiddleware({
-  //   handler: router,
-  //   path: nuxtentConfig.api.apiServerPrefix,
-  // })
-  // // Generate Vue templates from markdown with components (*.comp.md)
-  // this.extendBuild(c => {
-  //   c.module.rules.push({
-  //     test: /\.comp\.md$/,
-  //     use: [
-  //       'vue-loader',
-  //       {
-  //         loader: join(__dirname, 'loader'),
-  //         options: {
-  //           componentsDir: nuxtentConfig.build.componentsDir,
-  //           extensions: nuxtentConfig.build.loaderComponentExtensions,
-  //           content: nuxtentConfig.content,
-  //         },
-  //       },
-  //     ],
-  //   })
-  // })
-  // // Add Vue templates generated from markdown with components (*.comp.md) to output build
-  // this.addPlugin({
-  //   src: join(__dirname, '..', 'plugins', 'markdownComponents.template.js'),
-  //   dst: 'markdown-components.js',
-  //   options: {
-  //     components: generatePluginMap(contentDatabase),
-  //   },
   // })
 }
 

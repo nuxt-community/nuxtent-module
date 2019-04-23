@@ -108,7 +108,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
 
   public assetMap: Nuxtent.AssetMap = new Map()
 
-  public database!: Map<string, Database>
+  public database: Map<string, Database> = new Map()
 
   /**
    * @description An array of the static pages to render during generate
@@ -147,7 +147,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     contentDirWebpackAlias: '~/components',
     contentExtensions: ['json', 'md', 'yaml', 'yml'],
     ignorePrefix: '-',
-    loaderComponentExtensions: ['.vue', '.js', '.mjs'],
+    loaderComponentExtensions: ['.vue', '.js', '.mjs', '.tsx'],
   }
 
   protected defaultApi: Nuxtent.Config.Api = {
@@ -343,12 +343,10 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
   }
 
   public createContentDatabase() {
-    const database: Map<string, Database> = new Map()
     this.content.forEach(([dirName, content]) => {
       const db = new Database(this.build, dirName, content)
-      database.set(dirName, db)
+      this.database.set(dirName, db)
     })
-    this.database = database
-    return database
+    return this.database
   }
 }

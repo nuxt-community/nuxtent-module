@@ -36,5 +36,6 @@
   "typeAcquisition": {
     "enable": true
   },
-  "include": ["../types"]
+  "include": ["../types"],
+  "exclude": ["./content"]
 }

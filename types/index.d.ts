@@ -4,6 +4,18 @@ import markdownItAnchor from 'markdown-it-anchor'
 // import { NuxtConfiguration } from '@nuxt/config'
 // export NuxtConfiguration
 import Page from '../lib/content/page'
+
+declare namespace NodeJS {
+  interface Process {
+    browser: boolean
+    client: boolean
+    mode: 'spa' | 'universal'
+    modern: boolean
+    server: boolean
+    static: boolean
+  }
+}
+
 export namespace Nuxtent {
   type RequestMethods = 'get' | 'getOnly' | ['getAll', { query: Query }]
   type ContentFileExtensions = 'yaml' | 'yml' | 'md' | 'json'

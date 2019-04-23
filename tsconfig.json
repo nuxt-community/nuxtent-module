@@ -29,6 +29,6 @@
   "typeAcquisition": {
     "enable": true
   },
-  "files": ["lib/module.ts"],
+  "files": ["lib/module.ts", "lib/plugins/nuxtent-request.ts", "./lib/loader.ts"],
   "include": ["./types"]
 }

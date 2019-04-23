@@ -2,28 +2,42 @@ import { existsSync } from 'fs'
 import { join } from 'path'
 import _ from 'lodash'
 import matter from 'gray-matter'
+import { loader } from 'webpack'
+import { getOptions, OptionObject } from 'loader-utils'
+import { Nuxtent } from '../types'
+import MarkdownIt from 'markdown-it'
+import MarkdownItRenderer from 'markdown-it/lib/renderer'
 
-import { getOptions } from 'loader-utils'
+type ContentOptions = Array<[string, Nuxtent.Config.Content]>
 
-const getDirOpts = (contentOptions, section) => {
+function getDirOpts(contentOptions: ContentOptions, section: string) {
   // configuration options can be for root files ('/') but regex for section also
   // captures closest subsection, so we first check that since you can't configure
   // both root files and nested sections
-  return contentOptions['/'] ? contentOptions['/'] : contentOptions[section]
+  const [, content = null] =
+    contentOptions.find(([folder]) => {
+      return folder === '/' || folder === section
+    }) || []
+  return content
 }
 
-const getSection = dirPath => {
+function getSection(dirPath: string): string {
   // capture '/content/closestSubsection' or  '/content'
-  const [, section] = dirPath.match(/[/\\]content([/\\][a-zA-Z\-_]*|$)/)
-  return section === '' ? '/' : section
+  const match = dirPath.match(/[/\\]content([/\\][a-zA-Z\-_]*|$)/)
+  if (match) {
+    return match[1] === '' ? '/' : match[1]
+  }
+  return '/'
 }
 
-const getComponentBaseName = (baseDir, name, extensions) => {
+const getComponentBaseName = (
+  baseDir: string,
+  name: string,
+  extensions: string[]
+) => {
   const baseName = join(baseDir, name)
-
-  for (const key in extensions) {
-    const extension = extensions[key]
-
+  for (const extension of extensions) {
+    // TODO: async
     if (existsSync(baseName + extension)) {
       return name + extension
     }
@@ -31,37 +45,53 @@ const getComponentBaseName = (baseDir, name, extensions) => {
   return false
 }
 
-const mergeParserRules = (parserRules, rulesToAlter, fn) => {
-  const newRules = {}
-
+const mergeParserRules = (
+  parserRules: { [name: string]: MarkdownIt.TokenRender },
+  rulesToAlter: string[]
+) => {
+  const newRules: { [name: string]: MarkdownIt.TokenRender } = {}
   for (const [ruleName, ruleFn] of Object.entries(parserRules)) {
-    const newRule = rulesToAlter[ruleName]
-      ? function() {
-        return fn(ruleFn.apply(this))
+    const renderer: MarkdownIt.TokenRender = (
+      tokens,
+      idx,
+      options,
+      env,
+      self
+    ) => {
+      if (tokens[idx].attrIndex('v-pre') < 0) {
+        tokens[idx].attrPush(['v-pre']) // add new attribute
       }
-      : ruleFn
-
+      // return self.renderToken(tokens, idx, options);
+      return ruleFn(tokens, idx, options, env, self)
+    }
+    const newRule = rulesToAlter.includes(ruleName) ? renderer : ruleFn
     newRules[ruleName] = newRule
   }
 
   return newRules
 }
 
-const mdComponents = (source, componentsDir, extensions) => {
+function transformMdComponents(
+  source: string,
+  componentsDir: string,
+  extensions: string[]
+) {
   let transformedSource = source
+  // (`{3}[\s\S]*?`{3}|`{1}[^`].*?`{1}[^`]) // Code snippet
+  // |@\[(#)?(\/)?([\w/\-_\\]*?)\](?:\((.*?)\))? Or component
+  // '@[]' or '@[]()' or '@[#]():n' or @[/]
   const componentExpression = new RegExp(
-    [
-      '(`{3}[\\s\\S]*?`{3}|`{1}[^`].*?`{1}[^`])', // code snippet
-      // markdown component - '@[]' or '@[]()' or '@[#]():n' or @[/]
-      '@\\[(#)?(\\/)?([\\w/\\-_\\\\]*?)\\](?:\\((.*?)\\))?'
-    ].join('|'),
+    /(`{3}[\s\S]*?`{3}|`{1}[^`].*?`{1}[^`])|@\[(#)?(\/)?([\w/\-_\\]*?)\](?:\((.*?)\))?/,
     'g'
   )
 
-  let result
-  const components = {}
+  let result = componentExpression.exec(transformedSource)
+  const components: {
+    [component: string]: string
+  } = {}
 
-  while ((result = componentExpression.exec(transformedSource))) {
+  // This goes line for line looking for coincidences until it runs out
+  while (result) {
     const [match, codeSnippet, isSlot, closeSlot, name, props] = result
 
     if (!codeSnippet) {
@@ -91,15 +121,16 @@ const mdComponents = (source, componentsDir, extensions) => {
         )
       }
     }
+    result = componentExpression.exec(transformedSource)
   }
 
   return {
+    components,
     transformedSource,
-    components
   }
 }
 
-const mdCompParser = markdownParser => {
+const mdCompParser = (markdownParser: markdownit) => {
   // we need to add the `v-pre` snippet to code snippets so
   // that mustage tags (`{{ }}`) are interpreted as raw text
   if (markdownParser.renderer && markdownParser.renderer.rules) {
@@ -107,27 +138,39 @@ const mdCompParser = markdownParser => {
 
     markdownParser.renderer.rules = mergeParserRules(
       markdownParser.renderer.rules,
-      codeRules,
-      str => {
-        return str.replace(/(<pre|<code)/g, '$1 v-pre')
-      }
+      codeRules
     )
   }
   return markdownParser
 }
-
-export default function nuxtentLoader(source) {
-  this.cacheable()
-
+export default function nuxtentLoader(
+  this: loader.LoaderContext,
+  source: string
+) {
   const moduleOpts = getOptions(this)
-
-  const { content, componentsDir, extensions } = moduleOpts
+  const content: ContentOptions = moduleOpts.content
+  const componentsDir: string = moduleOpts.componentsDir
+  const extensions: string[] = moduleOpts.extensions
 
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
+  if (!dirOpts) {
+    this.emitError(
+      new Error(
+        `We do not have that kind of option section: ${section} file: ${source}`
+      )
+    )
+    return
+  }
 
+  const [, fileName = ''] =
+    this.resourcePath.match(/[/\\]content([/\\\w\-_]*)(\.comp\.md$)?|$/) || []
+  if (!fileName) {
+    this.emitError(new Error('The resource is not a markdown file'))
+  }
   const frontmatter = matter(source)
-  const { transformedSource, components } = mdComponents(
+
+  const { transformedSource, components } = transformMdComponents(
     frontmatter.content,
     componentsDir,
     extensions
@@ -137,19 +180,22 @@ export default function nuxtentLoader(source) {
    * import components from the array on the frontmatter $components
    */
   if (
-    frontmatter.data['$components'] &&
-    Array.isArray(frontmatter.data['$components'])
+    frontmatter.data.$components &&
+    Array.isArray(frontmatter.data.$components)
   ) {
-    frontmatter.data['$components'].forEach(name => {
-      const componentName = _.camelCase(name)
-      if (!components[componentName]) {
+    for (const name of frontmatter.data.$components) {
+      const usedComponent = _.camelCase(name)
+      if (!components[usedComponent]) {
         const component = getComponentBaseName(componentsDir, name, extensions)
         if (!component) {
-          throw new Error(`"${name}" does not exist at ${componentsDir}`)
+          this.emitWarning(
+            new Error(`"${name}" does not exist at ${componentsDir}`)
+          )
+          continue
         }
-        components[componentName] = component
+        components[usedComponent] = component
       }
-    })
+    }
   }
   const template = mdCompParser(dirOpts.parser).render(transformedSource)
 
@@ -157,9 +203,9 @@ export default function nuxtentLoader(source) {
     .map(key => `${key}: () => import('~/components/${components[key]}')`)
     .join(',\n')
 
-  const [, fileName] = this.resourcePath.match(
-    /[/\\]content([/\\\w\-_]*)(\.comp\.md$)?|$/
-  )
+  // const [, fileName] = this.resourcePath.match(
+  //   /[/\\]content([/\\\w\-_]*)(\.comp\.md$)?|$/
+  // )
   const componentName = _.camelCase(fileName)
   const componentData = JSON.stringify(frontmatter.data || {})
   return `

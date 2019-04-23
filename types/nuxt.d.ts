@@ -384,8 +384,9 @@ declare namespace Nuxt {
   namespace ModuleContainer {
     interface TemplateObject {
       src: string
-      dst: string
-      options: {
+      dst?: string
+      fileName?: string
+      options?: {
         [key: string]: any
       }
     }
@@ -402,13 +403,15 @@ declare namespace Nuxt {
         | createServer.NextHandleFunction
     ) => void
     extendBuild: (
-      config: WebpackConfiguration,
-      ctx: {
-        isDev: boolean
-        isClient: boolean
-        isServer: boolean
-        loaders: Loaders
-      }
+      cb: (
+        config: WebpackConfiguration,
+        ctx: {
+          isDev: boolean
+          isClient: boolean
+          isServer: boolean
+          loaders: Loaders
+        }
+      ) => void
     ) => void
     extendRoutes: Router.extendRoutes
     requiredModules: {
