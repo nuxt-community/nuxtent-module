@@ -41,10 +41,10 @@ class ApiError extends Error {
     }`
   }
 }
-
+const jsonRoutes = process.static ? process.server : true
 const API_URL =
   process.static && process.browser
-    ? api.browserBaseURL
+    ? api.apiBrowserPrefix
     : process.browser
     ? api.apiServerPrefix
     : api.baseURL + api.apiServerPrefix
@@ -117,7 +117,7 @@ function fetchResource(path: string, userOptions: RequestInit = {}) {
         if (response) {
           throw new ApiError(
             `Request failed with status ${response.status}.`,
-            error,
+            { pemralink: url, error },
             response.status
           )
         } else {
@@ -147,9 +147,9 @@ class Content {
   public nuxtError: any
   public states: { IDLE: string; WORKING: string }
   public state: string = 'IDLE'
-  constructor(isStatic: boolean, nuxtError: (params: ErrorParams) => void) {
-    this.isAPI = process.static || !isStatic
-    this.isStatic = isStatic
+  constructor(nuxtError: (params: ErrorParams) => void) {
+    this.isAPI = process.static ? process.server : true
+    this.isStatic = process.static
     this.cache = {}
     this.nuxtError = nuxtError
 
@@ -253,12 +253,12 @@ class Content {
     return this.fetchContent(endpoint, fullQuery)
   }
   public getAll() {
-    const endpoint = this.isAPI ? '/' : '_all'
+    const permalink = this.isAPI ? '/' : '_all'
     if (DEBUG) {
       // tslint:disable-next-line: no-console
-      console.log('nuxtent', 'getall', this.self)
+      console.log('nuxtent', 'getall', permalink)
     }
-    return this.fetchContent(endpoint, this.queryString)
+    return this.fetchContent(permalink, this.queryString)
   }
 }
 
@@ -273,7 +273,7 @@ export default (
   if (isNotContentReq) {
     return
   }
-  const nuxtent = new Content(isStatic, error)
+  const nuxtent = new Content(error)
   inject('nuxtent', nuxtent)
   inject('content', (contentDir: string) => nuxtent.requestMethod(contentDir))
 }

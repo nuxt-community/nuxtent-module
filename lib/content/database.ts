@@ -3,6 +3,7 @@ import { readdirSync } from 'fs'
 
 import Page from './page'
 import { Nuxtent } from '../../types/index'
+import { logger } from '../utils'
 
 const { max, min } = Math
 
@@ -135,6 +136,9 @@ export default class Database {
       typeof startIndex === 'number'
         ? startIndex
         : max(0, parseInt(startIndex, 10))
+    if (Number.isNaN(currIndex)) {
+      currIndex = 0
+    }
     const finalIndex =
       endIndex !== undefined
         ? min(
@@ -178,7 +182,7 @@ export default class Database {
     }
     const currPage = page.create(query)
     if (!currPage.meta) {
-      console.warn('You should not exclude meta when querying between')
+      logger.warn('You should not exclude meta when querying between')
       return []
     }
     const { index } = currPage.meta

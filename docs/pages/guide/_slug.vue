@@ -1,28 +1,17 @@
 <template lang="pug">
 section.guide-main
   h1.post-title {{ lesson.title }}
-  nuxtent-body.guide-content(:body="lesson.body" v-on:click="logManu" id="nuxent-content" data-lamento data-alo aria-label="nuxtent" title="nuxtent" :counter="count" tag="section")
+  nuxtent-body.guide-content(:body="lesson.body" id="nuxent-content" tag="section")
 </template>
 
 <script>
 export default {
   name: 'PagesGuideSlug',
-  async asyncData ({ app, route }) {
+  async asyncData({ app, route }) {
     return {
-      lesson: await app.$content('/').get(route.path)
+      lesson: await app.$content('/').get(route.path),
     }
   },
-  data() {
-    return {
-      count: 1,
-    }
-  },
-  methods: {
-    logManu() {
-      this.count += 1
-      console.log('ALooo')
-    }
-  }
 }
 </script>
 

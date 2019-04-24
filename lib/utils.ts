@@ -63,6 +63,7 @@ export function generatePluginMap(assetMap: Map<string, Database>) {
         if (typeof page.body === 'string') {
           logger.error('Content component file should have a relativePath')
         } else {
+          logger.info(page.body)
           const filePath = webpackAlias + page.body.relativePath.substring(1)
           mdComps.push([page.body.relativePath, filePath])
         }

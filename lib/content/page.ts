@@ -19,9 +19,11 @@ const permalinkCompiler = pathToRegexp.compile
  * @returns {string} the slugified string
  */
 const getSlug = (fileName: string): string => {
-  const onlyName = slugify(fileName)
-    .replace(/(\.comp)?(\.[0-9a-z]+$)/, '') // remove any ext
+  let onlyName = fileName
+    .replace(/(\.comp)?(\.[0-9a-z]+)$/, '') // remove any ext
     .replace(/!?(\d{4}-\d{2}-\d{2}-)/, '') // remove date and hypen
+  onlyName = slugify(onlyName)
+
   return _.kebabCase(onlyName)
 }
 
@@ -136,11 +138,16 @@ export default class Page {
         this.cached.body = this.config.parser.render(
           this._rawData.body.content || ''
         )
+      } else if (fileName.endsWith('.html')) {
+        this.cached.body = this._rawData.body.content || ''
       } else if (fileName.search(/\.(yaml|yml)$/) > -1) {
         const source = readFileSync(filePath).toString()
         const body = yaml.load(source)
         this.cached.body = body
       }
+    }
+    if (this.cached.body === null) {
+      throw new Error('Unexpected result on get body')
     }
     return this.cached.body
   }
@@ -165,9 +172,10 @@ export default class Page {
   }
 
   get _rawData(): Nuxtent.Page.RawData {
-    if (isDev || !this.cached.data) {
+    if (isDev || !this.cached.data.fileName) {
       const source = readFileSync(this.__meta.filePath).toString()
       const fileName = this.__meta.fileName
+      this.cached.data.fileName = fileName
       if (fileName.search(/\.(md|html)$/) !== -1) {
         // { data: attributes, content: body } = matter(source)
         const result = matter(source)
@@ -232,9 +240,7 @@ export default class Page {
 
   private cached: Nuxtent.Page.PageData = {
     attributes: {},
-    body: {
-      relativePath: '',
-    },
+    body: null,
     data: {
       attributes: {},
       body: {},
@@ -306,7 +312,7 @@ export default class Page {
       },
       date: null,
       path: null,
-      permalink: null,
+      permalink: '',
     }
     this.propsSet.forEach(prop => {
       if (prop === 'attributes') {

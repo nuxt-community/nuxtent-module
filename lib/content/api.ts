@@ -1,27 +1,36 @@
 import { logger } from '../utils'
 import NuxtentConfig from '../config'
 import { send, RequestHandler } from 'micro'
-import { router, get, AugmentedRequestHandler } from 'microrouter'
+import {
+  router,
+  get,
+  AugmentedRequestHandler,
+  withNamespace,
+} from 'microrouter'
 import Database from './database'
 import createServer from 'connect'
+import { IncomingMessage, ServerResponse } from 'http'
+import { url } from 'inspector'
 
 /**
  *  Sends a single response for a single item on a content group
  * @param db The database for the content group
  */
-function itemResponse(db: Database): AugmentedRequestHandler {
+function itemResponse(db: Database, prefix: string): AugmentedRequestHandler {
   return async (req, res) => {
     if (!req.url) {
       logger.error('There is no url on the request')
       return send(res, 500, 'No url')
     }
-    const permalink = req.url.endsWith('/')
-      ? req.url.replace(/\/$/, '')
-      : req.url
-    logger.debug({ requested: req.params, url: req.url })
+    const cleanRegex = new RegExp(`(^${prefix})?|(/$)?`, 'g')
+    const permalink = req.url.replace(cleanRegex, '')
+
     if (!db.exists(permalink)) {
+      logger.warn({ code: 404, requested: req.params, url: req.url })
       return send(res, 404, {
         message: 'Not Found in ' + db.dirPath,
+        requested: permalink,
+        links: db.pagesArr.map(page => page.permalink),
       })
     }
     return send(res, 200, await db.find(permalink, req.query))
@@ -65,6 +74,7 @@ function indexResponse(
     logger.warn('Page ' + req.url + ' not found.')
     return send(res, 404, {
       endpoints: basePaths,
+      requested: req.url,
       message: 'Not found',
     })
   }
@@ -120,7 +130,10 @@ function createRouter(
   for (const [path, database] of nuxtentConfig.database) {
     // Generate the route match for each item
     routes.push(
-      get(trailingOptional(database.permalink), itemResponse(database))
+      get(
+        trailingOptional(database.permalink),
+        itemResponse(database, nuxtentConfig.api.apiServerPrefix)
+      )
     )
     const linkMatch = database.permalink.match(/:[\w]+/)
     const permalink = linkMatch
@@ -136,9 +149,21 @@ function createRouter(
     }
   }
   routes.push(get('*', indexResponse(nuxtentConfig.database)))
-  return (req, res, next) => {
+  function nuxtentRouter(
+    this: any,
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: any) => void
+  ) {
     return router(...routes)(req, res)
   }
+
+  nuxtentRouter.namespaced = () => {
+    const api = withNamespace(nuxtentConfig.api.apiServerPrefix)
+    // const prefixedRoutes = routes.map((fn) => api(fn))
+    return router(api(...routes))
+  }
+  return nuxtentRouter
 }
 
 export default createRouter

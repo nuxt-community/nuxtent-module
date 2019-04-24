@@ -17,7 +17,7 @@ declare namespace NodeJS {
 }
 
 export namespace Nuxtent {
-  type RequestMethods = 'get' | 'getOnly' | ['getAll', { query: Query }]
+  type RequestMethods = 'get' | 'getOnly' | ['getAll', Config.Queries]
   type ContentFileExtensions = 'yaml' | 'yml' | 'md' | 'json'
 
   namespace Page {
@@ -48,6 +48,7 @@ export namespace Nuxtent {
         content?: string
         relativePath?: string
       }
+      fileName?: string
     }
 
     interface TocEntry {
@@ -81,14 +82,14 @@ export namespace Nuxtent {
         [permalink: string]: PageToc
       }
       data: RawData
-      body: Body
+      body: Body | null
     }
 
     interface PublicPage {
       meta?: Database.FileMeta
       date?: string | Date | null
       path: string | null
-      permalink: string | null
+      permalink: string
       attributes: Attributes
       breadcrumbs?: Breadcrumbs[]
       toc?: PageToc
@@ -183,6 +184,7 @@ export namespace Nuxtent {
     }
     interface Queries {
       query: Query
+      args?: OnlyArg
     }
     interface Toc extends markdownItAnchor.AnchorOptions {
       /** The depth level to mark anchors */
@@ -267,7 +269,7 @@ export namespace Nuxtent {
 
   type ContentArray = Array<[string, Config.Content]>
   type RoutePaths = Map<string, string>
-  type AssetMap = Map<string, string>
+  type AssetMap = Map<string, Page.PublicPage | Page.PublicPage[]>
 }
 
 export interface ILodashTemplate {

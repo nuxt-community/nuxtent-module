@@ -1,10 +1,11 @@
 import pkg from '../package.json'
 
 // import { join } from 'path'
-// import micro from 'micro'
+import micro from 'micro'
+import { withNamespace, router, get } from 'microrouter'
 import NuxtentConfig from './config'
 import createRouter from './content/api'
-// import { addRoutes, addAssets, createStaticRoutes } from './content/build'
+import { addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
 import { Nuxt } from '../types/nuxt.js'
 import { join } from 'path'
@@ -14,7 +15,6 @@ import { Configuration as WebpackConfiguration } from 'webpack'
  * @export
  */
 
-let server
 async function nuxtentModule(
   this: Nuxt.ModuleContainer,
   moduleOptions: Nuxt.ModuleConfiguration
@@ -27,7 +27,7 @@ async function nuxtentModule(
   // This section starts as early as possible
   await nuxtentConfig.init(self.options.rootDir)
   nuxtentConfig.createContentDatabase()
-  const router = createRouter(nuxtentConfig)
+  const nuxtentRouter = createRouter(nuxtentConfig)
 
   // Generate Vue templates from markdown with components (*.comp.md)
   this.extendBuild((config: WebpackConfiguration, loaders) => {
@@ -52,7 +52,7 @@ async function nuxtentModule(
 
   // Add content API when running `nuxt` & `nuxt build` (development and production)
   this.addServerMiddleware({
-    handler: router,
+    handler: nuxtentRouter,
     path: nuxtentConfig.api.apiServerPrefix,
   })
 
@@ -63,6 +63,7 @@ async function nuxtentModule(
   })
   // Execute this just before everyting starts building
   self.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
+    // Sets the static mode
     const isStatic =
       ((builder.bundleBuilder || {}).buildContext || {}).isStatic ||
       process.static
@@ -88,33 +89,41 @@ async function nuxtentModule(
       },
       src: join(__dirname, '..', 'plugins', 'nuxtent-components.template.js'),
     })
+    if (isStatic) {
+    }
   })
 
-  // this.nuxt.hook('generate:before', async (nuxt: any, generateOptions: any) => {
-  //   createStaticRoutes(nuxtentConfig, contentDatabase)
-  //   // Adds routes as assets so it may be procesed
-  //   addAssets(this.options, nuxtentConfig.assetMap)
-  //   // add the routes to the routes array on the nuxt config
-  //   addRoutes(generateOptions, nuxtentConfig.staticRoutes)
-  // })
+  this.nuxt.hook('generate:before', async (nuxt: any, generateOptions: any) => {
+    createStaticRoutes(nuxtentConfig)
+    // Adds routes as assets so it may be procesed
+    addAssets(this.options, nuxtentConfig.assetMap)
+    // add the routes to the routes array on the nuxt config
+    generateOptions.routes = generateOptions.routes
+      ? generateOptions.routes.concat(nuxtentConfig.staticRoutes)
+      : nuxtentConfig.staticRoutes
+  })
   // // Execute this after all is builder
-  // this.nuxt.hook('build:done', () => {
-  //   logger.info(`Generating: ${String(nuxtentConfig.isStatic)}`)
-  //   if (nuxtentConfig.isStatic) {
-  //     logger.info('opening server connection')
-  //     const app = micro(router)
-  //     logger.info(
-  //       `prefix: ${nuxtentConfig.api.apiServerPrefix} baseurl: ${
-  //         nuxtentConfig.api.baseURL
-  //       }`
-  //     )
-  //     const server = app.listen(nuxtentConfig.api.port)
-  //     this.nuxt.hook('generate:done', () => {
-  //       logger.info('closing server connection')
-  //       server.close()
-  //     })
-  //   }
-  // })
+  this.nuxt.hook('build:done', async () => {
+    logger.info(`Generating: ${String(nuxtentConfig.isStatic)}`)
+    if (nuxtentConfig.isStatic) {
+      logger.info('opening server connection')
+      const app = await micro(
+        // @ts-ignore
+        nuxtentRouter.namespaced()
+      )
+      logger.info(
+        `prefix: ${nuxtentConfig.api.apiServerPrefix} baseurl: ${
+          nuxtentConfig.api.baseURL
+        }`
+      )
+      const server = await app.listen(nuxtentConfig.api.port)
+
+      this.nuxt.hook('generate:done', () => {
+        logger.info('closing server connection')
+        server.close()
+      })
+    }
+  })
 }
 
 export { pkg as meta }
