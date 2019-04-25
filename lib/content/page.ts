@@ -119,7 +119,7 @@ export default class Page {
    * Gets the body contents for the object
    */
   get body(): Nuxtent.Page.Body {
-    if (isDev || this.cached.body === null) {
+    if (isDev || this.cached.body === null || !this.cached.body) {
       const { dirName, section, fileName, filePath } = this.__meta
       if (fileName.search(/\.comp\.md$/) > -1) {
         let relativePath = '.' + join(dirName, section, fileName)
