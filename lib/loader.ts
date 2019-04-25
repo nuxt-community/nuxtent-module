@@ -92,12 +92,15 @@ function transformMdComponents(
 
   // This goes line for line looking for coincidences until it runs out
   while (result) {
-    const [match, codeSnippet, isSlot, closeSlot, name, props] = result
+    const [match, codeSnippet, isSlot, closeSlot, componentName, props] = result
 
     if (!codeSnippet) {
-      const componentName = _.camelCase(name)
       if (!components[componentName]) {
-        const component = getComponentBaseName(componentsDir, name, extensions)
+        const component = getComponentBaseName(
+          componentsDir,
+          componentName,
+          extensions
+        )
         if (!component) {
           throw new Error(`"${name}" does not exist at ${componentsDir}`)
         }
@@ -200,6 +203,9 @@ export default function nuxtentLoader(
       }
     }
   }
+
+  // We do need html
+  dirOpts.markdown.parser.set({ html: true })
   const template = mdCompParser(dirOpts.markdown.parser).render(
     transformedSource
   )
@@ -208,11 +214,11 @@ export default function nuxtentLoader(
     .map(key => `${key}: () => import('~/components/${components[key]}')`)
     .join(',\n')
 
-  // const [, fileName] = this.resourcePath.match(
-  //   /[/\\]content([/\\\w\-_]*)(\.comp\.md$)?|$/
-  // )
   const componentName = _.camelCase(fileName)
-  const componentData = JSON.stringify(frontmatter.data || {})
+  const componentData = JSON.stringify({
+    ...(frontmatter.data || {}),
+    components,
+  })
   return `
     <template>
       <component :is="tag">

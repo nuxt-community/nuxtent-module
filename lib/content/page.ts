@@ -119,22 +119,30 @@ export default class Page {
    * Gets the body contents for the object
    */
   get body(): Nuxtent.Page.Body {
-    if (isDev || !this.cached.body) {
+    if (isDev || this.cached.body === null) {
       const { dirName, section, fileName, filePath } = this.__meta
       if (fileName.search(/\.comp\.md$/) > -1) {
         let relativePath = '.' + join(dirName, section, fileName)
         relativePath = relativePath.replace(/\\/, '/') // normalize windows path
+        if (!relativePath) {
+          logger.error('Path not found for ' + this._rawData.fileName)
+        }
         this.cached.body = {
+          content: this._rawData.body.content,
           relativePath, // component body compiled by loader and imported separately
         }
       } else if (fileName.search(/\.md$/) > -1) {
         if (this.config.markdown.plugins.toc) {
           // Inject callback in markdown-it-anchor plugin
-          const tocPlugin = this.config.markdown.plugins.toc as Nuxtent.Config.MarkdownItPluginArray
+          const tocPlugin = this.config.markdown.plugins
+            .toc as Nuxtent.Config.MarkdownItPluginArray
           tocPlugin[1].callback = this.tocParserCallback
         }
         // markdown to html
         if (this.config.markdown.parser) {
+          if (!this._rawData.body.content) {
+            logger.warn(`Empty content on ${this.path}`)
+          }
           this.cached.body = this.config.markdown.parser.render(
             this._rawData.body.content || ''
           )
@@ -181,7 +189,9 @@ export default class Page {
       this.cached.data.fileName = fileName
       if (fileName.search(/\.(md|html)$/) !== -1) {
         // { data: attributes, content: body } = matter(source)
-        const result = matter(source)
+        const result = matter(source, {
+          excerpt: true,
+        })
         this.cached.data.attributes = Object.assign(
           { excerpt: result.excerpt },
           result.data
@@ -310,9 +320,7 @@ export default class Page {
     })
     const data: Nuxtent.Page.PublicPage = {
       attributes: {},
-      body: {
-        relativePath: '',
-      },
+      body: '',
       date: null,
       path: null,
       permalink: '',

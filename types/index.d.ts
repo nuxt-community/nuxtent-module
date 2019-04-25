@@ -70,7 +70,7 @@ export namespace Nuxtent {
       }
     }
 
-    type Body = string | { relativePath: string }
+    type Body = string | { relativePath?: string; content?: string }
     interface PageData {
       meta?: Database.FileMeta
       date: string | Date | null
@@ -82,7 +82,7 @@ export namespace Nuxtent {
         [permalink: string]: PageToc
       }
       data: RawData
-      body: Body | null
+      body: { relativePath?: string; content?: string } | string | null
     }
 
     interface PublicPage {

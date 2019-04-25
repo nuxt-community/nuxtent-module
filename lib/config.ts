@@ -5,7 +5,7 @@ import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
 import { Nuxtent } from '../types'
 import { RouteConfig, Route } from 'vue-router'
-import MarkdownIt from 'markdown-it'
+import markdownIt from 'markdown-it'
 import markdownItTocDoneRight from 'markdown-it-toc-done-right'
 import { Nuxt } from '../types/nuxt'
 const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
@@ -13,7 +13,8 @@ const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
   if (typeof markdownConfig.extend === 'function') {
     markdownConfig.extend(config)
   }
-  const parser = new MarkdownIt(config)
+
+  const parser = markdownIt(config)
   const plugins = markdownConfig.plugins || {}
 
   Object.keys(plugins).forEach(plugin => {
@@ -69,7 +70,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
 
   public defaultMarkdown: Nuxtent.Config.Markdown = {
     customize: undefined,
-    parser: MarkdownIt('commonmark'),
+    parser: undefined,
     plugins: {},
     settings: { ...this.markdownSettings },
     use: [],
@@ -159,7 +160,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    * @memberOf NuxtentConfig
    */
   protected defaultContentContainer: Nuxtent.ContentArray = [
-    ['/', { ...this.defaultContent }],
+    ['/', this.defaultContent],
   ]
 
   private userConfig: Nuxtent.Config.User = {
@@ -184,9 +185,12 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     process.env.NUXTENT_PORT = this.port
     this.api = { ...this.defaultApi }
     this.build = { ...this.defaultBuild }
-    this.markdown = { ...this.defaultMarkdown }
+    this.markdown = {
+      ...{ settigs: this.markdownSettings },
+      ...this.defaultMarkdown,
+    }
     this.toc = { ...this.defaultToc }
-    this.content = { ...this.defaultContentContainer }
+    this.content = this.defaultContentContainer
     merge(this.userConfig, moduleOptions, options.nuxtent)
     if (options.build) {
       this.publicPath = options.build.publicPath || this.publicPath
@@ -226,12 +230,13 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     this.markdown = merge({}, this.defaultMarkdown, this.userConfig.markdown)
     this.toc = merge({}, this.defaultToc, this.userConfig.toc)
     this.content = this.userConfig.content
-    this.buildContent()
     this.markdown.parser = createParser(this.markdown)
     for (const [, contentEntry] of this.content) {
+      contentEntry.markdown = merge({}, contentEntry.markdown, this.markdown)
       contentEntry.markdown.parser = createParser(contentEntry.markdown)
     }
-    return this
+    this.buildContent()
+    return Promise.resolve(this)
   }
 
   /**
