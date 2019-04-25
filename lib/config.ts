@@ -18,7 +18,9 @@ const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
 
   Object.keys(plugins).forEach(plugin => {
     Array.isArray(plugins[plugin])
-      ? parser.use.apply(parser, plugins[plugin] as Nuxtent.Config.MarkdownItPluginArray)
+      ? parser.use.apply(parser, plugins[
+          plugin
+        ] as Nuxtent.Config.MarkdownItPluginArray)
       : parser.use(plugins[plugin] as Nuxtent.Config.MarkdownItPlugin)
   })
 
@@ -229,7 +231,6 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     for (const [, contentEntry] of this.content) {
       contentEntry.markdown.parser = createParser(contentEntry.markdown)
     }
-    console.log({markdown: this.markdown, content: this.content})
     return this
   }
 
@@ -297,7 +298,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     this.content.forEach(([, content]) => {
       const { page, permalink } = content
       if (page) {
-        this.routePaths.set(pathToName(page), permalink.replace(/^\//, ''))
+        this.routePaths.set(pathToName(page), permalink)
       }
     })
   }
@@ -313,13 +314,14 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
       if (!route.name) {
         return route
       }
-      let overwritedPath = this.routePaths.get(route.name)
+      const overwritedPath = this.routePaths.get(route.name)
       if (overwritedPath !== undefined) {
         const isOptional = route.path.match(/\?$/)
-        const match = overwritedPath.match(/\/(.*)/)
-        if (match) {
-          overwritedPath = match[1]
-        }
+        // QUESTION: Why did we had this?
+        // const match = overwritedPath.match(/\/(.*)/)
+        // if (match) {
+        //   overwritedPath = match[1]
+        // }
         logger.debug(
           `Renamed ${route.name} path ${route.path} > ${overwritedPath}`
         )

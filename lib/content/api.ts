@@ -24,21 +24,28 @@ function queryParse(query: { [k: string]: string }): Nuxtent.Query {
  *  Sends a single response for a single item on a content group
  * @param db The database for the content group
  */
-function itemResponse(db: Database, prefix: string): AugmentedRequestHandler {
+function itemResponse(
+  db: Database,
+  prefix: string,
+  path: string
+): AugmentedRequestHandler {
   return async (req, res) => {
     if (!req.url) {
       logger.error('There is no url on the request')
       return send(res, 500, 'No url')
     }
     const cleanRegex = new RegExp(`(^${prefix})|[/?]$`, 'g')
-    const permalink = req.url.replace(cleanRegex, '')
+    const permalink = req.url.replace(cleanRegex, '').replace(path, '')
 
     if (!db.exists(permalink)) {
       logger.warn({ code: 404, requested: req.params, url: req.url })
       return send(res, 404, {
-        message: 'Not Found in ' + db.dirPath,
-        requested: permalink,
         links: db.pagesArr.map(page => page.permalink),
+        message: 'Not Found in ' + db.dirPath,
+        path,
+        prefix,
+        requested: permalink,
+        url: req.url,
       })
     }
 
@@ -46,7 +53,12 @@ function itemResponse(db: Database, prefix: string): AugmentedRequestHandler {
       const page = await db.find(permalink, queryParse(req.query))
       return send(res, 200, page)
     } catch (e) {
-      return send(res, 500, {error: e, message: 'There is a server error', requested: permalink})
+      return send(res, 500, {
+        error: e,
+        message: 'There is a server error',
+        path,
+        requested: permalink,
+      })
     }
   }
 }
@@ -88,8 +100,8 @@ function indexResponse(
     logger.warn('Page ' + req.url + ' not found.')
     return send(res, 404, {
       endpoints: basePaths,
-      requested: req.url,
       message: 'Not found',
+      requested: req.url,
     })
   }
 }
@@ -145,24 +157,26 @@ function createRouter(
       )
     )
   }
-  for (const [path, database] of nuxtentConfig.database) {
+  for (let [path, database] of nuxtentConfig.database) {
+    if (!path.startsWith('/')) {
+      path = '/' + path
+    }
     // Generate the route match for each item
+    const item = path + database.permalink
     routes.push(
       get(
-        trailingOptional(database.permalink),
-        itemResponse(database, nuxtentConfig.api.apiServerPrefix)
+        trailingOptional(item),
+        itemResponse(database, nuxtentConfig.api.apiServerPrefix, path)
       )
     )
-    const linkMatch = database.permalink.match(/:[\w]+/)
-    const permalink = linkMatch
-      ? database.permalink.substr(0, linkMatch.index)
-      : path
+    const linkMatch = item.match(/:[\w]+/)
+    const index = linkMatch ? item.substr(0, linkMatch.index) : path
     // Instantate just once
     const handler = indexHandler(database)
     // The index route
-    routes.push(get(trailingOptional(permalink), handler))
+    routes.push(get(trailingOptional(index), handler))
     // If permaink base differs from the base route on the config then set both
-    if (permalink !== path) {
+    if (index !== path) {
       routes.push(get(trailingOptional(path), handler))
     }
   }

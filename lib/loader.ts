@@ -6,6 +6,7 @@ import { loader } from 'webpack'
 import { getOptions, OptionObject } from 'loader-utils'
 import { Nuxtent } from '../types'
 import MarkdownIt from 'markdown-it'
+import { logger } from './utils'
 
 type ContentOptions = Array<[string, Nuxtent.Config.Content]>
 
@@ -22,7 +23,7 @@ function getDirOpts(contentOptions: ContentOptions, section: string) {
 
 function getSection(dirPath: string): string {
   // capture '/content/closestSubsection' or  '/content'
-  const match = dirPath.match(/[/\\]content([/\\][a-zA-Z\-_]*|$)/)
+  const match = dirPath.match(/[/\\]content[/\\]([\w\-_\s]+|$)/)
   if (match) {
     return match[1] === '' ? '/' : match[1]
   }
@@ -154,7 +155,9 @@ export default function nuxtentLoader(
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
   if (!dirOpts) {
-    // logger.debug(`The folder ${section} is not configured in nuxtent and therefore ignored`)
+    logger.debug(
+      `The folder ${section} is not configured in nuxtent and therefore ignored`
+    )
     return
   }
 
@@ -163,6 +166,11 @@ export default function nuxtentLoader(
   if (!fileName) {
     this.emitError(new Error('The resource is not a markdown file'))
   }
+
+  if (!dirOpts.markdown.parser) {
+    return this.emitError(new Error('Could not found markdown parser'))
+  }
+
   const frontmatter = matter(source)
 
   const { transformedSource, components } = transformMdComponents(
@@ -192,7 +200,9 @@ export default function nuxtentLoader(
       }
     }
   }
-  const template = mdCompParser(dirOpts.parser).render(transformedSource)
+  const template = mdCompParser(dirOpts.markdown.parser).render(
+    transformedSource
+  )
 
   const asyncImports = Object.keys(components)
     .map(key => `${key}: () => import('~/components/${components[key]}')`)
