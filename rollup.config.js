@@ -1,8 +1,8 @@
 import json from 'rollup-plugin-json'
 import nodeResolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
 import typescript from 'rollup-plugin-typescript'
-
+import copy from 'rollup-plugin-copy'
+// @ts-ignore
 import pkg from './package.json'
 
 const version = process.env.VERSION || pkg.version
@@ -20,16 +20,14 @@ const corePlugins = [
   nodeResolve({
     preferBuiltins: true
   }),
-  commonjs({
-    include: 'node_modules/**'
+  json({
+    preferConst: true
   }),
-  json(),
 ]
 
 const bundle = (name, options) => ({
   input: `lib/${name}.ts`,
-  output: [
-    {
+  output: [{
       file: `dist/${name}.js`,
       format: 'cjs',
       exports: 'named',
@@ -52,15 +50,14 @@ const bundle = (name, options) => ({
 
 export default [
   bundle('module', {
-    plugins: [...corePlugins],
+    plugins: [...corePlugins, copy({
+      targets: {
+        'lib/plugins/nuxtent-components.template.js': 'dist/plugins/nuxtent-components.template.js',
+        'lib/plugins/nuxtent-config.template.js': 'dist/plugins/nuxtent-config.template.js'
+      }
+    })],
     external: [
-      'path',
-      'fs',
-      'url',
-      'querystring',
-      'consola',
-      'express',
-      'axios',
+      'path', 'fs',
       ...external
     ],
     globals: {
@@ -69,6 +66,30 @@ export default [
   }),
   bundle('loader', {
     plugins: [...corePlugins],
-    external: ['path', 'fs', 'axios', ...external]
-  })
+    globals: {
+      process: {}
+    },
+    external: ['path', 'fs', ...external]
+  }),
+  {
+    input: 'lib/plugins/nuxtent-request.ts',
+    plugins: [...corePlugins],
+    output: [
+      {
+        file: `dist/plugins/nuxtent-request.js`,
+        format: 'esm',
+        exports: 'named',
+        name: `nuxtent`,
+        globals: {process: {}}
+      }
+    ],
+    external: [...external, 'url', 'stream', 'http', 'https', 'zlib']
+  },
+  // bundle('plugins/nuxtent-request', {
+  //   plugins: [...corePlugins],
+  //   globals: {
+  //     process: {}
+  //   },
+  //   external: ['path', 'fs', ...external]
+  // })
 ]

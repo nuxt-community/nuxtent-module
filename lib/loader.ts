@@ -6,7 +6,6 @@ import { loader } from 'webpack'
 import { getOptions, OptionObject } from 'loader-utils'
 import { Nuxtent } from '../types'
 import MarkdownIt from 'markdown-it'
-import MarkdownItRenderer from 'markdown-it/lib/renderer'
 
 type ContentOptions = Array<[string, Nuxtent.Config.Content]>
 
@@ -155,11 +154,7 @@ export default function nuxtentLoader(
   const section = getSection(this.context)
   const dirOpts = getDirOpts(content, section)
   if (!dirOpts) {
-    this.emitError(
-      new Error(
-        `We do not have that kind of option section: ${section} file: ${source}`
-      )
-    )
+    // logger.debug(`The folder ${section} is not configured in nuxtent and therefore ignored`)
     return
   }
 

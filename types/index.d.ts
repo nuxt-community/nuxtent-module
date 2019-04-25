@@ -86,6 +86,7 @@ export namespace Nuxtent {
     }
 
     interface PublicPage {
+      [key: string]: any
       meta?: Database.FileMeta
       date?: string | Date | null
       path: string | null
@@ -146,7 +147,6 @@ export namespace Nuxtent {
       method: ConfigContentGenereate
       /** The specific markdown configuration for this container */
       markdown: Markdown
-      parser: MarkdownIt
     }
 
     interface Api {
@@ -211,14 +211,20 @@ export namespace Nuxtent {
       highlight?: (str: string, lang: string) => void
     }
 
+    type MarkdownItPlugin = (md: MarkdownIt, ...params: any[]) => void
+
+    type MarkdownItPluginArray = [MarkdownItPlugin, ...any[]]
     interface Markdown {
       /**
        * The plugins to use on markdown,
        * must be a object where key is the name of the plugin and the value an array
        * or the plugin instance
        * `{ pluginName: [pluginModule, config] }`
+       * (parameter) plugin: string
        */
-      plugins: { [pluginName: string]: [CallableFunction, any] }
+      plugins: {
+        [pluginName: string]: MarkdownItPlugin | MarkdownItPluginArray
+      }
       /**
        * Raw plugins for markdownit
        */
@@ -260,7 +266,7 @@ export namespace Nuxtent {
    */
   interface Query {
     /** Page properties to be excluded from request. */
-    exclude?: Array<Page.PageProp>
+    exclude?: Array<Page.PageProp | string>
     /** The arguments for between and only methods */
     args?: Array<string>
   }

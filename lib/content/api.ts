@@ -10,7 +10,15 @@ import {
 import Database from './database'
 import createServer from 'connect'
 import { IncomingMessage, ServerResponse } from 'http'
-import { url } from 'inspector'
+import { Nuxtent } from '../../types'
+
+function queryParse(query: { [k: string]: string }): Nuxtent.Query {
+  const { exclude = '', args = '' } = query
+  return {
+    args: args.split(','),
+    exclude: exclude.split(','),
+  }
+}
 
 /**
  *  Sends a single response for a single item on a content group
@@ -22,7 +30,7 @@ function itemResponse(db: Database, prefix: string): AugmentedRequestHandler {
       logger.error('There is no url on the request')
       return send(res, 500, 'No url')
     }
-    const cleanRegex = new RegExp(`(^${prefix})?|(/$)?`, 'g')
+    const cleanRegex = new RegExp(`(^${prefix})|[/?]$`, 'g')
     const permalink = req.url.replace(cleanRegex, '')
 
     if (!db.exists(permalink)) {
@@ -33,7 +41,13 @@ function itemResponse(db: Database, prefix: string): AugmentedRequestHandler {
         links: db.pagesArr.map(page => page.permalink),
       })
     }
-    return send(res, 200, await db.find(permalink, req.query))
+
+    try {
+      const page = await db.find(permalink, queryParse(req.query))
+      return send(res, 200, page)
+    } catch (e) {
+      return send(res, 500, {error: e, message: 'There is a server error', requested: permalink})
+    }
   }
 }
 
@@ -96,11 +110,15 @@ function indexHandler(db: Database): AugmentedRequestHandler {
   return async (req, res) => {
     const { between, only } = req.query
     if (between) {
-      return send(res, 200, await db.findBetween(between, req.query))
+      return send(
+        res,
+        200,
+        await db.findBetween(between, queryParse(req.query))
+      )
     } else if (only) {
-      return send(res, 200, await db.findOnly(only, req.query))
+      return send(res, 200, await db.findOnly(only, queryParse(req.query)))
     } else {
-      return send(res, 200, await db.findAll(req.query))
+      return send(res, 200, await db.findAll(queryParse(req.query)))
     }
   }
 }

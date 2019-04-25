@@ -1,8 +1,7 @@
-import pkg from '../package.json'
+import * as pkg from '../package.json'
 
 // import { join } from 'path'
 import micro from 'micro'
-import { withNamespace, router, get } from 'microrouter'
 import NuxtentConfig from './config'
 import createRouter from './content/api'
 import { addAssets, createStaticRoutes } from './content/build'
@@ -37,7 +36,7 @@ async function nuxtentModule(
         use: [
           'vue-loader',
           {
-            loader: require.resolve('./loader.ts'),
+            loader: require.resolve('./loader'),
             options: {
               componentsDir: nuxtentConfig.build.componentsDir,
               content: nuxtentConfig.content,
@@ -87,7 +86,7 @@ async function nuxtentModule(
       options: {
         components: generatePluginMap(nuxtentConfig.database),
       },
-      src: join(__dirname, '..', 'plugins', 'nuxtent-components.template.js'),
+      src: require.resolve('./plugins/nuxtent-components.template'),
     })
     if (isStatic) {
     }

@@ -1,12 +1,11 @@
 import { join } from 'path'
 import markdownItAnchor from 'markdown-it-anchor'
 import { merge } from 'lodash'
-import MarkdownIt from 'markdown-it'
 import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
 import { Nuxtent } from '../types'
 import { RouteConfig, Route } from 'vue-router'
-import markdownit from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import markdownItTocDoneRight from 'markdown-it-toc-done-right'
 import { Nuxt } from '../types/nuxt'
 const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
@@ -17,11 +16,11 @@ const createParser = (markdownConfig: Nuxtent.Config.Markdown) => {
   const parser = new MarkdownIt(config)
   const plugins = markdownConfig.plugins || {}
 
-  // Object.keys(plugins).forEach(plugin => {
-  //   Array.isArray(plugins[plugin])
-  //     ? parser.use.apply(parser, plugins[plugin])
-  //     : parser.use(plugins[plugin])
-  // })
+  Object.keys(plugins).forEach(plugin => {
+    Array.isArray(plugins[plugin])
+      ? parser.use.apply(parser, plugins[plugin] as Nuxtent.Config.MarkdownItPluginArray)
+      : parser.use(plugins[plugin] as Nuxtent.Config.MarkdownItPlugin)
+  })
 
   if (typeof markdownConfig.customize === 'function') {
     markdownConfig.customize(parser)
@@ -68,7 +67,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
 
   public defaultMarkdown: Nuxtent.Config.Markdown = {
     customize: undefined,
-    parser: undefined,
+    parser: MarkdownIt('commonmark'),
     plugins: {},
     settings: { ...this.markdownSettings },
     use: [],
@@ -112,22 +111,16 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
 
   /**
    * @description An array of the static pages to render during generate
-   * @type {String[]} The routes of the pages to render
    *
    */
   public staticRoutes: string[] = []
 
   /**
    * @description Is a static (--generate) build
-   * @type {boolean}
    *
    */
   public isStatic: boolean = false
 
-  /**
-   * @type {NuxtentConfigContent}
-   * @memberOf NuxtentConfig
-   */
   protected defaultContent: Nuxtent.Config.Content = {
     breadcrumbs: false,
     data: undefined,
@@ -135,7 +128,6 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     markdown: { ...this.defaultMarkdown },
     method: [...this.requestMethods],
     page: '',
-    parser: markdownit('commonmark'),
     permalink: ':slug',
     toc: { ...this.defaultToc },
   }
@@ -233,7 +225,11 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     this.toc = merge({}, this.defaultToc, this.userConfig.toc)
     this.content = this.userConfig.content
     this.buildContent()
-
+    this.markdown.parser = createParser(this.markdown)
+    for (const [, contentEntry] of this.content) {
+      contentEntry.markdown.parser = createParser(contentEntry.markdown)
+    }
+    console.log({markdown: this.markdown, content: this.content})
     return this
   }
 

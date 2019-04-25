@@ -1,10 +1,27 @@
 // @ts-ignore
-import config from './nuxtent-config'
+// import config from './nuxtent-config'
 import fetch, { RequestInit, Response } from 'node-fetch'
 import { Nuxtent } from '../../types'
 import { Nuxt } from '../../types/nuxt'
 import { Context, ErrorParams } from '@nuxt/vue-app'
-
+let config = {
+  // Defaults
+  api: {
+    apiBrowserPrefix: '/_nuxt/content',
+    apiServerPrefix: '/content-api',
+    baseURL: 'http://localhost:3000',
+    browserBaseURL: '',
+    host: 'localhost',
+    port: '3000',
+  },
+}
+try {
+  // tslint:disable-next-line: no-var-requires
+  config = require('./nuxtent-config')
+  // @ts-ignore
+  config = config.default || config
+  // tslint:disable-next-line: no-empty
+} catch (error) {}
 const api: Nuxtent.Config.Api = config.api
 const DEBUG: boolean = true
 
@@ -183,7 +200,7 @@ class Content {
     // replace leading slash
     let apiPath
     if (this.isAPI) {
-      apiPath = urlJoin(this.contentDir, permalink + query)
+      apiPath = urlJoin(this.contentDir, permalink + (query.startsWith('?') ? query : `?${query}`))
     } else {
       const allButFirstSlash = /(?!^\/)(\/)/g
       const serializedPermalink = permalink.replace(allButFirstSlash, '.')
@@ -191,7 +208,6 @@ class Content {
     }
     this.queryString = ''
     this.contentDir = ''
-
     if (!this.cache[apiPath]) {
       return (this.cache[apiPath] = await this.$fetch(apiPath)
         .then((data: object) => {
@@ -228,27 +244,27 @@ class Content {
     }
     if (DEBUG) {
       // tslint:disable-next-line: no-console
-      console.log('nuxtent', 'Get', this.self, permalink)
+      console.log('nuxtent', 'Get', {query: this.queryString, permalink})
     }
     return this.fetchContent(permalink, this.queryString)
   }
   public getBetween(permalink: string, num1or2: number, num2 = '') {
     const endpoint = this.isAPI ? '/' : '_between'
     const betweenQuery = 'between=' + [permalink, num1or2, num2].join(',')
-    const fullQuery = '?' + betweenQuery + '&' + this.queryString
+    const fullQuery = betweenQuery + '&' + this.queryString
     if (DEBUG) {
       // tslint:disable-next-line: no-console
-      console.log('nuxtent', 'getBetween', this.self)
+      console.log('nuxtent', 'getBetween', {endpoint, fullQuery})
     }
     return this.fetchContent(endpoint, fullQuery)
   }
   public getOnly(startIndex: number | string, endIndex: number | string) {
     const endpoint = this.isAPI ? '/' : '_only'
     const onlyQuery = 'only=' + [startIndex, endIndex].join(',')
-    const fullQuery = '?' + onlyQuery + '&' + this.queryString
+    const fullQuery = onlyQuery + '&' + this.queryString
     if (DEBUG) {
       // tslint:disable-next-line: no-console
-      console.log('nuxtent', 'getonly', this.self)
+      console.log('nuxtent', 'getonly', {endpoint, fullQuery})
     }
     return this.fetchContent(endpoint, fullQuery)
   }

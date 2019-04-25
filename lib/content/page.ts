@@ -130,14 +130,17 @@ export default class Page {
       } else if (fileName.search(/\.md$/) > -1) {
         if (this.config.markdown.plugins.toc) {
           // Inject callback in markdown-it-anchor plugin
-          const tocPlugin: [CallableFunction, Nuxtent.Config.Toc] = this.config
-            .markdown.plugins.toc
+          const tocPlugin = this.config.markdown.plugins.toc as Nuxtent.Config.MarkdownItPluginArray
           tocPlugin[1].callback = this.tocParserCallback
         }
         // markdown to html
-        this.cached.body = this.config.parser.render(
-          this._rawData.body.content || ''
-        )
+        if (this.config.markdown.parser) {
+          this.cached.body = this.config.markdown.parser.render(
+            this._rawData.body.content || ''
+          )
+        } else {
+          logger.error(`The ${this.config.permalink} markdown config is wrong`)
+        }
       } else if (fileName.endsWith('.html')) {
         this.cached.body = this._rawData.body.content || ''
       } else if (fileName.search(/\.(yaml|yml)$/) > -1) {
@@ -254,7 +257,7 @@ export default class Page {
 
   private config: Nuxtent.Config.Content
 
-  private propsSet: Set<Nuxtent.Page.PageProp> = new Set([
+  private propsSet: Set<Nuxtent.Page.PageProp | string> = new Set([
     'meta',
     'date',
     'path',
@@ -277,8 +280,8 @@ export default class Page {
 
   /**
    * Creates an instance of Page.
-   * @param {Nuxtent.Database.FileMeta} meta The metadata for the page file
-   * @param {Nuxtent.Config.Content} contentConfig The content configuration
+   * @param meta The metadata for the page file
+   * @param contentConfig The content configuration
    *
    * @memberOf Page
    */
@@ -317,7 +320,9 @@ export default class Page {
     this.propsSet.forEach(prop => {
       if (prop === 'attributes') {
         Object.assign(data, this[prop])
-      } else {
+        // @ts-ignore
+      } else if (this[prop] !== undefined) {
+        // @ts-ignore
         data[prop] = this[prop]
       }
     })
