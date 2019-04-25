@@ -23,6 +23,8 @@ try {
   // tslint:disable-next-line: no-empty
 } catch (error) {}
 const api: Nuxtent.Config.Api = config.api
+api.port = process.env.PORT || process.env.NUXT_PORT || process.env.NUXTENT_PORT || api.port
+api.host = process.env.HOST || process.env.NUXT_HOST || process.env.NUXTENT_HOST || api.host
 const DEBUG: boolean = true
 
 // ------------------------------------------------------ //

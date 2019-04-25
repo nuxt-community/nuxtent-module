@@ -57,11 +57,17 @@ export function createStaticRoutes(nuxtentConfig: NuxtentConfig) {
   const contentDatabase = nuxtentConfig.database
   const content = nuxtentConfig.content
   const buildDir = nuxtentConfig.build.buildDir
-
-  for (const [dirName, { page, method }] of content) {
+  for (let [dirName, { page, method }] of content) {
     const db = contentDatabase.get(dirName)
     if (!db) {
       throw new Error(`Database not found ${dirName}`)
+    }
+    if (!page) {
+      throw new Error('You must specify a page path ' + dirName)
+    }
+    if (!Array.isArray(method)) {
+      // Compatibility fix
+      method = [method]
     }
     method.forEach(reqType => {
       const req = {
@@ -81,9 +87,7 @@ export function createStaticRoutes(nuxtentConfig: NuxtentConfig) {
 
       switch (req.method) {
         case 'get':
-          if (!page) {
-            throw new Error('You must specify a page path')
-          }
+
           db.findAll(req.query).forEach(publicPage => {
             nuxtentConfig.staticRoutes.push(publicPage.permalink)
             nuxtentConfig.assetMap.set(

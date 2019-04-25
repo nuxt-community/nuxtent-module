@@ -1,14 +1,14 @@
 import * as pkg from '../package.json'
 
-// import { join } from 'path'
 import micro from 'micro'
 import NuxtentConfig from './config'
 import createRouter from './content/api'
 import { addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
 import { Nuxt } from '../types/nuxt.js'
-import { join } from 'path'
 import { Configuration as WebpackConfiguration } from 'webpack'
+import createServer from 'connect'
+
 /**
  * @description The Nuxtent Module
  * @export
@@ -24,9 +24,22 @@ async function nuxtentModule(
   const nuxtentConfig = new NuxtentConfig(moduleOptions, self.options)
 
   // This section starts as early as possible
+  nuxtentConfig.setApi(self.options)
   await nuxtentConfig.init(self.options.rootDir)
   nuxtentConfig.createContentDatabase()
+
+  // Add content API when running `nuxt` & `nuxt build` (development and production)
   const nuxtentRouter = createRouter(nuxtentConfig)
+  this.addServerMiddleware({
+    handler: nuxtentRouter,
+    path: nuxtentConfig.api.apiServerPrefix,
+  })
+
+  this.options.build.templates.push({
+    dst: 'nuxtent-config.js', // We import it manyally
+    options: nuxtentConfig.config,
+    src: require.resolve('./plugins/nuxtent-config.template'),
+  })
 
   // Generate Vue templates from markdown with components (*.comp.md)
   this.extendBuild((config: WebpackConfiguration, loaders) => {
@@ -49,17 +62,10 @@ async function nuxtentModule(
     }
   })
 
-  // Add content API when running `nuxt` & `nuxt build` (development and production)
-  this.addServerMiddleware({
-    handler: nuxtentRouter,
-    path: nuxtentConfig.api.apiServerPrefix,
+  this.nuxt.hook('listen', async () => {
+    nuxtentConfig.setApi(self.options)
   })
 
-  this.options.build.templates.push({
-    dst: 'nuxtent-config.js', // We import it manyally
-    options: nuxtentConfig.config,
-    src: require.resolve('./plugins/nuxtent-config.template'),
-  })
   // Execute this just before everyting starts building
   self.nuxt.hook('build:before', async (builder: any, buildOptions: any) => {
     // Sets the static mode
@@ -88,8 +94,6 @@ async function nuxtentModule(
       },
       src: require.resolve('./plugins/nuxtent-components.template'),
     })
-    if (isStatic) {
-    }
   })
 
   this.nuxt.hook('generate:before', async (nuxt: any, generateOptions: any) => {

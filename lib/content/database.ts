@@ -77,7 +77,7 @@ export default class Database {
           }
           const page = createMap(fileData)
           fileStore.set(page.permalink, page)
-        } else {
+        } else if (stat.isDirectory()) {
           globAndApply(statPath, join(nestedPath, stat.name))
         }
       })

@@ -92,15 +92,12 @@ function transformMdComponents(
 
   // This goes line for line looking for coincidences until it runs out
   while (result) {
-    const [match, codeSnippet, isSlot, closeSlot, componentName, props] = result
+    const [match, codeSnippet, isSlot, closeSlot, name, props] = result
 
     if (!codeSnippet) {
+      const componentName = _.camelCase(name)
       if (!components[componentName]) {
-        const component = getComponentBaseName(
-          componentsDir,
-          componentName,
-          extensions
-        )
+        const component = getComponentBaseName(componentsDir, name, extensions)
         if (!component) {
           throw new Error(`"${name}" does not exist at ${componentsDir}`)
         }

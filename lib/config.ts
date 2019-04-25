@@ -1,6 +1,6 @@
 import { join } from 'path'
 import markdownItAnchor from 'markdown-it-anchor'
-import { merge } from 'lodash'
+import { defaultsDeep } from 'lodash'
 import { pathToName, slugify, logger } from './utils'
 import Database from './content/database'
 import { Nuxtent } from '../types'
@@ -124,16 +124,7 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    */
   public isStatic: boolean = false
 
-  protected defaultContent: Nuxtent.Config.Content = {
-    breadcrumbs: false,
-    data: undefined,
-    isPost: false,
-    markdown: { ...this.defaultMarkdown },
-    method: [...this.requestMethods],
-    page: '',
-    permalink: ':slug',
-    toc: { ...this.defaultToc },
-  }
+  protected defaultContent: Nuxtent.Config.Content
 
   protected defaultBuild: Nuxtent.Config.Build = {
     buildDir: 'content',
@@ -145,13 +136,15 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     loaderComponentExtensions: ['.vue', '.js', '.mjs', '.tsx'],
   }
 
-  protected defaultApi: Nuxtent.Config.Api = {
-    apiBrowserPrefix: this.publicPath + this.defaultBuild.buildDir,
-    apiServerPrefix: '/content-api',
-    baseURL: `http://${this.host}:${this.port}`,
-    browserBaseURL: '',
-    host: this.host,
-    port: this.port,
+  protected get defaultApi(): Nuxtent.Config.Api {
+    return {
+      apiBrowserPrefix: this.publicPath + this.defaultBuild.buildDir,
+      apiServerPrefix: '/content-api',
+      baseURL: `http://${this.host}:${this.port}`,
+      browserBaseURL: '',
+      host: this.host,
+      port: this.port,
+    }
   }
 
   /**
@@ -159,17 +152,9 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    *
    * @memberOf NuxtentConfig
    */
-  protected defaultContentContainer: Nuxtent.ContentArray = [
-    ['/', this.defaultContent],
-  ]
+  protected defaultContentContainer: Nuxtent.ContentArray
 
-  private userConfig: Nuxtent.Config.User = {
-    api: { ...this.defaultApi },
-    build: { ...this.defaultBuild },
-    content: { ...this.defaultContentContainer },
-    markdown: { ...this.defaultMarkdown },
-    toc: { ...this.defaultToc },
-  }
+  private userConfig: Nuxtent.Config.User
 
   /**
    * Creates an instance of NuxtentConfig.
@@ -179,19 +164,35 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
    * @memberOf NuxtentConfig
    */
   constructor(moduleOptions: Nuxt.ModuleConfiguration, options: Nuxt.Options) {
-    this.host = options.host || this.host
-    this.port = options.port || this.port
-    process.env.NUXTENT_HOST = this.host
-    process.env.NUXTENT_PORT = this.port
-    this.api = { ...this.defaultApi }
     this.build = { ...this.defaultBuild }
     this.markdown = {
       ...{ settigs: this.markdownSettings },
       ...this.defaultMarkdown,
     }
     this.toc = { ...this.defaultToc }
+    this.api = { ...this.defaultApi }
+    this.defaultContent = {
+      breadcrumbs: false,
+      data: undefined,
+      isPost: false,
+      markdown: { ...this.defaultMarkdown },
+      method: [...this.requestMethods],
+      page: '',
+      permalink: ':slug',
+      toc: { ...this.defaultToc },
+    }
+    this.defaultContentContainer = [
+      ['/', this.defaultContent],
+    ]
     this.content = this.defaultContentContainer
-    merge(this.userConfig, moduleOptions, options.nuxtent)
+    this.userConfig = {
+      api: { ...this.defaultApi },
+      build: { ...this.defaultBuild },
+      content: [ ...this.defaultContentContainer ],
+      markdown: { ...this.defaultMarkdown },
+      toc: { ...this.defaultToc },
+    }
+    this.userConfig = defaultsDeep({}, this.userConfig, moduleOptions, options.nuxtent)
     if (options.build) {
       this.publicPath = options.build.publicPath || this.publicPath
     }
@@ -217,22 +218,37 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     }
   }
 
+  public setApi(options: Nuxt.Options) {
+    this.host = options.host || this.host
+    this.port = options.port || this.port
+    process.env.NUXTENT_HOST = this.host
+    process.env.NUXTENT_PORT = this.port
+    this.api = defaultsDeep({}, this.defaultApi, this.userConfig.api)
+  }
+
   public async init(rootDir = '~/'): Promise<NuxtentConfig> {
     const userConfig = await this.loadNuxtentConfig(rootDir)
-    merge(this.userConfig, userConfig)
-    if (!Array.isArray(this.userConfig.content)) {
-      this.userConfig.content = [
-        ['/', { ...this.defaultContent, ...this.userConfig.content }],
+    let content!: Nuxtent.ContentArray
+    if (!Array.isArray(userConfig.content)) {
+      content = [
+        ['/', { ...this.defaultContent, ...userConfig.content }],
       ]
+    } else {
+      content = userConfig.content.map(([container, options]) => {
+        return [container, defaultsDeep(options, this.defaultContent)]
+      })
     }
-    this.api = merge({}, this.defaultApi, this.userConfig.api)
-    this.build = merge({}, this.defaultBuild, this.userConfig.build)
-    this.markdown = merge({}, this.defaultMarkdown, this.userConfig.markdown)
-    this.toc = merge({}, this.defaultToc, this.userConfig.toc)
-    this.content = this.userConfig.content
+    delete userConfig.content
+    defaultsDeep(this.userConfig, userConfig)
+
+    this.api = defaultsDeep({}, this.defaultApi, this.userConfig.api)
+    this.build = defaultsDeep({}, this.defaultBuild, this.userConfig.build)
+    this.markdown = defaultsDeep({}, this.defaultMarkdown, this.userConfig.markdown)
+    this.toc = defaultsDeep({}, this.defaultToc, this.userConfig.toc)
+    this.content = content
     this.markdown.parser = createParser(this.markdown)
     for (const [, contentEntry] of this.content) {
-      contentEntry.markdown = merge({}, contentEntry.markdown, this.markdown)
+      contentEntry.markdown = defaultsDeep({}, contentEntry.markdown, this.markdown)
       contentEntry.markdown.parser = createParser(contentEntry.markdown)
     }
     this.buildContent()
@@ -278,11 +294,11 @@ export default class NuxtentConfig implements Nuxtent.Config.Config {
     // Local var to set the config
     const tocConfig = this.defaultToc
     if (typeof dirOpts.toc === 'number') {
-      merge(tocConfig, {
+      defaultsDeep(tocConfig, {
         level: dirOpts.toc,
       })
     } else if (typeof dirOpts.toc === 'object') {
-      merge(tocConfig, dirOpts.toc)
+      defaultsDeep(tocConfig, dirOpts.toc)
     } else {
       dirOpts.toc = tocConfig
     }
