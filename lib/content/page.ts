@@ -119,8 +119,9 @@ export default class Page {
   get body(): Nuxtent.Page.Body {
     if (
       isDev ||
-      (typeof this.cached.body === 'string' && !this.cached.body) ||
-      (this.cached.body && typeof this.cached.body === 'object' && !this.cached.body.relativePath)
+      this.cached.body === null ||
+      (typeof this.cached.body === 'string' && this.cached.body.length === 0) ||
+      (typeof this.cached.body === 'object' && !this.cached.body.relativePath)
     ) {
       const { dirName, section, fileName, filePath } = this.__meta
       if (fileName.search(/\.comp\.md$/) > -1) {
@@ -157,6 +158,9 @@ export default class Page {
         const source = readFileSync(filePath).toString()
         const body = yaml.load(source)
         this.cached.body = body
+      }
+      else {
+        logger.error('This file is not supported ' + this.__meta.fileName)
       }
     }
     if (this.cached.body === null) {
