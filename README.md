@@ -50,7 +50,7 @@
 
 [📖 Release Notes](./CHANGELOG.md)
 
-**I unfortunately don't use this module anymore (interests changed), so I'm hoping that people that do use it can step up as maintainers / contributors. Please join [Nuxtent's slack channel](https://join.slack.com/t/nuxtent/shared_invite/enQtMjQ1MzI4MzgxNzI5LTcwOTlkYTczNTMzMGU1YjYyYjlkNzNjNDc3MjQ3YTdmMjc0ZThkZjM1ZWY4ZjhiZjc1MDIwYjJmMjAxODlhMzU) and DM me if interested.**
+**This is a work in progress from integrating [nuxtdown](https://github.com/joostdecock/nuxtdown-module) features and fixing critical bugs. DO NOT USE IN PRODUCTION**
 
 # Summary
 
@@ -59,10 +59,8 @@ The goal of Nuxtent is to make using Nuxt for content heavy sites as easy as usi
 Nuxtent mainly does this in two ways:
 
 1. By compiling all the data from `markdown` or `yaml` files based on configured rules.
-2. By providing helpers for dynamically accessing this data inside Nuxt pages.
-
-But, we didn't just want to make Nuxtent as good as a static site generator–we wanted to make it better.
-
+2. By providing helpers for dynamically accessing this data inside Nuxt pages.  
+But, we didn't just want to make Nuxtent as good as a static site generator–we wanted to make it better.  
 So, along with that, Nuxtent also supports:
 
 3. The usage of content files in both static sites and dynamic applications.
@@ -71,11 +69,50 @@ So, along with that, Nuxtent also supports:
 
 There you go: five reasons to give `Nuxtent` a try, and maybe even star and [share]("https://twitter.com/intent/tweet) it. :smirk:
 
+# Features
+
+- Simple configuration
+- Allows you to override settings for the markdown parser ([markdown-it](https://github.com/markdown-it/markdown-it)), and use its plugins
+- Support both blog posts or similar flat content structures, and a nested hierarchy of markdown content
+- Adds useful info to your markdown page's meta info, including:
+	- Any data your specify in the config file
+	- A breadcrumbs trail for hierarchical markdown content
+	- (the info for) a table of contents
+- Support for using vue components inside your markdown content
+- Adds the $content helper to Nuxt to allow your to access your markdown content and metadata inside Nuxt pages
+
+# v3.X goals
+
+- [ ] Improve the documentation and at least a spanish translation
+- [-] Windows compatible (Help needed)
+- [ ] Be zeroconf and extendible through it's own api and exposing the markdown parser
+- [ ] Allow default attributes to be set on the frontmatter ej. title
+- [ ] Real async modules (this affects ssr more than a static build)
+- [ ] Fully integrate with the new features nuxt2.0 and node 11
+- [ ] Debugable configuration
+- [ ] Better error reporting
+- [ ] Improve the template with optional addons as examples
+- [ ] Document the code in order to simplify contributions and future development
+- [ ] Support multiple file types
+- [ ] Integrate the api configuration with nuxt itself while keeping it configurable
+- [x] Expose $content helper and it's constant like api endpoint through all of vue
+- [ ] Vuex integration
+- [-] Improve on SSR memory usage
+- [ ] Keep the main features from nuxtdown:
+  - [ ] Breadcrubms
+  - [ ] Automatic table of content (TOC)
+  - [ ] Isolated and global configurations
+  - [ ] Allow for nested content and index files
+
+
 ## Simple yet flexible API
 
 Nuxtent was created to integrate with Nuxt (otherwise, you're just building another Jekyll-like tool, with the same amount of mental overhead).
 
-Nuxtent's API is simple yet flexible. All you have to do is 1) configure the content and 2) fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
+Nuxtent's API is simple yet flexible. All you have to do is 
+
+- Configure the content and
+- Fetch the files with the `$content` helper inside the `asyncData` method that is available in Nuxt pages.
 
 
 Here's a basic example:
@@ -84,11 +121,14 @@ Here's a basic example:
 // nuxtent.config.js
 module.exports = {
   content: {
-    page: '/_post',
-    permalink: ':year/:slug'
+    page: '/_post',
+    permalink: ':year/:slug'
   }
 }
 
+```
+
+```js
 // pages/_post.vue
 export default {
   asyncData: async ({ app, route }) => ({
@@ -96,6 +136,16 @@ export default {
   })
 }
 ```
+
+The response for each item is:
+
+``` json
+
+{
+	
+}
+```
+
 
 ## Quick Start
 
@@ -107,6 +157,12 @@ $ cd my-site
 # install dependencies
 $ npm install # Or yarn install
 ```
+
+
+Or if you already have your nuxt project:
+
+
+
 
 ## Installation
 
@@ -139,6 +195,12 @@ Documentation available at: https://nuxtent-module.netlify.com/guide (built with
 
 ### Documentation Sites
 - [ency.now.sh](https://ency.now.sh/) [source](https://github.com/encyjs/docs)
+
+
+### Corporate Sites
+- [dinamo.mx](https://dinamo.mx)
+- [yagodemarta.com](https://yagodemarta.com)
+- []
 
 
 ## License

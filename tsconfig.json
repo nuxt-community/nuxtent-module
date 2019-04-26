@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "sourceRoot": "./lib",
+    "typeRoots": ["./types"],
+    "paths": {
+      "*": ["./types/*", "./lib/*"]
+    },
+    "outDir": "./dist",
+    "pretty": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "allowJs": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./lib",
+    "lib": ["esnext", "dom"],
+    "types": ["@types/node", "@nuxt/vue-app", "@types/markdown-it", "@nuxt/config"]
+  },
+  "typeAcquisition": {
+    "enable": true
+  },
+  "files": ["lib/module.ts", "lib/plugins/nuxtent-request.ts", "./lib/loader.ts"],
+  "include": ["./types"]
+}

@@ -1,0 +1,41 @@
+{
+  "extends": "..",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["../types/*"],
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./*"
+      ],
+    },
+    "types": [
+      "@types/node",
+      "@nuxt/vue-app",
+    ],
+    "typeRoots": ["../types"]
+  },
+  "typeAcquisition": {
+    "enable": true
+  },
+  "include": ["../types"],
+  "exclude": ["./content"]
+}

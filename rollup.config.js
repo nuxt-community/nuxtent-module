@@ -1,75 +1,95 @@
-import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import uglify from 'rollup-plugin-uglify-es'
-import filesize from 'rollup-plugin-filesize'
+import nodeResolve from 'rollup-plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript'
 import copy from 'rollup-plugin-copy'
-
+// @ts-ignore
 import pkg from './package.json'
 
 const version = process.env.VERSION || pkg.version
 const external = Object.keys(pkg.dependencies || {})
 
+const banner = `/**
+* Nuxtent v${version}
+* (c) ${new Date().getFullYear()} César Valadez
+* @license MIT
+*/
+`
+
 const corePlugins = [
-  resolve({
-    preferBuiltins: false
+  typescript(),
+  nodeResolve({
+    preferBuiltins: true
   }),
-  commonjs({
-    include: 'node_modules/**'
+  json({
+    preferConst: true
   }),
-  babel({
-    babelrc: false,
-    presets: [['env', { modules: false, targets: { node: '8.0' } }], 'stage-2']
-    // plugins: [
-    //   'transform-async-to-generator',
-    //   'transform-regenerator',
-    //   [
-    //     'transform-object-rest-spread',
-    //     {
-    //       useBuiltIns: true
-    //     }
-    //   ],
-    //   'external-helpers'
-    // ]
-  }),
-  uglify(),
-  filesize()
 ]
 
 const bundle = (name, options) => ({
-  input: `lib/${name}.js`,
-  output: {
-    file: `dist/${name}.js`,
-    format: 'cjs',
-    exports: 'named'
-  },
-  name: `nuxtContent`,
-  plugins: options.plugins || [],
-  external: options.external || [],
-  globals: options.globals || {},
-  banner: `
-    /**
-    * Nuxt Content v${version}
-    * (c) ${new Date().getFullYear()} Alid Castano
-    * @license MIT
-    */
-   `
+  input: `lib/${name}.ts`,
+  output: [{
+      file: `dist/${name}.js`,
+      format: 'cjs',
+      exports: 'named',
+      banner,
+      name: `nuxtent`,
+      globals: options.globals || {}
+    },
+    {
+      file: `dist/${name}.mjs`,
+      format: 'esm',
+      exports: 'named',
+      banner,
+      name: `nuxtent`,
+      globals: options.globals || {}
+    }
+  ],
+  plugins: options.plugins || [...corePlugins],
+  external: options.external || [...external]
 })
 
 export default [
   bundle('module', {
-    plugins: [
-      json(),
-      copy({
-        'lib/plugins': 'dist/plugins',
-        'lib/loader.js': 'dist/loader.js'
-      }),
-      ...corePlugins
+    plugins: [...corePlugins, copy({
+      targets: {
+        'lib/plugins/nuxtent-components.template.js': 'dist/plugins/nuxtent-components.template.js',
+        'lib/plugins/nuxtent-config.template.js': 'dist/plugins/nuxtent-config.template.js'
+      }
+    })],
+    external: [
+      'path', 'fs',
+      ...external
     ],
-    external: ['path', 'fs', 'querystring', 'express', 'axios', ...external],
     globals: {
-      express: 'express'
+      process: {}
     }
-  })
+  }),
+  bundle('loader', {
+    plugins: [...corePlugins],
+    globals: {
+      process: {}
+    },
+    external: ['path', 'fs', ...external]
+  }),
+  {
+    input: 'lib/plugins/nuxtent-request.ts',
+    plugins: [...corePlugins],
+    output: [
+      {
+        file: `dist/plugins/nuxtent-request.js`,
+        format: 'esm',
+        exports: 'named',
+        name: `nuxtent`,
+        globals: {process: {}}
+      }
+    ],
+    external: [...external, 'url', 'stream', 'http', 'https', 'zlib']
+  },
+  // bundle('plugins/nuxtent-request', {
+  //   plugins: [...corePlugins],
+  //   globals: {
+  //     process: {}
+  //   },
+  //   external: ['path', 'fs', ...external]
+  // })
 ]
