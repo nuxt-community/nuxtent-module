@@ -19,12 +19,10 @@ const permalinkCompiler = pathToRegexp.compile
  * @returns {string} the slugified string
  */
 const getSlug = (fileName: string): string => {
-  let onlyName = fileName
+  const onlyName = fileName
     .replace(/(\.comp)?(\.[0-9a-z]+)$/, '') // remove any ext
     .replace(/!?(\d{4}-\d{2}-\d{2}-)/, '') // remove date and hypen
-  onlyName = slugify(onlyName)
-
-  return _.kebabCase(onlyName)
+  return slugify(onlyName).toLowerCase()
 }
 
 /**
@@ -119,7 +117,11 @@ export default class Page {
    * Gets the body contents for the object
    */
   get body(): Nuxtent.Page.Body {
-    if (isDev || this.cached.body === null || !this.cached.body) {
+    if (
+      isDev ||
+      (typeof this.cached.body === 'string' && !this.cached.body) ||
+      (this.cached.body && typeof this.cached.body === 'object' && !this.cached.body.relativePath)
+    ) {
       const { dirName, section, fileName, filePath } = this.__meta
       if (fileName.search(/\.comp\.md$/) > -1) {
         let relativePath = '.' + join(dirName, section, fileName)
@@ -190,12 +192,17 @@ export default class Page {
       if (fileName.search(/\.(md|html)$/) !== -1) {
         // { data: attributes, content: body } = matter(source)
         const result = matter(source, {
-          excerpt: true,
+          excerpt: !!this.config.excerpt,
         })
-        this.cached.data.attributes = Object.assign(
-          { excerpt: result.excerpt },
-          result.data
-        )
+        this.cached.data.attributes = result.data
+        if (!!this.config.excerpt) {
+          this.cached.data.attributes.excerpt =
+            fileName.endsWith('md') &&
+            this.config.markdown.parser &&
+            result.excerpt
+              ? this.config.markdown.parser.render(result.excerpt)
+              : result.excerpt
+        }
         this.cached.data.body.content = result.content
       } else if (fileName.search(/\.(yaml|yml)$/) !== -1) {
         this.cached.data.body.content = yaml.load(source)
@@ -313,9 +320,10 @@ export default class Page {
    */
   public create(params: Nuxtent.Query): Nuxtent.Page.PublicPage {
     const excludes = params.exclude || []
+    const props = Array.from(this.propsSet)
     excludes.forEach(prop => {
-      if (this.propsSet.has(prop)) {
-        this.propsSet.delete(prop)
+      if (props.includes(prop)) {
+        props.splice(props.indexOf(prop), 1)
       }
     })
     const data: Nuxtent.Page.PublicPage = {
@@ -325,7 +333,7 @@ export default class Page {
       path: null,
       permalink: '',
     }
-    this.propsSet.forEach(prop => {
+    props.forEach(prop => {
       if (prop === 'attributes') {
         Object.assign(data, this[prop])
         // @ts-ignore

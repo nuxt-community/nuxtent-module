@@ -1,6 +1,6 @@
 import { logger } from '../utils'
 import NuxtentConfig from '../config'
-import { send, RequestHandler } from 'micro'
+import { send, RequestHandler,  } from 'micro'
 import {
   router,
   get,
@@ -34,12 +34,18 @@ function itemResponse(
       logger.error('There is no url on the request')
       return send(res, 500, 'No url')
     }
+    if (!Object.keys(req.params).length) {
+      res.writeHead(301, { Location: prefix + req.url.replace(/\/$/, '') })
+      return res.end()
+    }
+
     const cleanRegex = new RegExp(`(^${prefix})|[/?]$`, 'g')
     const permalink = req.url.replace(cleanRegex, '').replace(path, '')
 
     if (!db.exists(permalink)) {
       logger.warn({ code: 404, requested: req.params, url: req.url })
       return send(res, 404, {
+        controller: 'itemResponse',
         links: db.pagesArr.map(page => page.permalink),
         message: 'Not Found in ' + db.dirPath,
         path,
@@ -54,6 +60,7 @@ function itemResponse(
       return send(res, 200, page)
     } catch (e) {
       return send(res, 500, {
+        controller: 'itemResponse',
         error: e,
         message: 'There is a server error',
         path,
@@ -99,6 +106,7 @@ function indexResponse(
     }
     logger.warn('Page ' + req.url + ' not found.')
     return send(res, 404, {
+      controller: 'indexResponse',
       endpoints: basePaths,
       message: 'Not found',
       requested: req.url,
@@ -111,11 +119,17 @@ function indexResponse(
  * @param path The path to set the optional slash
  */
 function trailingOptional(path: string): string {
-  if (path.endsWith('/')) {
+  const p = path.replace(/(\/:\w+)/g, (m, slug) => {
+    if (slug) {
+      return `(${slug})`
+    }
+    return m
+  })
+  if (p.endsWith('/')) {
     // Make optional the trailing slash
-    return path.replace(/\/$/, '(/)')
+    return p.replace(/\/$/, '(/)')
   }
-  return path + '(/)'
+  return p
 }
 
 function indexHandler(db: Database): AugmentedRequestHandler {
@@ -163,22 +177,24 @@ function createRouter(
     }
     // Generate the route match for each item
     const item = path + database.permalink
+
+    const linkMatch = item.match(/:[\w]+/)
+    const index = linkMatch ? item.substr(0, linkMatch.index) : path
+
+    // // Instantate just once
+    const handler = indexHandler(database)
+    // // The index route
+    routes.push(get(trailingOptional(index), handler))
+    // // If permaink base differs from the base route on the config then set both
+    if (index !== path) {
+      routes.push(get(path + '(/)', handler))
+    }
     routes.push(
       get(
         trailingOptional(item),
         itemResponse(database, nuxtentConfig.api.apiServerPrefix, path)
       )
     )
-    const linkMatch = item.match(/:[\w]+/)
-    const index = linkMatch ? item.substr(0, linkMatch.index) : path
-    // Instantate just once
-    const handler = indexHandler(database)
-    // The index route
-    routes.push(get(trailingOptional(index), handler))
-    // If permaink base differs from the base route on the config then set both
-    if (index !== path) {
-      routes.push(get(trailingOptional(path), handler))
-    }
   }
   routes.push(get('*', indexResponse(nuxtentConfig.database)))
   function nuxtentRouter(

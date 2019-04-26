@@ -2,7 +2,6 @@ import { join } from 'path'
 
 import { logger } from '../utils'
 import { Nuxtent } from '../../types'
-import Database from './database'
 import NuxtentConfig from '../config'
 import { Nuxt } from '../../types/nuxt'
 

@@ -147,6 +147,7 @@ export namespace Nuxtent {
       method: ConfigContentGenereate
       /** The specific markdown configuration for this container */
       markdown: Markdown
+      excerpt?: boolean
     }
 
     interface Api {
