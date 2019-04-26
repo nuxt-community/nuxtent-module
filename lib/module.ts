@@ -7,7 +7,6 @@ import { addAssets, createStaticRoutes } from './content/build'
 import { logger, generatePluginMap } from './utils'
 import { Nuxt } from '../types/nuxt.js'
 import { Configuration as WebpackConfiguration } from 'webpack'
-import createServer from 'connect'
 
 /**
  * @description The Nuxtent Module

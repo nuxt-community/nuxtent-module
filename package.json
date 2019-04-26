@@ -1,6 +1,6 @@
 {
   "name": "@dinamomx/nuxtent",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "Seamlessly use content files in your Nuxt.js sites.",
   "main": "index.js",
   "module": "index.mjs",

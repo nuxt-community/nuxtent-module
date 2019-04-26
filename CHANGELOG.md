@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+## 3.1.0
+
+Beta release, this was a refactor in typescript and enshures compatibility with 
+the latest nuxt at the moment (2.6.3). Testing is needed
+
+### Features
+
+* It tries to catch user config errors and be clear about them
+* The "async components" feature now uses async components
+* All the features from [nuxtdown](https://github.com/joostdecock/nuxtdown-module) are implemented
+* Excerpts
+* Markdown now has a per content-group and general configuration
+* Greatly reduces the memory requirements for large proyects
+* Minimal transpiling from ts to es6
+* Uses fetch instead of axios reducing bundle size
+* Improved responses from the api
+* Added support for JSON and HTML files
+* Added excerpt support, disabled by default
+* Added support for vue component syntax inside markdown `<v-component />`
+* Now excludes non supported files preventing strange errors when you put some random file in the content dir
+
+### Known bugs
+
+* None so far...
+
 <a name="1.1.0"></a>
 ## [1.1.0](https://github.com/nuxt-community/nuxtent-module/compare/v1.0.2...v1.1.0) (2017-10-22)
 
