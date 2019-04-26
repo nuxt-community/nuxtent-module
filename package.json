@@ -60,7 +60,7 @@
     "@nuxt/config": "2.6.2",
     "@nuxt/core": "2.6.2",
     "@nuxt/loading-screen": "0.5.0",
-    "@nuxt/typescript": "2.6.2",
+    "@nuxt/typescript": "2.6.3",
     "@nuxt/vue-app": "2.6.2",
     "@nuxt/vue-renderer": "2.6.2",
     "@nuxt/webpack": "2.6.2",
