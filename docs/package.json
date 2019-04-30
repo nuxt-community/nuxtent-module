@@ -38,7 +38,7 @@
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "cache-loader": "3.0.0",
-    "chokidar": "^2.1.5",
+    "chokidar": "3.0.0",
     "compression": "^1.7.4",
     "core-js": "2.6.5",
     "css-loader": "2.1.1",
