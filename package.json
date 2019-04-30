@@ -97,7 +97,7 @@
     "@types/webpack-dev-middleware": "2.0.2",
     "@types/webpack-hot-middleware": "2.16.5",
     "chokidar": "2.1.5",
-    "core-js": "2",
+    "core-js": "3.0.1",
     "cross-env": "^5.2.0",
     "cssnano": "4.1.10",
     "eventsource-polyfill": "0.9.6",
