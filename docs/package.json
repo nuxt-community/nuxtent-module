@@ -8,7 +8,7 @@
     "axios": "0.18.0",
     "markdown-it-anchor": "5.0.2",
     "markdown-it-link-attributes": "2.1.0",
-    "nuxt": "2.6.2",
+    "nuxt": "2.6.3",
     "prismjs": "1.16.0",
     "vue": "2.6.10"
   },
