@@ -36,7 +36,7 @@
     "@types/uglify-js": "^3.0.4",
     "anymatch": "3.0.1",
     "babel-eslint": "10.0.1",
-    "babel-loader": "8.0.5",
+    "babel-loader": "8.0.6",
     "cache-loader": "3.0.0",
     "chokidar": "^2.1.5",
     "compression": "^1.7.4",
