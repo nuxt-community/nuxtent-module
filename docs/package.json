@@ -44,7 +44,7 @@
     "css-loader": "2.1.1",
     "cssnano": "4.1.10",
     "eslint": "5.16.0",
-    "eslint-config-prettier": "4.1.0",
+    "eslint-config-prettier": "4.3.0",
     "eslint-config-standard": "12.0.0",
     "eslint-import-resolver-node": "0.3.2",
     "eslint-import-resolver-webpack": "0.11.1",
