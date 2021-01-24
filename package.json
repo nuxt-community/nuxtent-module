@@ -91,7 +91,7 @@
     "@types/serve-static": "1.13.2",
     "@types/tapable": "1.0.4",
     "@types/terser-webpack-plugin": "1.2.1",
-    "@types/uglify-js": "3.0.4",
+    "@types/uglify-js": "3.11.1",
     "@types/webpack": "4.4.27",
     "@types/webpack-bundle-analyzer": "2.13.1",
     "@types/webpack-dev-middleware": "2.0.2",
