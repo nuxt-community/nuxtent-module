@@ -92,7 +92,7 @@
     "@types/tapable": "1.0.4",
     "@types/terser-webpack-plugin": "1.2.1",
     "@types/uglify-js": "3.0.4",
-    "@types/webpack": "4.4.27",
+    "@types/webpack": "4.41.26",
     "@types/webpack-bundle-analyzer": "2.13.1",
     "@types/webpack-dev-middleware": "2.0.2",
     "@types/webpack-hot-middleware": "2.16.5",
