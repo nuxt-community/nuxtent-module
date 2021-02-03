@@ -95,7 +95,7 @@
     "@types/webpack": "4.4.27",
     "@types/webpack-bundle-analyzer": "2.13.1",
     "@types/webpack-dev-middleware": "2.0.2",
-    "@types/webpack-hot-middleware": "2.16.5",
+    "@types/webpack-hot-middleware": "2.25.3",
     "chokidar": "2.1.5",
     "core-js": "2",
     "cross-env": "^5.2.0",
