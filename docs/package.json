@@ -60,7 +60,7 @@
     "eventsource-polyfill": "0.9.6",
     "express": "^4.16.4",
     "file-loader": "3.0.1",
-    "fork-ts-checker-webpack-plugin": "1.2.0",
+    "fork-ts-checker-webpack-plugin": "1.6.0",
     "lint-staged": "8.1.5",
     "node-sass": "4.12.0",
     "postcss-color-function": "4.1.0",
